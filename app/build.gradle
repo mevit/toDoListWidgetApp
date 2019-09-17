@@ -32,6 +32,7 @@ dependencies {
     implementation deps.android.support.ktx
     implementation deps.android.support.constraint
     implementation deps.android.support.legacySupport
+    implementation deps.android.support.recyclerView
     implementation deps.android.test.junit
     implementation deps.android.test.testRunner
     implementation deps.android.test.espresso

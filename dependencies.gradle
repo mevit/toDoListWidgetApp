@@ -6,6 +6,7 @@ def junitVersion = '4.12'
 def androidXTestRunnerVersion = '1.2.0'
 def androidXTestEspressoCoreVersion = '3.2.0'
 def kotlinVersion = '1.3.21'
+def recyclerViewVersion = '1.1.0-beta04'
 
 ext.deps = [
         'android': [
@@ -13,7 +14,8 @@ ext.deps = [
                         'appcompat'    : "androidx.appcompat:appcompat:$androidXAppCompatVersion",
                         'ktx'          : "androidx.core:core-ktx:$androidXCoreVersion",
                         'constraint'   : "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion",
-                        'legacySupport': "androidx.legacy:legacy-support-v4:$androidXLegacyVersion"
+                        'legacySupport': "androidx.legacy:legacy-support-v4:$androidXLegacyVersion",
+                        'recyclerView' : "androidx.recyclerview:recyclerview:$recyclerViewVersion"
                 ],
                 'test'   : [
                         'junit'     : "junit:junit:$junitVersion",
