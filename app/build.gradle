@@ -36,4 +36,7 @@ dependencies {
     implementation deps.android.test.junit
     implementation deps.android.test.testRunner
     implementation deps.android.test.espresso
+    implementation deps.kotlin.koinCore
+    implementation deps.kotlin.koinAndroid
+    implementation deps.kotlin.koinViewModel
 }
