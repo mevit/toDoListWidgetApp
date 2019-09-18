@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import com.meldeveloping.todowidget.R
+import com.meldeveloping.todowidget.main.fragments.MainFragment
 import com.meldeveloping.todowidget.splash.SplashFragment
 
 class MainActivity : AppCompatActivity() {
