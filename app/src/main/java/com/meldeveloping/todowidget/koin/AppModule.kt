@@ -1,11 +1,15 @@
 package com.meldeveloping.todowidget.koin
 
+import androidx.room.Room
+import com.meldeveloping.todowidget.db.room.ToDoListDao
+import com.meldeveloping.todowidget.db.room.ToDoListDatabase
 import com.meldeveloping.todowidget.model.EditViewModel
 import com.meldeveloping.todowidget.model.MainViewModel
 import com.meldeveloping.todowidget.repository.edit.EditRepository
 import com.meldeveloping.todowidget.repository.edit.EditRepositoryImpl
 import com.meldeveloping.todowidget.repository.main.MainRepository
 import com.meldeveloping.todowidget.repository.main.MainRepositoryImpl
+import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -21,4 +25,9 @@ val editViewModelModule = module {
     viewModel { EditViewModel(get()) }
 }
 
-val mainModule = listOf(mainViewModelModule, editViewModelModule)
+val toDoListDaoModule = module {
+    single<ToDoListDao> { get<ToDoListDatabase>().toDoListDao() }
+    single { Room.databaseBuilder(androidContext(), ToDoListDatabase::class.java, ToDoListDatabase.DB_NAME) }
+}
+
+val mainModule = listOf(mainViewModelModule, editViewModelModule, toDoListDaoModule)

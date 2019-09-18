@@ -39,4 +39,6 @@ dependencies {
     implementation deps.kotlin.koinCore
     implementation deps.kotlin.koinAndroid
     implementation deps.kotlin.koinViewModel
+    implementation deps.db.room
+    kapt deps.db.roomAnnotation
 }
