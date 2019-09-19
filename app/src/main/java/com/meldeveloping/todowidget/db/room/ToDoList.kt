@@ -7,8 +7,13 @@ import com.meldeveloping.todowidget.db.ToDoListItem
 
 @Entity
 data class ToDoList(
+
     @PrimaryKey(autoGenerate = true)
     val id: Int? = null,
-    @ColumnInfo(name = "toDoListTitle") val toDoListTitle: String
-//    @ColumnInfo(name = "toDoListItems") val toDoListItems: ArrayList<ToDoListItem>
+
+    @ColumnInfo(name = "toDoListTitle")
+    val toDoListTitle: String,
+
+    @ColumnInfo(name = "toDoListItems")
+    val toDoListItems: ArrayList<ToDoListItem>
 )
