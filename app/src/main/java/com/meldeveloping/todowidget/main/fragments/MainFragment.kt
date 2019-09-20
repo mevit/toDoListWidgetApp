@@ -5,14 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.meldeveloping.todowidget.R
 import com.meldeveloping.todowidget.model.MainViewModel
 import kotlinx.android.synthetic.main.fragment_main.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.android.ext.android.inject
 
 class MainFragment : Fragment() {
 
-    private val mainViewModel: MainViewModel by viewModel()
+    private val mainViewModel: MainViewModel by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,12 +24,18 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initNewButton()
+        initRecyclerView()
     }
 
     private fun initNewButton() {
         goToEditButton.setOnClickListener {
             goToEditFragment()
         }
+    }
+
+    private fun initRecyclerView() {
+        itemsList.layoutManager = LinearLayoutManager(context)
+        itemsList.adapter = mainViewModel.getAdapterForMainList()
     }
 
     private fun goToEditFragment() {

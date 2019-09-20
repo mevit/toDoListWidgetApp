@@ -9,6 +9,8 @@ def kotlinVersion = '1.3.21'
 def recyclerViewVersion = '1.1.0-beta04'
 def koinVersion = '2.0.1'
 def roomDBVersion = '2.2.0-rc01'
+def coroutinesCoreVersion = '1.3.1'
+def coroutinesAndroidVersion = '1.3.1'
 
 ext.deps = [
         'android': [
@@ -26,10 +28,11 @@ ext.deps = [
                 ]
         ],
         'kotlin' : [
-                'plugin'       : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
-                'koinCore'     : "org.koin:koin-core:$koinVersion",
-                'koinAndroid'  : "org.koin:koin-android:$koinVersion",
-                'koinViewModel': "org.koin:koin-androidx-viewmodel:$koinVersion"
+                'plugin'           : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
+                'koinCore'         : "org.koin:koin-core:$koinVersion",
+                'koinAndroid'      : "org.koin:koin-android:$koinVersion",
+                'coroutinesCore'   : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesCoreVersion",
+                'coroutinesAndroid': "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesAndroidVersion"
         ],
         'db'     : [
                 'room'          : "androidx.room:room-runtime:$roomDBVersion",

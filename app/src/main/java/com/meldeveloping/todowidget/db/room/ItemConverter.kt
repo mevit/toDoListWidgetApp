@@ -22,7 +22,6 @@ class ItemConverter {
                 .append(item.itemText)
                 .append(SPLIT_OBJECTS_CHAR)
         }
-
         return builder.toString().trimEnd(SPLIT_OBJECTS_CHAR)
     }
 
