@@ -7,11 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import com.meldeveloping.todowidget.R
 import com.meldeveloping.todowidget.model.EditViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.android.ext.android.inject
 
 class EditFragment : Fragment() {
 
-    private val editViewModel: EditViewModel by viewModel()
+    private val editViewModel: EditViewModel by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

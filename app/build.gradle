@@ -38,5 +38,8 @@ dependencies {
     implementation deps.android.test.espresso
     implementation deps.kotlin.koinCore
     implementation deps.kotlin.koinAndroid
-    implementation deps.kotlin.koinViewModel
+    implementation deps.kotlin.coroutinesCore
+    implementation deps.kotlin.coroutinesAndroid
+    implementation deps.db.room
+    kapt deps.db.roomAnnotation
 }

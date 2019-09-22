@@ -1,9 +1,14 @@
 package com.meldeveloping.todowidget.model
 
-import androidx.lifecycle.ViewModel
-import com.meldeveloping.todowidget.repository.main.MainRepository
+import com.meldeveloping.todowidget.adapter.MainListAdapter
+import com.meldeveloping.todowidget.repository.Repository
 
 class MainViewModel(
-    val repository: MainRepository
-) : ViewModel() {
+    val repository: Repository
+) {
+
+    fun getAdapterForMainList(): MainListAdapter {
+        repository.save()
+        return MainListAdapter(repository.getAll())
+    }
 }
