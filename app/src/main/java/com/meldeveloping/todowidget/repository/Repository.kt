@@ -6,6 +6,6 @@ import com.meldeveloping.todowidget.db.room.ToDoListDao
 interface Repository {
     val toDoListDao: ToDoListDao
 
-    fun save()
+    fun save(toDoList: ToDoList)
     fun getAll(): ArrayList<ToDoList>
 }

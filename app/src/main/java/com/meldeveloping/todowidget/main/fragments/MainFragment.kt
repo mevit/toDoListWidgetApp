@@ -34,8 +34,13 @@ class MainFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        itemsList.layoutManager = LinearLayoutManager(context)
-        itemsList.adapter = mainViewModel.getAdapterForMainList()
+        var mainListAdapter = mainViewModel.getAdapterForMainList()
+        if (mainListAdapter.itemCount != 0) {
+            itemsList.layoutManager = LinearLayoutManager(context)
+            itemsList.adapter = mainListAdapter
+        } else {
+            emptyListTextView.visibility = View.VISIBLE
+        }
     }
 
     private fun goToEditFragment() {

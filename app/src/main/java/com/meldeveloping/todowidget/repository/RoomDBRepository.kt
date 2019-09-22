@@ -19,20 +19,10 @@ class RoomDBRepository(override val toDoListDao: ToDoListDao) : Repository {
         return allToDoLists
     }
 
-    override fun save() {
-
-        var list: ArrayList<ToDoListItem> = arrayListOf(
-            ToDoListItem(1, "one"),
-            ToDoListItem(0, "two"),
-            ToDoListItem(0, "three"),
-            ToDoListItem(0, "four")
-        )
-
+    override fun save(toDoList: ToDoList) {
         runBlocking {
             launch(Dispatchers.Default) {
-                toDoListDao.insert(
-                    ToDoList(toDoListTitle = "one", toDoListItems = list)
-                )
+                toDoListDao.insert(toDoList)
             }
         }
     }

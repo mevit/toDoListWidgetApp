@@ -11,24 +11,34 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
     <Button
             android:id="@+id/goToEditButton"
             android:layout_width="60dp"
             android:layout_height="40dp"
+            android:layout_marginEnd="10dp"
+            android:text="@string/goToEditButtonText"
             app:layout_constraintBottom_toBottomOf="@id/toolBar"
             app:layout_constraintEnd_toEndOf="@id/toolBar"
-            app:layout_constraintTop_toTopOf="@id/toolBar"
-            android:layout_marginEnd="10dp"
-            android:text="@string/goToEditButtonText"/>
+            app:layout_constraintTop_toTopOf="@id/toolBar" />
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/itemsList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/toolBar">
+            app:layout_constraintTop_toBottomOf="@id/toolBar" />
 
-    </androidx.recyclerview.widget.RecyclerView>
+    <TextView
+            android:id="@+id/emptyListTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@string/emptyListText"
+            android:visibility="gone"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
