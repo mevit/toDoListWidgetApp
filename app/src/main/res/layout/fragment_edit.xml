@@ -11,7 +11,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:gravity="center"/>
 
     <Button
             android:id="@+id/saveButton"
@@ -20,6 +21,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:text="@string/saveButtonText"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/editToolBar"
             app:layout_constraintEnd_toEndOf="@id/editToolBar"
             app:layout_constraintTop_toTopOf="@id/editToolBar" />
@@ -31,6 +33,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:text="@string/cancelButtonText"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/editToolBar"
             app:layout_constraintEnd_toStartOf="@id/saveButton"
             app:layout_constraintTop_toTopOf="@id/editToolBar" />
@@ -42,6 +45,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:text="@string/newItemButtonText"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/editToolBar"
             app:layout_constraintEnd_toStartOf="@id/editButton"
             app:layout_constraintTop_toTopOf="@id/editToolBar" />
@@ -50,7 +54,8 @@
             android:id="@+id/titleEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/editToolBar"/>
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/editToolBar" />
 
 
     <androidx.recyclerview.widget.RecyclerView

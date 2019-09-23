@@ -12,7 +12,7 @@ import com.meldeveloping.todowidget.model.EditViewModel
 import kotlinx.android.synthetic.main.fragment_edit.*
 import org.koin.android.ext.android.inject
 
-class EditFragment(private val toDoList: ToDoList? = null) : Fragment() {
+class EditFragment : Fragment() {
 
     private val editViewModel: EditViewModel by inject()
 
@@ -25,6 +25,7 @@ class EditFragment(private val toDoList: ToDoList? = null) : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         saveNewItem()
+        initEditFragment()
     }
 
     private fun saveNewItem() {
@@ -43,10 +44,26 @@ class EditFragment(private val toDoList: ToDoList? = null) : Fragment() {
         }
     }
 
+    private fun initEditFragment() {
+        if (toDoListId != null) {
+            editToolBar.text = toDoListId.toString()
+        } else {
+            saveButton.visibility = View.VISIBLE
+            editButton.visibility = View.VISIBLE
+            newItemButton.visibility = View.VISIBLE
+            titleEditText.visibility = View.VISIBLE
+        }
+    }
+
     companion object {
 
+        private var toDoListId: Int? = null
+
         @JvmStatic
-        fun newInstance() = EditFragment()
+        fun newInstance(title: Int? = null): EditFragment {
+            toDoListId = title
+            return EditFragment()
+        }
     }
 
 }

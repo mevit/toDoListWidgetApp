@@ -1,6 +1,7 @@
 package com.meldeveloping.todowidget.main.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.meldeveloping.todowidget.R
 import com.meldeveloping.todowidget.model.MainViewModel
 import kotlinx.android.synthetic.main.fragment_main.*
+import kotlinx.android.synthetic.main.todo_list_item.view.*
 import org.koin.android.ext.android.inject
 
 class MainFragment : Fragment() {
@@ -38,15 +40,20 @@ class MainFragment : Fragment() {
         if (mainListAdapter.itemCount != 0) {
             itemsList.layoutManager = LinearLayoutManager(context)
             itemsList.adapter = mainListAdapter
+
+            mainListAdapter.setClickListener(View.OnClickListener {
+//                Log.i("TAG", "--------------${itemsList.getChildViewHolder(it).itemId}-------------------")
+                goToEditFragment(itemsList.findViewHolderForAdapterPosition(itemsList.indexOfChild(it))!!.itemId.toInt())
+            })
         } else {
             emptyListTextView.visibility = View.VISIBLE
         }
     }
 
-    private fun goToEditFragment() {
+    private fun goToEditFragment(toDoListTitle: Int? = null) {
         fragmentManager!!
             .beginTransaction()
-            .replace(R.id.mainContainer, EditFragment.newInstance())
+            .replace(R.id.mainContainer, EditFragment.newInstance(toDoListTitle))
             .addToBackStack(null)
             .commit()
     }
