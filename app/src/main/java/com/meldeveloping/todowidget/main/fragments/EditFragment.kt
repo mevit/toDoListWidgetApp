@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.meldeveloping.todowidget.R
 import com.meldeveloping.todowidget.db.ToDoListItem
 import com.meldeveloping.todowidget.db.room.ToDoList
@@ -46,7 +47,7 @@ class EditFragment : Fragment() {
 
     private fun initEditFragment() {
         if (toDoListId != null) {
-            editToolBar.text = toDoListId.toString()
+            initRecycleView()
         } else {
             saveButton.visibility = View.VISIBLE
             editButton.visibility = View.VISIBLE
@@ -55,13 +56,21 @@ class EditFragment : Fragment() {
         }
     }
 
+    private fun initRecycleView() {
+        editToolBar.text = editViewModel.getItemById(toDoListId!!)!!.toDoListTitle
+        var adapter = editViewModel.getAdapterForRead(toDoListId!!)
+        toDoListItemsList.layoutManager = LinearLayoutManager(context)
+        toDoListItemsList.adapter = adapter
+
+    }
+
     companion object {
 
         private var toDoListId: Int? = null
 
         @JvmStatic
-        fun newInstance(title: Int? = null): EditFragment {
-            toDoListId = title
+        fun newInstance(id: Int? = null): EditFragment {
+            toDoListId = id
             return EditFragment()
         }
     }

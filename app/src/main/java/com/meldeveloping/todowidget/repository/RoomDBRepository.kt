@@ -1,6 +1,5 @@
 package com.meldeveloping.todowidget.repository
 
-import com.meldeveloping.todowidget.db.ToDoListItem
 import com.meldeveloping.todowidget.db.room.ToDoList
 import com.meldeveloping.todowidget.db.room.ToDoListDao
 import kotlinx.coroutines.Dispatchers
@@ -25,6 +24,17 @@ class RoomDBRepository(override val toDoListDao: ToDoListDao) : Repository {
                 toDoListDao.insert(toDoList)
             }
         }
+    }
+
+    override fun getItem(id: Int): ToDoList? {
+        var item: ToDoList? = null
+        runBlocking {
+            launch(Dispatchers.Default) {
+                item = toDoListDao.getItem(id)
+            }
+
+        }
+        return item
     }
 
 }

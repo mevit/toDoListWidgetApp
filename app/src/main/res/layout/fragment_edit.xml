@@ -12,7 +12,8 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
             app:layout_constraintTop_toTopOf="parent"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:textSize="40sp"/>
 
     <Button
             android:id="@+id/saveButton"

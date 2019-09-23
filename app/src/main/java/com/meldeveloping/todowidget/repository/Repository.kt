@@ -8,4 +8,5 @@ interface Repository {
 
     fun save(toDoList: ToDoList)
     fun getAll(): ArrayList<ToDoList>
+    fun getItem(id: Int): ToDoList?
 }
