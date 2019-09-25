@@ -7,17 +7,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.meldeveloping.todowidget.R
 import com.meldeveloping.todowidget.db.ToDoListItem
 import com.meldeveloping.todowidget.extension.toBoolean
-import kotlinx.android.synthetic.main.todo_list_item.view.*
+import kotlinx.android.synthetic.main.todo_list_create_item.view.*
 
-class EditReadAdapter(private val toDoListItems: ArrayList<ToDoListItem>) :
-    RecyclerView.Adapter<EditReadAdapter.ListViewHolder>(), ToDoAdapter {
+class EditCreateAdapter(private val toDoListItems: ArrayList<ToDoListItem>) :
+    RecyclerView.Adapter<EditCreateAdapter.ListViewHolder>(), ToDoAdapter {
 
     override fun getItemCount() = toDoListItems.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         return ListViewHolder(
             LayoutInflater.from(parent.context).inflate(
-                R.layout.todo_list_item,
+                R.layout.todo_list_create_item,
                 parent,
                 false
             )
@@ -25,8 +25,8 @@ class EditReadAdapter(private val toDoListItems: ArrayList<ToDoListItem>) :
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        holder.view.itemCheckBox.isChecked = toDoListItems[position].isChecked.toBoolean()
-        holder.view.itemText.text = toDoListItems[position].itemText
+        holder.view.createItemCheckBox.isChecked = toDoListItems[position].isChecked.toBoolean()
+        holder.view.createItemEditText.setText(toDoListItems[position].itemText)
     }
 
     class ListViewHolder(val view: View) : RecyclerView.ViewHolder(view)

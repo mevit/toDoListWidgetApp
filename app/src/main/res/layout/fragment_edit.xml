@@ -34,7 +34,6 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:text="@string/cancelButtonText"
-            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/editToolBar"
             app:layout_constraintEnd_toStartOf="@id/saveButton"
             app:layout_constraintTop_toTopOf="@id/editToolBar" />

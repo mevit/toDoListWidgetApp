@@ -39,7 +39,6 @@ class MainFragment : Fragment() {
         if (mainListAdapter.itemCount != 0) {
             itemsList.layoutManager = LinearLayoutManager(context)
             itemsList.adapter = mainListAdapter
-
             mainListAdapter.setClickListener(View.OnClickListener {
                 goToEditFragment(MainListAdapter.itemId)
             })
