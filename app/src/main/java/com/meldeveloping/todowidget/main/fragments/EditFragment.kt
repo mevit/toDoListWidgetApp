@@ -1,6 +1,7 @@
 package com.meldeveloping.todowidget.main.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,11 +15,12 @@ import com.meldeveloping.todowidget.db.ToDoListItem
 import com.meldeveloping.todowidget.db.room.ToDoList
 import com.meldeveloping.todowidget.model.EditViewModel
 import kotlinx.android.synthetic.main.fragment_edit.*
-import org.koin.android.ext.android.inject
+import kotlinx.android.synthetic.main.todo_list_create_item.view.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class EditFragment : Fragment() {
 
-    private val editViewModel: EditViewModel by inject()
+    private val editViewModel: EditViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,8 +31,13 @@ class EditFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initEditFragment()
+        initButtons()
+    }
+
+    private fun initButtons() {
         initSaveButton()
         initEditButton()
+        initNewItemButton()
     }
 
     private fun initEditFragment() {
@@ -41,7 +48,7 @@ class EditFragment : Fragment() {
     }
 
     private fun initFragmentForRead(adapter: EditReadAdapter) {
-        editToolBar.text = editViewModel.getItemById(toDoListId!!)!!.toDoListTitle
+        editToolBar.text = EditViewModel.toDoList!!.toDoListTitle
         toDoListItemsList.layoutManager = LinearLayoutManager(context)
         toDoListItemsList.adapter = adapter
     }
@@ -69,17 +76,30 @@ class EditFragment : Fragment() {
             ToDoListItem(0, "four")
         )
 
+//        for (view in 0..toDoListItemsList.adapter!!.itemCount) {
+//            Log.i("TAG", "---------------${toDoListItemsList.findViewHolderForAdapterPosition(view)!!.itemView.createItemCheckBox.isChecked}---------------")
+//        }
+
+
+
+
         saveButton.setOnClickListener {
-            editViewModel.createNewItem(
-                ToDoList(toDoListTitle = titleEditText.text.toString(), toDoListItems = list)
-            )
+            EditViewModel.toDoList!!.toDoListTitle = titleEditText.text.toString()
+            editViewModel.saveItem()
         }
     }
 
     private fun initEditButton() {
         editButton.setOnClickListener {
-            initFragmentForEdit(editViewModel.getCreateAdapter(toDoListId))
-            titleEditText.setText(editViewModel.getItemById(toDoListId!!)!!.toDoListTitle)
+            initFragmentForEdit(editViewModel.getCreateAdapter())
+            titleEditText.setText(EditViewModel.toDoList!!.toDoListTitle)
+        }
+    }
+
+    private fun initNewItemButton() {
+        newItemButton.setOnClickListener{
+            editViewModel.addEmptyItemToList()
+            toDoListItemsList.adapter = editViewModel.getCreateAdapter()
         }
     }
 

@@ -10,11 +10,11 @@ import com.meldeveloping.todowidget.R
 import com.meldeveloping.todowidget.adapter.MainListAdapter
 import com.meldeveloping.todowidget.model.MainViewModel
 import kotlinx.android.synthetic.main.fragment_main.*
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainFragment : Fragment() {
 
-    private val mainViewModel: MainViewModel by inject()
+    private val mainViewModel: MainViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -12,7 +12,7 @@ data class ToDoList(
     val id: Int? = null,
 
     @ColumnInfo(name = "toDoListTitle")
-    val toDoListTitle: String,
+    var toDoListTitle: String,
 
     @ColumnInfo(name = "toDoListItems")
     val toDoListItems: ArrayList<ToDoListItem>
