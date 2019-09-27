@@ -57,35 +57,29 @@ class EditFragment : Fragment() {
         editToolBar.text = ""
         toDoListItemsList.layoutManager = LinearLayoutManager(context)
         toDoListItemsList.adapter = adapter
-        initToolBar()
+        initToolBar(true)
     }
 
-    private fun initToolBar() {
-        editButton.visibility = View.GONE
-        saveButton.visibility = View.VISIBLE
-        newItemButton.visibility = View.VISIBLE
-        titleEditText.visibility = View.VISIBLE
+    private fun initToolBar(forEdit: Boolean) {
+        if (forEdit) {
+            editButton.visibility = View.GONE
+            saveButton.visibility = View.VISIBLE
+            newItemButton.visibility = View.VISIBLE
+            titleEditText.visibility = View.VISIBLE
+        } else {
+            editButton.visibility = View.VISIBLE
+            saveButton.visibility = View.GONE
+            newItemButton.visibility = View.GONE
+            titleEditText.visibility = View.GONE
+        }
     }
 
     private fun initSaveButton() {
-
-        var list: ArrayList<ToDoListItem> = arrayListOf(
-            ToDoListItem(1, "one"),
-            ToDoListItem(0, "two"),
-            ToDoListItem(0, "three"),
-            ToDoListItem(0, "four")
-        )
-
-//        for (view in 0..toDoListItemsList.adapter!!.itemCount) {
-//            Log.i("TAG", "---------------${toDoListItemsList.findViewHolderForAdapterPosition(view)!!.itemView.createItemCheckBox.isChecked}---------------")
-//        }
-
-
-
-
         saveButton.setOnClickListener {
             EditViewModel.toDoList!!.toDoListTitle = titleEditText.text.toString()
             editViewModel.saveItem()
+            initFragmentForRead(editViewModel.getReadAdapter())
+            initToolBar(false)
         }
     }
 
@@ -97,9 +91,9 @@ class EditFragment : Fragment() {
     }
 
     private fun initNewItemButton() {
-        newItemButton.setOnClickListener{
+        newItemButton.setOnClickListener {
             editViewModel.addEmptyItemToList()
-            toDoListItemsList.adapter = editViewModel.getCreateAdapter()
+            toDoListItemsList.adapter!!.notifyDataSetChanged()
         }
     }
 

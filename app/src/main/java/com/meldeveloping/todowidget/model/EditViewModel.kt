@@ -17,6 +17,7 @@ class EditViewModel(
         private const val EMPTY_ITEM_TEXT = ""
 
         var toDoList: ToDoList? = null
+        var createAdapter: EditCreateAdapter? = null
     }
 
     fun getAdapterForRecycle(id: Int?): ToDoAdapter {
@@ -31,7 +32,25 @@ class EditViewModel(
 
     fun getReadAdapter() = EditReadAdapter(toDoList!!.toDoListItems)
 
-    fun getCreateAdapter() = EditCreateAdapter(toDoList!!.toDoListItems)
+    fun getCreateAdapter(): EditCreateAdapter {
+        createAdapter = EditCreateAdapter(toDoList!!.toDoListItems)
+        return createAdapter!!
+    }
+
+    fun getCreateAdapterList() = createAdapter!!.getNewListForAdapter()
+
+    fun addEmptyItemToList() {
+        toDoList!!.toDoListItems.add(ToDoListItem(EMPTY_ITEM_CHECKED, EMPTY_ITEM_TEXT))
+    }
+
+    fun saveItem(){
+        toDoList!!.toDoListItems = getCreateAdapterList()
+        if (toDoList!!.id == null) {
+            repository.save(toDoList!!)
+        } else {
+            repository.update(toDoList!!)
+        }
+    }
 
     private fun initEmptyList() {
         toDoList = ToDoList(
@@ -40,14 +59,8 @@ class EditViewModel(
         )
     }
 
-    fun addEmptyItemToList() {
-        toDoList!!.toDoListItems.add(ToDoListItem(EMPTY_ITEM_CHECKED, EMPTY_ITEM_TEXT))
-    }
-
     private fun initItemById(id: Int) {
         toDoList = repository.getItem(id)
     }
-
-    fun saveItem() = repository.save(toDoList!!)
 
 }

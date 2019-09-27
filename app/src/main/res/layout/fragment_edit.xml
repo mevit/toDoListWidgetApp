@@ -62,6 +62,7 @@
             android:id="@+id/toDoListItemsList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/titleEditText" />
+            app:layout_constraintTop_toBottomOf="@id/titleEditText"
+            android:paddingBottom="?attr/actionBarSize"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
