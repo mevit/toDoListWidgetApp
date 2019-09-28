@@ -11,9 +11,9 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
-            app:layout_constraintTop_toTopOf="parent"
             android:gravity="center"
-            android:textSize="40sp"/>
+            android:textSize="40sp"
+            app:layout_constraintTop_toTopOf="parent" />
 
     <Button
             android:id="@+id/saveButton"
@@ -54,6 +54,7 @@
             android:id="@+id/titleEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/emptyTitleHintText"
             android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/editToolBar" />
 
@@ -62,7 +63,7 @@
             android:id="@+id/toDoListItemsList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/titleEditText"
-            android:paddingBottom="?attr/actionBarSize"/>
+            android:paddingBottom="?attr/actionBarSize"
+            app:layout_constraintTop_toBottomOf="@id/titleEditText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

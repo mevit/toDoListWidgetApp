@@ -1,9 +1,9 @@
 package com.meldeveloping.todowidget.model
 
+import android.util.Log
+import android.view.View
 import androidx.lifecycle.ViewModel
-import com.meldeveloping.todowidget.adapter.EditCreateAdapter
-import com.meldeveloping.todowidget.adapter.EditReadAdapter
-import com.meldeveloping.todowidget.adapter.ToDoAdapter
+import com.meldeveloping.todowidget.adapter.EditListAdapter
 import com.meldeveloping.todowidget.db.ToDoListItem
 import com.meldeveloping.todowidget.db.room.ToDoList
 import com.meldeveloping.todowidget.repository.Repository
@@ -15,41 +15,53 @@ class EditViewModel(
     companion object {
         private const val EMPTY_ITEM_CHECKED = 0
         private const val EMPTY_ITEM_TEXT = ""
-
-        var toDoList: ToDoList? = null
-        var createAdapter: EditCreateAdapter? = null
     }
 
-    fun getAdapterForRecycle(id: Int?): ToDoAdapter {
+    private lateinit var adapter: EditListAdapter
+    private lateinit var toDoList: ToDoList
+
+    fun getAdapterForRecycle(id: Int?): EditListAdapter {
         return if (id == null) {
             initEmptyList()
-            getCreateAdapter()
+            initEditListAdapter()
         } else {
             initItemById(id)
-            getReadAdapter()
+            initEditListAdapter()
         }
     }
 
-    fun getReadAdapter() = EditReadAdapter(toDoList!!.toDoListItems)
+    fun getToDoList() = toDoList
 
-    fun getCreateAdapter(): EditCreateAdapter {
-        createAdapter = EditCreateAdapter(toDoList!!.toDoListItems)
-        return createAdapter!!
+    fun getAdapter() = adapter
+
+    fun refreshAdapter() {
+        adapter.notifyDataSetChanged()
     }
-
-    fun getCreateAdapterList() = createAdapter!!.getNewListForAdapter()
 
     fun addEmptyItemToList() {
-        toDoList!!.toDoListItems.add(ToDoListItem(EMPTY_ITEM_CHECKED, EMPTY_ITEM_TEXT))
+        toDoList.toDoListItems.add(ToDoListItem(EMPTY_ITEM_CHECKED, EMPTY_ITEM_TEXT))
     }
 
-    fun saveItem(){
-        toDoList!!.toDoListItems = getCreateAdapterList()
-        if (toDoList!!.id == null) {
-            repository.save(toDoList!!)
+    fun saveItem() {
+        toDoList.toDoListItems = adapter.getLocalList()
+        if (toDoList.id == null) {
+            repository.save(toDoList)
         } else {
-            repository.update(toDoList!!)
+            repository.update(toDoList)
         }
+    }
+
+    private fun initEditListAdapter(): EditListAdapter {
+        adapter = EditListAdapter(toDoList.toDoListItems)
+
+        adapter.setClickListener(View.OnClickListener {
+            if(!EditListAdapter.ListViewHolder.isEditTextEnabled) {
+                saveItem()
+                refreshAdapter()
+            }
+        })
+
+        return adapter
     }
 
     private fun initEmptyList() {
@@ -60,7 +72,7 @@ class EditViewModel(
     }
 
     private fun initItemById(id: Int) {
-        toDoList = repository.getItem(id)
+        toDoList = repository.getItem(id)!!
     }
 
 }
