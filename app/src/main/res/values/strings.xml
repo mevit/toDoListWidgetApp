@@ -2,5 +2,11 @@
 
     <string name="app_name">ToDo Widget</string>
     <string name="goToEditButtonText">New</string>
+    <string name="saveButtonText">Save</string>
+    <string name="cancelButtonText">Edit</string>
+    <string name="newItemButtonText">Item</string>
+    <string name="emptyListText">No ToDoLists</string>
+    <string name="emptyItemHintText">do something…</string>
+    <string name="emptyTitleHintText">title</string>
 
 </resources>

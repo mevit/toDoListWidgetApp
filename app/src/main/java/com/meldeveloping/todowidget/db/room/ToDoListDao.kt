@@ -8,6 +8,9 @@ interface ToDoListDao {
     @Query("SELECT * FROM toDoList")
     fun getAll(): List<ToDoList>?
 
+    @Query("SELECT * FROM toDoList WHERE id = :id")
+    fun getItem(id: Int): ToDoList
+
     @Insert
     fun insert(toDoList: ToDoList)
 

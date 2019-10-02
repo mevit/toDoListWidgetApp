@@ -1,14 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context=".main.fragments.EditFragment">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".main.fragments.EditFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+            android:id="@+id/editToolBar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Edit fragment"/>
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:textSize="40sp"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <Button
+            android:id="@+id/saveButton"
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:text="@string/saveButtonText"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/editToolBar"
+            app:layout_constraintEnd_toEndOf="@id/editToolBar"
+            app:layout_constraintTop_toTopOf="@id/editToolBar" />
+
+    <Button
+            android:id="@+id/editButton"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:text="@string/cancelButtonText"
+            app:layout_constraintBottom_toBottomOf="@id/editToolBar"
+            app:layout_constraintEnd_toStartOf="@id/saveButton"
+            app:layout_constraintTop_toTopOf="@id/editToolBar" />
+
+    <Button
+            android:id="@+id/newItemButton"
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:text="@string/newItemButtonText"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/editToolBar"
+            app:layout_constraintEnd_toStartOf="@id/editButton"
+            app:layout_constraintTop_toTopOf="@id/editToolBar" />
+
+    <EditText
+            android:id="@+id/titleEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/emptyTitleHintText"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/editToolBar" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/toDoListItemsList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingBottom="?attr/actionBarSize"
+            app:layout_constraintTop_toBottomOf="@id/titleEditText" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
