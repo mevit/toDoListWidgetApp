@@ -34,6 +34,14 @@ class RoomDBRepository(override val toDoListDao: ToDoListDao) : Repository {
         }
     }
 
+    override fun delete(toDoList: ToDoList) {
+        runBlocking {
+            launch(Dispatchers.Default) {
+                toDoListDao.delete(toDoList)
+            }
+        }
+    }
+
     override fun getItem(id: Int): ToDoList? {
         var item: ToDoList? = null
         runBlocking {

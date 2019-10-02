@@ -2,10 +2,10 @@ package com.meldeveloping.todowidget.adapter
 
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.meldeveloping.todowidget.R
 import com.meldeveloping.todowidget.db.ToDoListItem
@@ -14,10 +14,10 @@ import com.meldeveloping.todowidget.extension.toInt
 import kotlinx.android.synthetic.main.todo_list_item.view.*
 
 class EditListAdapter(private var toDoListItems: ArrayList<ToDoListItem>) :
-    RecyclerView.Adapter<EditListAdapter.ListViewHolder>(), ToDoAdapter {
+    RecyclerView.Adapter<EditListAdapter.ListViewHolder>() {
 
     private var localToDoListItems = toDoListItems
-    lateinit var checkBoxListener: View.OnClickListener
+    private lateinit var checkBoxListener: View.OnClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         return ListViewHolder(
@@ -33,6 +33,8 @@ class EditListAdapter(private var toDoListItems: ArrayList<ToDoListItem>) :
         holder.view.itemCheckBox.isChecked = toDoListItems[position].isChecked.toBoolean()
         holder.view.itemEditText.setText(toDoListItems[position].itemText)
         holder.view.itemEditText.isEnabled = ListViewHolder.isEditTextEnabled
+
+
 
         holder.view.itemEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {}
@@ -51,7 +53,7 @@ class EditListAdapter(private var toDoListItems: ArrayList<ToDoListItem>) :
         }
     }
 
-    override fun getItemCount() = toDoListItems.size
+    override fun getItemCount() = localToDoListItems.size
 
     override fun getItemViewType(position: Int) = position
 

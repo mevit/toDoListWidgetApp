@@ -1,8 +1,9 @@
 package com.meldeveloping.todowidget.model
 
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.meldeveloping.todowidget.adapter.EditListAdapter
 import com.meldeveloping.todowidget.db.ToDoListItem
 import com.meldeveloping.todowidget.db.room.ToDoList
@@ -40,6 +41,7 @@ class EditViewModel(
 
     fun addEmptyItemToList() {
         toDoList.toDoListItems.add(ToDoListItem(EMPTY_ITEM_CHECKED, EMPTY_ITEM_TEXT))
+        adapter.notifyItemInserted(toDoList.toDoListItems.size)
     }
 
     fun saveItem() {
@@ -51,13 +53,34 @@ class EditViewModel(
         }
     }
 
+    fun removeItem(position: Int){
+        toDoList.toDoListItems.removeAt(position)
+        refreshAdapter()
+        saveItem()
+    }
+
+    fun getItemTouchHelper(): ItemTouchHelper {
+        return ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT){
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                removeItem(viewHolder.adapterPosition)
+            }
+        })
+    }
+
     private fun initEditListAdapter(): EditListAdapter {
         adapter = EditListAdapter(toDoList.toDoListItems)
 
         adapter.setClickListener(View.OnClickListener {
             if(!EditListAdapter.ListViewHolder.isEditTextEnabled) {
                 saveItem()
-                refreshAdapter()
             }
         })
 

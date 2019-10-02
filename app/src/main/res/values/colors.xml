@@ -6,4 +6,5 @@
 
 
     <color name="splashScreenBackground">#1DE9B6</color>
+    <color name="itemBackgroundColor">#E0E0E0</color>
 </resources>
