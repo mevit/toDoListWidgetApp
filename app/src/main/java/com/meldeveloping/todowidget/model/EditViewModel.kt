@@ -95,7 +95,7 @@ class EditViewModel(
     }
 
     private fun initItemById(id: Int) {
-        toDoList = repository.getItem(id)!!
+        toDoList = repository.getItem(id)
     }
 
 }

@@ -42,13 +42,12 @@ class RoomDBRepository(override val toDoListDao: ToDoListDao) : Repository {
         }
     }
 
-    override fun getItem(id: Int): ToDoList? {
-        var item: ToDoList? = null
+    override fun getItem(id: Int): ToDoList {
+        lateinit var item: ToDoList
         runBlocking {
             launch(Dispatchers.Default) {
                 item = toDoListDao.getItem(id)
             }
-
         }
         return item
     }
