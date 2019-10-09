@@ -16,7 +16,8 @@ class WidgetListAdapter(val context: Context, val intent: Intent) :
     RemoteViewsService.RemoteViewsFactory, KoinComponent {
 
     private val repository: Repository by inject()
-    private var list = repository.getAll()
+    private val id = intent.getIntExtra(ToDoListWidget.TODO_LIST_ID, 0)
+    private var item = repository.getItem(id)
 
     override fun onCreate() {
 
@@ -29,16 +30,16 @@ class WidgetListAdapter(val context: Context, val intent: Intent) :
     override fun getItemId(p0: Int) = p0.toLong()
 
     override fun onDataSetChanged() {
-        list = repository.getAll()
+        item = repository.getItem(id)
     }
 
     override fun hasStableIds() = true
 
     override fun getViewAt(position: Int): RemoteViews {
         var remoteViews = RemoteViews(context.packageName, R.layout.todo_list_widget_item)
-        remoteViews.setTextViewText(R.id.widgetItemText, list[0].toDoListItems[position].itemText)
+        remoteViews.setTextViewText(R.id.widgetItemText, item.toDoListItems[position].itemText)
 
-        if (list[0].toDoListItems[position].isChecked.toBoolean()) {
+        if (item.toDoListItems[position].isChecked.toBoolean()) {
             remoteViews.setImageViewResource(
                 R.id.widgetCheckBox,
                 android.R.drawable.checkbox_on_background
@@ -54,10 +55,12 @@ class WidgetListAdapter(val context: Context, val intent: Intent) :
         clickIntent.putExtra(ToDoListWidget.ITEM_POSITION, position)
         remoteViews.setOnClickFillInIntent(R.id.widgetItemLayout, clickIntent)
 
+        showLog(id.toString())
+
         return remoteViews
     }
 
-    override fun getCount() = list[0].toDoListItems.size
+    override fun getCount() = item.toDoListItems.size
 
     override fun getViewTypeCount() = 1
 

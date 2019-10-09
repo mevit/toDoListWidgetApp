@@ -10,5 +10,7 @@
     <string name="emptyTitleHintText">title</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+    <string name="configButtonText">Create new</string>
+    <string name="configTitleText">Your toDoLists</string>
 
 </resources>

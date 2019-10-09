@@ -30,6 +30,12 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".widget.WidgetConfigurationActivity" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+            </intent-filter>
+        </activity>
+
 
         <service android:name=".widget.WidgetService"
                 android:permission="android.permission.BIND_REMOTEVIEWS"/>
