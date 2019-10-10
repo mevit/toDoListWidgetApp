@@ -21,12 +21,6 @@ class WidgetConfigurationActivity : AppCompatActivity() {
     private var widgetID = AppWidgetManager.INVALID_APPWIDGET_ID
     private lateinit var resultIntent: Intent
 
-    companion object {
-        const val WIDGET_PREFERENCES = "widget_preferences"
-        const val WIDGET_ITEM = "widget_item_"
-        const val TODO_LIST_TITLE = "widget_title_"
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_widget_config)
@@ -40,7 +34,10 @@ class WidgetConfigurationActivity : AppCompatActivity() {
     private fun initWidgetID() {
         val extras = intent.extras
         if (extras != null) {
-            widgetID = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
+            widgetID = extras.getInt(
+                AppWidgetManager.EXTRA_APPWIDGET_ID,
+                AppWidgetManager.INVALID_APPWIDGET_ID
+            )
         }
         if (widgetID == AppWidgetManager.INVALID_APPWIDGET_ID)
             finish()
@@ -54,7 +51,7 @@ class WidgetConfigurationActivity : AppCompatActivity() {
     private fun initWidgetConfigList() {
         if (configViewModel.getListAdapter().itemCount != 0) {
             initList(configViewModel.getListAdapter())
-            configViewModel.setAdapterListener{configWidget(MainListAdapter.itemId!!)}
+            configViewModel.setAdapterListener { configWidget(MainListAdapter.itemId!!) }
         } else {
             configWidgetEmptyButton.visibility = View.VISIBLE
         }
@@ -72,11 +69,15 @@ class WidgetConfigurationActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun createPreferences(id: Int) : SharedPreferences {
-        val preferences = getSharedPreferences(WIDGET_PREFERENCES, Context.MODE_PRIVATE)
+    private fun createPreferences(id: Int): SharedPreferences {
+        val preferences =
+            getSharedPreferences(ToDoListWidget.WIDGET_PREFERENCES, Context.MODE_PRIVATE)
         val editor = preferences.edit()
-        editor.putInt(WIDGET_ITEM + widgetID, id)
-        editor.putString(TODO_LIST_TITLE + widgetID, configViewModel.getToDoListTitle(id))
+        editor.putInt(ToDoListWidget.TODO_LIST_ID + widgetID, id)
+        editor.putString(
+            ToDoListWidget.TODO_LIST_TITLE + widgetID,
+            configViewModel.getToDoListTitle(id)
+        )
         editor.apply()
         return preferences
     }
