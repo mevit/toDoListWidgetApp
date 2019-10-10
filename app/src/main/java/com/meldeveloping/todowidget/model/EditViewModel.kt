@@ -1,5 +1,6 @@
 package com.meldeveloping.todowidget.model
 
+import android.content.Context
 import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -8,9 +9,11 @@ import com.meldeveloping.todowidget.adapter.EditListAdapter
 import com.meldeveloping.todowidget.db.ToDoListItem
 import com.meldeveloping.todowidget.db.room.ToDoList
 import com.meldeveloping.todowidget.repository.Repository
+import com.meldeveloping.todowidget.widget.ToDoListWidget
 
 class EditViewModel(
-    private val repository: Repository
+    private val repository: Repository,
+    private val context: Context
 ) : ViewModel() {
 
     companion object {
@@ -33,8 +36,6 @@ class EditViewModel(
 
     fun getToDoList() = toDoList
 
-    fun getAdapter() = adapter
-
     fun refreshAdapter() {
         adapter.notifyDataSetChanged()
     }
@@ -51,6 +52,7 @@ class EditViewModel(
         } else {
             repository.update(toDoList)
         }
+        ToDoListWidget.refreshWidgetListView(context)
     }
 
     fun removeItem(position: Int){

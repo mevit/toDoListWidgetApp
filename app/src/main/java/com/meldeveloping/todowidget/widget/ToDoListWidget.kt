@@ -31,6 +31,13 @@ class ToDoListWidget : AppWidgetProvider(), KoinComponent {
         const val CHECKED_ITEM = 1
         const val UNCHECKED_ITEM = 0
         const val DEFAULT_WIDGET_TITLE_TEXT = "To do"
+
+        fun refreshWidgetListView(context: Context) {
+            val widgetManager = AppWidgetManager.getInstance(context)
+            val widgetIds =
+                widgetManager.getAppWidgetIds(ComponentName(context, ToDoListWidget::class.java))
+            widgetManager.notifyAppWidgetViewDataChanged(widgetIds, R.id.widgetListView)
+        }
     }
 
     override fun onEnabled(context: Context) {}
@@ -129,13 +136,6 @@ class ToDoListWidget : AppWidgetProvider(), KoinComponent {
     private fun updateToDoList(toDoList: ToDoList, list: ArrayList<ToDoListItem>) {
         toDoList.toDoListItems = list
         repository.update(toDoList)
-    }
-
-    private fun refreshWidgetListView(context: Context) {
-        val widgetManager = AppWidgetManager.getInstance(context)
-        val widgetIds =
-            widgetManager.getAppWidgetIds(ComponentName(context, ToDoListWidget::class.java))
-        widgetManager.notifyAppWidgetViewDataChanged(widgetIds, R.id.widgetListView)
     }
 }
 

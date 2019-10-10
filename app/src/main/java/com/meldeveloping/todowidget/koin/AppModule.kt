@@ -14,7 +14,7 @@ import org.koin.dsl.module
 
 val viewModelsModule = module {
     viewModel { MainViewModel(get()) }
-    viewModel { EditViewModel(get()) }
+    viewModel { EditViewModel(get(), androidContext()) }
     viewModel { WidgetConfigViewModel(get()) }
 }
 
