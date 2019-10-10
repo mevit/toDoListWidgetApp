@@ -24,6 +24,7 @@ class WidgetConfigurationActivity : AppCompatActivity() {
     companion object {
         const val WIDGET_PREFERENCES = "widget_preferences"
         const val WIDGET_ITEM = "widget_item_"
+        const val TODO_LIST_TITLE = "widget_title_"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,6 +76,7 @@ class WidgetConfigurationActivity : AppCompatActivity() {
         val preferences = getSharedPreferences(WIDGET_PREFERENCES, Context.MODE_PRIVATE)
         val editor = preferences.edit()
         editor.putInt(WIDGET_ITEM + widgetID, id)
+        editor.putString(TODO_LIST_TITLE + widgetID, configViewModel.getToDoListTitle(id))
         editor.apply()
         return preferences
     }

@@ -20,4 +20,6 @@ class WidgetConfigViewModel(
             listenerFunction()
         })
     }
+
+    fun getToDoListTitle(id: Int) = repository.getItem(id).toDoListTitle
 }

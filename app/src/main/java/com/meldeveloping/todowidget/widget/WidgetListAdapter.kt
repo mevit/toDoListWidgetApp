@@ -6,7 +6,6 @@ import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import com.meldeveloping.todowidget.R
 import com.meldeveloping.todowidget.extension.showLog
-import com.meldeveloping.todowidget.extension.showToast
 import com.meldeveloping.todowidget.extension.toBoolean
 import com.meldeveloping.todowidget.repository.Repository
 import org.koin.core.KoinComponent
@@ -52,7 +51,8 @@ class WidgetListAdapter(val context: Context, val intent: Intent) :
         }
 
         var clickIntent = Intent()
-        clickIntent.putExtra(ToDoListWidget.ITEM_POSITION, position)
+        clickIntent.putExtra(ToDoListWidget.TODO_LIST_ITEM_POSITION, position)
+        clickIntent.putExtra(ToDoListWidget.TODO_LIST_ID, id)
         remoteViews.setOnClickFillInIntent(R.id.widgetItemLayout, clickIntent)
 
         showLog(id.toString())

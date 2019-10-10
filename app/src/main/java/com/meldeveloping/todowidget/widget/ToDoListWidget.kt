@@ -19,11 +19,10 @@ import org.koin.core.inject
 class ToDoListWidget : AppWidgetProvider(), KoinComponent {
 
     private val repository: Repository by inject()
-    private var toDoListID = 0
 
     companion object {
         const val CHECKBOX_CLICK = "CHECKBOX CLICK"
-        const val ITEM_POSITION = "ITEM_POSITION"
+        const val TODO_LIST_ITEM_POSITION = "TODO_LIST_ITEM_POSITION"
         const val TODO_LIST_ID = "todo_list_id"
     }
 
@@ -47,16 +46,16 @@ class ToDoListWidget : AppWidgetProvider(), KoinComponent {
     override fun onReceive(context: Context?, intent: Intent?) {
         super.onReceive(context, intent)
 
-        var toDoList = repository.getItem(19)
-        var list = toDoList.toDoListItems
 
         if (intent!!.action.equals(CHECKBOX_CLICK, true)) {
-            var position = intent.getIntExtra(ITEM_POSITION, -1)
+            var position = intent.getIntExtra(TODO_LIST_ITEM_POSITION, -1)
+            var wIt = intent.getIntExtra(TODO_LIST_ID,0)
 
+            var toDoList = repository.getItem(wIt)
+            var list = toDoList.toDoListItems
 
             if (position != -1) {
 
-                //change isChecked
                 if (list[position].isChecked.toBoolean()) {
                     list[position].isChecked = 0
                 } else {
@@ -66,7 +65,6 @@ class ToDoListWidget : AppWidgetProvider(), KoinComponent {
                 toDoList.toDoListItems = list
                 repository.update(toDoList)
 
-                // update listview
                 refreshWidgetList(context!!)
             }
         }
@@ -94,25 +92,27 @@ class ToDoListWidget : AppWidgetProvider(), KoinComponent {
         appWidgetId: Int
     ) {
         val views = RemoteViews(context.packageName, R.layout.to_do_list_widget)
-        toDoListID = preferences.getInt(WidgetConfigurationActivity.WIDGET_ITEM + appWidgetId, 0)
+        val toDoListId = preferences.getInt(WidgetConfigurationActivity.WIDGET_ITEM + appWidgetId, 0)
+        val toDoListTitle = preferences.getString(WidgetConfigurationActivity.TODO_LIST_TITLE + appWidgetId, "To do")
+        views.setTextViewText(R.id.widgetTitleTextView, toDoListTitle)
         views.setOnClickPendingIntent(
-            R.id.widgetEditButton,
+            R.id.widgetTitleTextView,
             getPendingIntent(context, 0)
         )
-        setListViewAdapter(context, views)
-        listItemClick(views, context)
+        setListViewAdapter(context, views, toDoListId)
+        setListItemClickListener(views, context)
         appWidgetManager.updateAppWidget(appWidgetId, views)
     }
 
-    private fun setListViewAdapter(context: Context, views: RemoteViews) {
+    private fun setListViewAdapter(context: Context, views: RemoteViews, toDoListId: Int) {
         val intent = Intent(context, WidgetService::class.java)
-        intent.putExtra(TODO_LIST_ID, toDoListID)
+        intent.putExtra(TODO_LIST_ID, toDoListId)
         val data = Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME))
         intent.data = data
         views.setRemoteAdapter(R.id.widgetListView, intent)
     }
 
-    private fun listItemClick(remoteViews: RemoteViews, context: Context) {
+    private fun setListItemClickListener(remoteViews: RemoteViews, context: Context) {
         val listClickIntent = Intent(context, ToDoListWidget::class.java)
         listClickIntent.action = CHECKBOX_CLICK
         val listClickPendingIntent = PendingIntent.getBroadcast(context, 0, listClickIntent, 0)
@@ -126,8 +126,7 @@ class ToDoListWidget : AppWidgetProvider(), KoinComponent {
 
     private fun refreshWidgetList(context: Context) {
         val widgetManager = AppWidgetManager.getInstance(context)
-        val widgetIds =
-            widgetManager.getAppWidgetIds(ComponentName(context!!, ToDoListWidget::class.java))
+        val widgetIds = widgetManager.getAppWidgetIds(ComponentName(context!!, ToDoListWidget::class.java))
         widgetManager.notifyAppWidgetViewDataChanged(widgetIds, R.id.widgetListView)
     }
 
