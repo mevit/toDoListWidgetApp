@@ -1,7 +1,6 @@
 package com.meldeveloping.todowidget.main.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -94,7 +93,6 @@ class EditFragment : Fragment() {
         @JvmStatic
         fun newInstance(id: Int? = null): EditFragment {
             toDoListId = id
-            Log.i("TAG", "---------------${id}----------------")
             return EditFragment()
         }
     }

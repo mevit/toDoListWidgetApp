@@ -42,7 +42,11 @@ class ToDoListWidget : AppWidgetProvider(), KoinComponent {
 
     override fun onEnabled(context: Context) {}
 
-    override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
+    override fun onUpdate(
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetIds: IntArray
+    ) {
         for (appWidgetId in appWidgetIds) {
             updateAppWidget(
                 context,
@@ -78,29 +82,34 @@ class ToDoListWidget : AppWidgetProvider(), KoinComponent {
         editor.apply()
     }
 
-    fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, preferences: SharedPreferences, appWidgetId: Int) {
+    fun updateAppWidget(
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        preferences: SharedPreferences,
+        appWidgetId: Int
+    ) {
         val widgetView = RemoteViews(context.packageName, R.layout.to_do_list_widget)
         val toDoListId = preferences.getInt(TODO_LIST_ID + appWidgetId, 0)
-        val toDoListTitle =
-            preferences.getString(TODO_LIST_TITLE + appWidgetId, DEFAULT_WIDGET_TITLE_TEXT)
+        val toDoListTitle = preferences.getString(TODO_LIST_TITLE + appWidgetId, DEFAULT_WIDGET_TITLE_TEXT)
+
         widgetView.setTextViewText(R.id.widgetTitleTextView, toDoListTitle)
-        widgetView.setOnClickPendingIntent(
-            R.id.widgetTitleTextView,
-            getPendingIntentMainActivity(context)
-        )
+        widgetView.setOnClickPendingIntent(R.id.widgetTitleTextView, getPendingIntentMainActivity(context, toDoListId))
         setListViewAdapter(context, widgetView, toDoListId)
         setListItemClickListener(widgetView, context)
         appWidgetManager.updateAppWidget(appWidgetId, widgetView)
     }
 
-    private fun getPendingIntentMainActivity(context: Context): PendingIntent {
+    private fun getPendingIntentMainActivity(context: Context, toDoListId: Int): PendingIntent {
         val intent = Intent(context, MainActivity::class.java)
+        intent.putExtra(MainActivity.OPEN_EDIT_FRAGMENT, toDoListId)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
         return PendingIntent.getActivity(context, 0, intent, 0)
     }
 
     private fun setListViewAdapter(context: Context, views: RemoteViews, toDoListId: Int) {
         val intent = Intent(context, WidgetService::class.java).putExtra(TODO_LIST_ID, toDoListId)
         val data = Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME))
+
         intent.data = data
         views.setRemoteAdapter(R.id.widgetListView, intent)
     }
@@ -112,7 +121,8 @@ class ToDoListWidget : AppWidgetProvider(), KoinComponent {
         remoteViews.setPendingIntentTemplate(R.id.widgetListView, listClickPendingIntent)
     }
 
-    private fun getPreferences(context: Context) = context.getSharedPreferences(WIDGET_PREFERENCES, Context.MODE_PRIVATE)
+    private fun getPreferences(context: Context) =
+        context.getSharedPreferences(WIDGET_PREFERENCES, Context.MODE_PRIVATE)
 
     private fun toDoListItemClick(toDoListId: Int, checkedItemPosition: Int, context: Context) {
         val toDoList = repository.getItem(toDoListId)
@@ -138,4 +148,3 @@ class ToDoListWidget : AppWidgetProvider(), KoinComponent {
         repository.update(toDoList)
     }
 }
-
