@@ -9,11 +9,12 @@ class WidgetConfigViewModel(
     private val repository: Repository
 ) : ViewModel() {
 
-    private val adapter: MainListAdapter by lazy {
-        MainListAdapter(repository.getAll())
-    }
+    private lateinit var adapter: MainListAdapter
 
-    fun getListAdapter() = adapter
+    fun getListAdapter(): MainListAdapter {
+        adapter = MainListAdapter(repository.getAll())
+        return adapter
+    }
 
     fun setAdapterListener(listenerFunction: () -> Unit ) {
         adapter.setClickListener(View.OnClickListener {
@@ -22,4 +23,5 @@ class WidgetConfigViewModel(
     }
 
     fun getToDoListTitle(id: Int) = repository.getItem(id).toDoListTitle
+
 }

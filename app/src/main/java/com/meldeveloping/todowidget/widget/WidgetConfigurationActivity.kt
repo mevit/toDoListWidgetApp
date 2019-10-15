@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.meldeveloping.todowidget.R
 import com.meldeveloping.todowidget.adapter.MainListAdapter
+import com.meldeveloping.todowidget.extension.showLog
+import com.meldeveloping.todowidget.main.MainActivity
 import com.meldeveloping.todowidget.model.WidgetConfigViewModel
 import kotlinx.android.synthetic.main.activity_widget_config.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -27,8 +29,23 @@ class WidgetConfigurationActivity : AppCompatActivity() {
 
         initWidgetID()
         initResultIntent()
+        initNewButton()
         initWidgetConfigList()
         setResult(Activity.RESULT_CANCELED, resultIntent)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        initWidgetConfigList()
+    }
+
+    private fun initNewButton() {
+        configWidgetEmptyButton.setOnClickListener {
+            var intent = Intent(this, MainActivity::class.java)
+            intent.putExtra(MainActivity.OPEN_EDIT_FRAGMENT, MainActivity.CREATE_NEW_ITEM)
+            startActivityForResult(intent,1)
+        }
     }
 
     private fun initWidgetID() {
@@ -50,6 +67,7 @@ class WidgetConfigurationActivity : AppCompatActivity() {
 
     private fun initWidgetConfigList() {
         if (configViewModel.getListAdapter().itemCount != 0) {
+            configWidgetEmptyButton.visibility = View.GONE
             initList(configViewModel.getListAdapter())
             configViewModel.setAdapterListener { configWidget(MainListAdapter.itemId!!) }
         } else {
