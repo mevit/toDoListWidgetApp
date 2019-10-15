@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import com.meldeveloping.todowidget.R
+import com.meldeveloping.todowidget.extension.showLog
 import com.meldeveloping.todowidget.extension.showToast
 import com.meldeveloping.todowidget.main.fragments.EditFragment
 import com.meldeveloping.todowidget.main.fragments.MainFragment
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity() {
                 DEFAULT_TODO_LIST_ID
             ) != DEFAULT_TODO_LIST_ID
         ) {
+            showLog(extras.toString())
             supportFragmentManager
                 .beginTransaction()
                 .add(R.id.mainContainer, EditFragment.newInstance(extras.getInt(OPEN_EDIT_FRAGMENT)))

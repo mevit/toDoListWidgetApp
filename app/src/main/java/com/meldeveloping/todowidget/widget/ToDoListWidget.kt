@@ -89,21 +89,21 @@ class ToDoListWidget : AppWidgetProvider(), KoinComponent {
         appWidgetId: Int
     ) {
         val widgetView = RemoteViews(context.packageName, R.layout.to_do_list_widget)
-        val toDoListId = preferences.getInt(TODO_LIST_ID + appWidgetId, 0)
+        val toDoListId = preferences.getInt(TODO_LIST_ID + appWidgetId, 1)
         val toDoListTitle = preferences.getString(TODO_LIST_TITLE + appWidgetId, DEFAULT_WIDGET_TITLE_TEXT)
 
         widgetView.setTextViewText(R.id.widgetTitleTextView, toDoListTitle)
-        widgetView.setOnClickPendingIntent(R.id.widgetTitleTextView, getPendingIntentMainActivity(context, toDoListId))
+        widgetView.setOnClickPendingIntent(R.id.widgetTitleTextView, getPendingIntentMainActivity(context, toDoListId, appWidgetId))
         setListViewAdapter(context, widgetView, toDoListId)
         setListItemClickListener(widgetView, context)
         appWidgetManager.updateAppWidget(appWidgetId, widgetView)
     }
 
-    private fun getPendingIntentMainActivity(context: Context, toDoListId: Int): PendingIntent {
+    private fun getPendingIntentMainActivity(context: Context, toDoListId: Int, id: Int): PendingIntent {
         val intent = Intent(context, MainActivity::class.java)
         intent.putExtra(MainActivity.OPEN_EDIT_FRAGMENT, toDoListId)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        return PendingIntent.getActivity(context, 0, intent, 0)
+        return PendingIntent.getActivity(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
     private fun setListViewAdapter(context: Context, views: RemoteViews, toDoListId: Int) {
