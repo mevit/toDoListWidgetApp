@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.meldeveloping.todowidget.R
 import com.meldeveloping.todowidget.adapter.MainListAdapter
-import com.meldeveloping.todowidget.extension.showLog
 import com.meldeveloping.todowidget.main.MainActivity
 import com.meldeveloping.todowidget.model.WidgetConfigViewModel
 import kotlinx.android.synthetic.main.activity_widget_config.*
@@ -34,20 +33,6 @@ class WidgetConfigurationActivity : AppCompatActivity() {
         setResult(Activity.RESULT_CANCELED, resultIntent)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        initWidgetConfigList()
-    }
-
-    private fun initNewButton() {
-        configWidgetEmptyButton.setOnClickListener {
-            var intent = Intent(this, MainActivity::class.java)
-            intent.putExtra(MainActivity.OPEN_EDIT_FRAGMENT, MainActivity.CREATE_NEW_ITEM)
-            startActivityForResult(intent,1)
-        }
-    }
-
     private fun initWidgetID() {
         val extras = intent.extras
         if (extras != null) {
@@ -63,6 +48,14 @@ class WidgetConfigurationActivity : AppCompatActivity() {
     private fun initResultIntent() {
         resultIntent = Intent()
         resultIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetID)
+    }
+
+    private fun initNewButton() {
+        configWidgetEmptyButton.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 
     private fun initWidgetConfigList() {
@@ -92,10 +85,6 @@ class WidgetConfigurationActivity : AppCompatActivity() {
             getSharedPreferences(ToDoListWidget.WIDGET_PREFERENCES, Context.MODE_PRIVATE)
         val editor = preferences.edit()
         editor.putInt(ToDoListWidget.TODO_LIST_ID + widgetID, id)
-        editor.putString(
-            ToDoListWidget.TODO_LIST_TITLE + widgetID,
-            configViewModel.getToDoListTitle(id)
-        )
         editor.apply()
         return preferences
     }

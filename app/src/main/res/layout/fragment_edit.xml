@@ -9,7 +9,8 @@
     <TextView
             android:id="@+id/editToolBar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
             android:background="@color/colorPrimary"
             android:gravity="center"
             android:textSize="40sp"
@@ -55,6 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/emptyTitleHintText"
+            android:maxLength="40"
             android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/editToolBar" />
 

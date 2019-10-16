@@ -13,7 +13,6 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private const val FRAGMENT_CHANGE_DELAY_MS = 2000L
         const val OPEN_EDIT_FRAGMENT = "open_edit_fragment"
-        const val CREATE_NEW_ITEM = -2
         const val DEFAULT_TODO_LIST_ID = -1
     }
 
@@ -48,17 +47,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openEditFragment(toDoListId: Int) {
-        if (toDoListId == CREATE_NEW_ITEM) {
-            supportFragmentManager
-                .beginTransaction()
-                .add(R.id.mainContainer, EditFragment.newInstance(createWidget = true))
-                .commit()
-        }else {
             supportFragmentManager
                 .beginTransaction()
                 .add(R.id.mainContainer, EditFragment.newInstance(toDoListId))
                 .commit()
-        }
     }
 
 }

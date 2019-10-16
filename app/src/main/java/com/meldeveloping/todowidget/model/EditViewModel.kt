@@ -52,7 +52,8 @@ class EditViewModel(
         } else {
             repository.update(toDoList)
         }
-        ToDoListWidget.refreshWidgetListView(context)
+
+        ToDoListWidget.refreshWidget(context)
     }
 
     fun removeItem(position: Int){
