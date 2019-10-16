@@ -3,10 +3,15 @@
     <string name="app_name">ToDo Widget</string>
     <string name="goToEditButtonText">New</string>
     <string name="saveButtonText">Save</string>
-    <string name="cancelButtonText">Edit</string>
+    <string name="createWidgetButtonText">Create widget</string>
+    <string name="editButtonText">Edit</string>
     <string name="newItemButtonText">Item</string>
     <string name="emptyListText">No ToDoLists</string>
     <string name="emptyItemHintText">do something…</string>
     <string name="emptyTitleHintText">title</string>
+    <string name="appwidget_text">ToDo List</string>
+    <string name="add_widget">Add widget</string>
+    <string name="configButtonText">Create new</string>
+    <string name="configTitleText">Your toDoLists</string>
 
 </resources>

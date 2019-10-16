@@ -1,7 +1,7 @@
 package com.meldeveloping.todowidget.main.fragments
 
+import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -71,7 +71,13 @@ class EditFragment : Fragment() {
         saveButton.setOnClickListener {
             editViewModel.getToDoList().toDoListTitle = titleEditText.text.toString()
             editViewModel.saveItem()
-            initView(forEdit = false)
+            if (createWidgetItem) {
+                createWidgetItem = false
+                activity!!.setResult(Activity.RESULT_OK)
+                activity!!.finish()
+            } else {
+                initView(forEdit = false)
+            }
         }
     }
 
@@ -90,11 +96,12 @@ class EditFragment : Fragment() {
     companion object {
 
         private var toDoListId: Int? = null
+        private var createWidgetItem = false
 
         @JvmStatic
-        fun newInstance(id: Int? = null): EditFragment {
+        fun newInstance(id: Int? = null, createWidget: Boolean = false): EditFragment {
             toDoListId = id
-            Log.i("TAG", "---------------${id}----------------")
+            createWidgetItem = createWidget
             return EditFragment()
         }
     }
