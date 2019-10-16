@@ -12,7 +12,6 @@ import android.widget.RemoteViews
 import com.meldeveloping.todowidget.R
 import com.meldeveloping.todowidget.db.ToDoListItem
 import com.meldeveloping.todowidget.db.room.ToDoList
-import com.meldeveloping.todowidget.extension.showLog
 import com.meldeveloping.todowidget.extension.toBoolean
 import com.meldeveloping.todowidget.main.MainActivity
 import com.meldeveloping.todowidget.repository.Repository
@@ -30,6 +29,7 @@ class ToDoListWidget : AppWidgetProvider(), KoinComponent {
         const val TODO_LIST_ITEM_POSITION = "todo_list_item_position"
         const val CHECKED_ITEM = 1
         const val UNCHECKED_ITEM = 0
+        const val DELETED_TODO_LIST = "Your list deleted"
 
         //refactor
         fun refreshWidget(context: Context) {
@@ -99,15 +99,21 @@ class ToDoListWidget : AppWidgetProvider(), KoinComponent {
     ) {
         val widgetView = RemoteViews(context.packageName, R.layout.to_do_list_widget)
         val toDoListId = preferences.getInt(TODO_LIST_ID + appWidgetId, 1)
-        val toDoListTitle = repository.getItem(toDoListId).toDoListTitle
+        var toDoListTitle = DELETED_TODO_LIST
 
-        widgetView.setTextViewText(R.id.widgetTitleTextView, toDoListTitle)
-        widgetView.setOnClickPendingIntent(
-            R.id.widgetTitleTextView,
-            getPendingIntentMainActivity(context, toDoListId, appWidgetId)
-        )
-        setListViewAdapter(context, widgetView, toDoListId)
-        setListItemClickListener(widgetView, context)
+        if (repository.checkItem(toDoListId)) {
+            toDoListTitle = repository.getItem(toDoListId).toDoListTitle
+            widgetView.setTextViewText(R.id.widgetTitleTextView, toDoListTitle)
+            widgetView.setOnClickPendingIntent(
+                R.id.widgetTitleTextView,
+                getPendingIntentMainActivity(context, toDoListId, appWidgetId)
+            )
+            setListViewAdapter(context, widgetView, toDoListId)
+            setListItemClickListener(widgetView, context)
+        } else {
+            widgetView.setTextViewText(R.id.widgetTitleTextView, toDoListTitle)
+        }
+
         appWidgetManager.updateAppWidget(appWidgetId, widgetView)
     }
 

@@ -11,4 +11,5 @@ interface Repository {
     fun getItem(id: Int): ToDoList
     fun update(toDoList: ToDoList)
     fun delete(toDoList: ToDoList)
+    fun checkItem(id: Int): Boolean
 }

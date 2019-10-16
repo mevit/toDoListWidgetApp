@@ -19,7 +19,11 @@ class WidgetListAdapter(
     private val repository: Repository by inject()
     private lateinit var toDoListItemsList: ArrayList<ToDoListItem>
     private val toDoListId: Int by lazy {
-        intent.getIntExtra(ToDoListWidget.TODO_LIST_ID, 0)
+        intent.getIntExtra(ToDoListWidget.TODO_LIST_ID, DEFAULT_LIST_ID)
+    }
+
+    companion object {
+        const val DEFAULT_LIST_ID = 0
     }
 
     override fun onCreate() {}
@@ -65,6 +69,10 @@ class WidgetListAdapter(
     override fun onDestroy() {}
 
     private fun initToDoListItemsList() {
-        toDoListItemsList = repository.getItem(toDoListId).toDoListItems
+        if (repository.checkItem(toDoListId)) {
+            toDoListItemsList = repository.getItem(toDoListId).toDoListItems
+        } else {
+            toDoListItemsList.clear()
+        }
     }
 }

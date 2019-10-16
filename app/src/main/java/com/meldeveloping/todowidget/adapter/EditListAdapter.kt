@@ -32,9 +32,6 @@ class EditListAdapter(private var toDoListItems: ArrayList<ToDoListItem>) :
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         holder.view.itemCheckBox.isChecked = toDoListItems[position].isChecked.toBoolean()
         holder.view.itemEditText.setText(toDoListItems[position].itemText)
-        holder.view.itemEditText.isEnabled = ListViewHolder.isEditTextEnabled
-
-
 
         holder.view.itemEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {}
@@ -65,9 +62,5 @@ class EditListAdapter(private var toDoListItems: ArrayList<ToDoListItem>) :
         checkBoxListener = listener
     }
 
-    class ListViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        companion object {
-            var isEditTextEnabled = false
-        }
-    }
+    class ListViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 }

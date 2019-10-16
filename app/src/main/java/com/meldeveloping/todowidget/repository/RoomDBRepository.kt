@@ -8,6 +8,16 @@ import kotlinx.coroutines.runBlocking
 
 class RoomDBRepository(override val toDoListDao: ToDoListDao) : Repository {
 
+    override fun checkItem(id: Int): Boolean {
+        var isExist = false
+        runBlocking {
+            launch(Dispatchers.Default) {
+               isExist = toDoListDao.checkItem(id)
+            }
+        }
+        return isExist
+    }
+
     override fun getAll(): ArrayList<ToDoList> {
         var allToDoLists = ArrayList<ToDoList>()
         runBlocking {

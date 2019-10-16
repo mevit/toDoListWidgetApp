@@ -19,6 +19,7 @@ class EditViewModel(
     companion object {
         private const val EMPTY_ITEM_CHECKED = 0
         private const val EMPTY_ITEM_TEXT = ""
+        private var canRemove = true
     }
 
     private lateinit var adapter: EditListAdapter
@@ -36,10 +37,6 @@ class EditViewModel(
 
     fun getToDoList() = toDoList
 
-    fun refreshAdapter() {
-        adapter.notifyDataSetChanged()
-    }
-
     fun addEmptyItemToList() {
         toDoList.toDoListItems.add(ToDoListItem(EMPTY_ITEM_CHECKED, EMPTY_ITEM_TEXT))
         adapter.notifyItemInserted(toDoList.toDoListItems.size)
@@ -47,23 +44,28 @@ class EditViewModel(
 
     fun saveItem() {
         toDoList.toDoListItems = adapter.getLocalList()
-        if (toDoList.id == null) {
-            repository.save(toDoList)
+
+        if (toDoList.toDoListItems.size == 0) {
+            repository.delete(toDoList)
         } else {
-            repository.update(toDoList)
+            if (toDoList.id == null) {
+                repository.save(toDoList)
+            } else {
+                repository.update(toDoList)
+            }
         }
 
         ToDoListWidget.refreshWidget(context)
     }
 
-    fun removeItem(position: Int){
+    fun removeItem(position: Int) {
         toDoList.toDoListItems.removeAt(position)
         refreshAdapter()
         saveItem()
     }
 
     fun getItemTouchHelper(): ItemTouchHelper {
-        return ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT){
+        return ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
@@ -75,16 +77,19 @@ class EditViewModel(
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 removeItem(viewHolder.adapterPosition)
             }
+
         })
+    }
+
+    private fun refreshAdapter() {
+        adapter.notifyDataSetChanged()
     }
 
     private fun initEditListAdapter(): EditListAdapter {
         adapter = EditListAdapter(toDoList.toDoListItems)
 
         adapter.setClickListener(View.OnClickListener {
-            if(!EditListAdapter.ListViewHolder.isEditTextEnabled) {
-                saveItem()
-            }
+            saveItem()
         })
 
         return adapter
