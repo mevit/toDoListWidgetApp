@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.meldeveloping.todowidget.R
 import com.meldeveloping.todowidget.adapter.MainListAdapter
+import com.meldeveloping.todowidget.extension.showToast
 import com.meldeveloping.todowidget.main.MainActivity
 import com.meldeveloping.todowidget.model.WidgetConfigViewModel
 import kotlinx.android.synthetic.main.activity_widget_config.*

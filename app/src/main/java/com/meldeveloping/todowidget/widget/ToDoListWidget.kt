@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
+import android.view.View
 import android.widget.RemoteViews
 import com.meldeveloping.todowidget.R
 import com.meldeveloping.todowidget.db.ToDoListItem
@@ -110,8 +111,12 @@ class ToDoListWidget : AppWidgetProvider(), KoinComponent {
             )
             setListViewAdapter(context, widgetView, toDoListId)
             setListItemClickListener(widgetView, context)
+            widgetView.setViewVisibility(R.id.widgetNewListButton, View.GONE)
         } else {
             widgetView.setTextViewText(R.id.widgetTitleTextView, toDoListTitle)
+            widgetView.setOnClickPendingIntent(R.id.widgetTitleTextView, null)
+            widgetView.setViewVisibility(R.id.widgetNewListButton, View.VISIBLE)
+            widgetView.setOnClickPendingIntent(R.id.widgetNewListButton, getPendingIntentConfigActivity(context, appWidgetId))
         }
 
         appWidgetManager.updateAppWidget(appWidgetId, widgetView)
@@ -126,6 +131,12 @@ class ToDoListWidget : AppWidgetProvider(), KoinComponent {
         intent.putExtra(MainActivity.OPEN_EDIT_FRAGMENT, toDoListId)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
         return PendingIntent.getActivity(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+    }
+
+    private fun getPendingIntentConfigActivity(context: Context, id: Int): PendingIntent {
+        val intent = Intent(context, WidgetConfigurationActivity::class.java)
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, id)
+        return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
     private fun setListViewAdapter(context: Context, views: RemoteViews, toDoListId: Int) {

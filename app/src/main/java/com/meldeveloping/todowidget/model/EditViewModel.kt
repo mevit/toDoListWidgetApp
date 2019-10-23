@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.meldeveloping.todowidget.adapter.EditListAdapter
 import com.meldeveloping.todowidget.db.ToDoListItem
 import com.meldeveloping.todowidget.db.room.ToDoList
+import com.meldeveloping.todowidget.extension.showLog
 import com.meldeveloping.todowidget.repository.Repository
 import com.meldeveloping.todowidget.widget.ToDoListWidget
 
@@ -19,7 +20,6 @@ class EditViewModel(
     companion object {
         private const val EMPTY_ITEM_CHECKED = 0
         private const val EMPTY_ITEM_TEXT = ""
-        private var canRemove = true
     }
 
     private lateinit var adapter: EditListAdapter
@@ -34,6 +34,8 @@ class EditViewModel(
             initEditListAdapter()
         }
     }
+
+    fun getAdapter() = adapter
 
     fun getToDoList() = toDoList
 
@@ -61,7 +63,6 @@ class EditViewModel(
     fun removeItem(position: Int) {
         toDoList.toDoListItems.removeAt(position)
         refreshAdapter()
-        saveItem()
     }
 
     fun getItemTouchHelper(): ItemTouchHelper {
@@ -76,6 +77,7 @@ class EditViewModel(
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 removeItem(viewHolder.adapterPosition)
+                adapter.setLastItemFocusable(false)
             }
 
         })
