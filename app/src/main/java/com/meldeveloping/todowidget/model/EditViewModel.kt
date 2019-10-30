@@ -1,16 +1,15 @@
 package com.meldeveloping.todowidget.model
 
 import android.content.Context
-import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.meldeveloping.todowidget.adapter.EditListAdapter
 import com.meldeveloping.todowidget.db.ToDoListItem
 import com.meldeveloping.todowidget.db.room.ToDoList
-import com.meldeveloping.todowidget.extension.showLog
+import com.meldeveloping.todowidget.main.MainActivity
 import com.meldeveloping.todowidget.repository.Repository
-import com.meldeveloping.todowidget.widget.ToDoListWidget
+import com.meldeveloping.todowidget.widget.WidgetProvider
 
 class EditViewModel(
     private val repository: Repository,
@@ -25,8 +24,8 @@ class EditViewModel(
     private lateinit var adapter: EditListAdapter
     private lateinit var toDoList: ToDoList
 
-    fun getAdapterForRecycle(id: Int?): EditListAdapter {
-        return if (id == null) {
+    fun getAdapterForRecycle(id: Int): EditListAdapter {
+        return if (id == MainActivity.DEFAULT_TODO_LIST_ID) {
             initEmptyList()
             initEditListAdapter()
         } else {
@@ -57,7 +56,7 @@ class EditViewModel(
             }
         }
 
-        ToDoListWidget.refreshWidget(context)
+        WidgetProvider.updateAppWidgets(context)
     }
 
     fun removeItem(position: Int) {
@@ -77,24 +76,10 @@ class EditViewModel(
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 removeItem(viewHolder.adapterPosition)
-                adapter.setLastItemFocusable(false)
+                adapter.lastItemFocusable(false)
             }
 
         })
-    }
-
-    private fun refreshAdapter() {
-        adapter.notifyDataSetChanged()
-    }
-
-    private fun initEditListAdapter(): EditListAdapter {
-        adapter = EditListAdapter(toDoList.toDoListItems)
-
-        adapter.setClickListener(View.OnClickListener {
-            saveItem()
-        })
-
-        return adapter
     }
 
     private fun initEmptyList() {
@@ -104,8 +89,17 @@ class EditViewModel(
         )
     }
 
+    private fun initEditListAdapter(): EditListAdapter {
+        adapter = EditListAdapter(toDoList.toDoListItems)
+        return adapter
+    }
+
     private fun initItemById(id: Int) {
         toDoList = repository.getItem(id)
+    }
+
+    private fun refreshAdapter() {
+        adapter.notifyDataSetChanged()
     }
 
 }

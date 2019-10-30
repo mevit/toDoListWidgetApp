@@ -1,18 +1,24 @@
 <resources>
 
+    <!--  global values  -->
     <string name="app_name">ToDo Widget</string>
-    <string name="goToEditButtonText">New</string>
-    <string name="saveButtonText">Save</string>
-    <string name="createWidgetButtonText">Create widget</string>
-    <string name="editButtonText">Edit</string>
-    <string name="newItemButtonText">Item</string>
-    <string name="emptyListText">No ToDoLists</string>
-    <string name="emptyItemHintText">do something…</string>
-    <string name="emptyTitleHintText">title</string>
+
+    <!--  main fragment values  -->
+    <string name="go_to_edit_button_text">New</string>
+    <string name="empty_list_text">No ToDoLists</string>
+
+    <!--  edit fragment values  -->
+    <string name="new_item_button_text">Item</string>
+    <string name="empty_item_hint_text">do something…</string>
+    <string name="empty_title_hint_text">title</string>
+
+    <!--  config activity values  -->
+    <string name="config_title_text">Your toDoLists</string>
+    <string name="config_button_text">Create new</string>
+
+    <!--  widget values  -->
     <string name="appwidget_text">ToDo List</string>
     <string name="add_widget">Add widget</string>
-    <string name="configButtonText">Create new</string>
-    <string name="configTitleText">Your toDoLists</string>
-    <string name="widgetNewListButton">Add new</string>
+    <string name="widget_new_list_button">Add new</string>
 
 </resources>

@@ -2,12 +2,10 @@ package com.meldeveloping.todowidget.model
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 import com.meldeveloping.todowidget.adapter.MainListAdapter
 import com.meldeveloping.todowidget.db.room.ToDoList
 import com.meldeveloping.todowidget.repository.Repository
-import com.meldeveloping.todowidget.widget.ToDoListWidget
+import com.meldeveloping.todowidget.widget.WidgetProvider
 
 class MainViewModel(
     private val repository: Repository,
@@ -22,11 +20,11 @@ class MainViewModel(
         return adapter
     }
 
-    fun removeItem(viewHolder: RecyclerView.ViewHolder){
-        repository.delete(list[viewHolder.adapterPosition])
-        list.removeAt(viewHolder.adapterPosition)
+    fun removeItem(position: Int){
+        repository.delete(list[position])
+        list.removeAt(position)
         adapter.notifyDataSetChanged()
-        ToDoListWidget.refreshWidget(context)
+        WidgetProvider.updateAppWidgets(context)
     }
 
     private fun initMainListAdapter(){

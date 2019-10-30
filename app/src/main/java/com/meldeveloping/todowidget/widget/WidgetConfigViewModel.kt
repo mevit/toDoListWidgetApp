@@ -1,6 +1,5 @@
-package com.meldeveloping.todowidget.model
+package com.meldeveloping.todowidget.widget
 
-import android.view.View
 import androidx.lifecycle.ViewModel
 import com.meldeveloping.todowidget.adapter.MainListAdapter
 import com.meldeveloping.todowidget.repository.Repository
@@ -16,9 +15,5 @@ class WidgetConfigViewModel(
         return adapter
     }
 
-    fun setAdapterListener(listenerFunction: () -> Unit ) {
-        adapter.setClickListener(View.OnClickListener {
-            listenerFunction()
-        })
-    }
+    fun getAdapter() = adapter
 }

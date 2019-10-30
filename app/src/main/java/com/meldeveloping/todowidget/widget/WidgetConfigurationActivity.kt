@@ -11,9 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.meldeveloping.todowidget.R
 import com.meldeveloping.todowidget.adapter.MainListAdapter
-import com.meldeveloping.todowidget.extension.showToast
 import com.meldeveloping.todowidget.main.MainActivity
-import com.meldeveloping.todowidget.model.WidgetConfigViewModel
 import kotlinx.android.synthetic.main.activity_widget_config.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -63,7 +61,7 @@ class WidgetConfigurationActivity : AppCompatActivity() {
         if (configViewModel.getListAdapter().itemCount != 0) {
             configWidgetEmptyButton.visibility = View.GONE
             initList(configViewModel.getListAdapter())
-            configViewModel.setAdapterListener { configWidget(MainListAdapter.itemId!!) }
+            setAdapterListener(configViewModel.getAdapter())
         } else {
             configWidgetEmptyButton.visibility = View.VISIBLE
         }
@@ -72,6 +70,12 @@ class WidgetConfigurationActivity : AppCompatActivity() {
     private fun initList(adapter: MainListAdapter) {
         configWidgetList.layoutManager = LinearLayoutManager(applicationContext)
         configWidgetList.adapter = adapter
+    }
+
+    private fun setAdapterListener(adapter: MainListAdapter) {
+        adapter.setClickListener(View.OnClickListener {
+            configWidget(MainListAdapter.itemId)
+        })
     }
 
     private fun configWidget(id: Int) {
@@ -83,16 +87,15 @@ class WidgetConfigurationActivity : AppCompatActivity() {
 
     private fun createPreferences(id: Int): SharedPreferences {
         val preferences =
-            getSharedPreferences(ToDoListWidget.WIDGET_PREFERENCES, Context.MODE_PRIVATE)
+            getSharedPreferences(WidgetProvider.WIDGET_PREFERENCES, Context.MODE_PRIVATE)
         val editor = preferences.edit()
-        editor.putInt(ToDoListWidget.TODO_LIST_ID + widgetID, id)
+        editor.putInt(WidgetProvider.TODO_LIST_ID + widgetID, id)
         editor.apply()
         return preferences
     }
 
     private fun updateWidget(preferences: SharedPreferences) {
         val widgetManager = AppWidgetManager.getInstance(applicationContext)
-        val widget = ToDoListWidget()
-        widget.updateAppWidget(applicationContext, widgetManager, preferences, widgetID)
+        WidgetProvider.updateAppWidget(applicationContext, widgetManager, preferences, widgetID)
     }
 }

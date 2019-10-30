@@ -52,5 +52,4 @@ class MainActivity : AppCompatActivity() {
                 .add(R.id.mainContainer, EditFragment.newInstance(toDoListId))
                 .commit()
     }
-
 }

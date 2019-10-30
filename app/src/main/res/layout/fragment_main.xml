@@ -18,7 +18,7 @@
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:layout_marginEnd="10dp"
-            android:text="@string/goToEditButtonText"
+            android:text="@string/go_to_edit_button_text"
             app:layout_constraintBottom_toBottomOf="@id/toolBar"
             app:layout_constraintEnd_toEndOf="@id/toolBar"
             app:layout_constraintTop_toTopOf="@id/toolBar" />
@@ -38,7 +38,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="@string/emptyListText"
+            android:text="@string/empty_list_text"
             android:visibility="gone"/>
 
 

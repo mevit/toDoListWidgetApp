@@ -6,52 +6,48 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.meldeveloping.todowidget.R
 import com.meldeveloping.todowidget.db.room.ToDoList
-import kotlinx.android.synthetic.main.todo_list.view.*
+import kotlinx.android.synthetic.main.main_fragment_list_item.view.*
 
 class MainListAdapter(private val toDoLists: ArrayList<ToDoList>) :
     RecyclerView.Adapter<MainListAdapter.ListViewHolder>() {
 
-    private var listListener: View.OnClickListener? = null
+    companion object {
+        private const val DEFAULT_TO_DO_LIST_ID = -1
+        var itemId: Int = DEFAULT_TO_DO_LIST_ID
+    }
+
+    private lateinit var listListener: View.OnClickListener
 
     override fun getItemCount(): Int {
         return toDoLists.size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
-
-        val holder = ListViewHolder(
+        return ListViewHolder(
             LayoutInflater.from(parent.context).inflate(
-                R.layout.todo_list,
+                R.layout.main_fragment_list_item,
                 parent,
                 false
             )
         )
-
-        if (listListener != null) {
-            holder.view.setOnClickListener {
-                itemId = holder.id
-                listListener!!.onClick(it)
-            }
-        }
-
-        return holder
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         holder.view.textViewListItem.text = toDoLists[position].toDoListTitle
-        holder.id = toDoLists[position].id
+        setItemClickListener(holder, toDoLists[position].id!!)
     }
 
     fun setClickListener(listener: View.OnClickListener) {
         listListener = listener
     }
 
-    class ListViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        var id: Int? = null
+    private fun setItemClickListener(holder: ListViewHolder, toDoListId: Int) {
+        holder.view.setOnClickListener {
+            itemId = toDoListId
+            listListener.onClick(it)
+        }
     }
 
-    companion object {
-        var itemId: Int? = null
-    }
+    class ListViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
 }

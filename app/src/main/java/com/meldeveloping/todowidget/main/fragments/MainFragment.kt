@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.meldeveloping.todowidget.R
 import com.meldeveloping.todowidget.adapter.MainListAdapter
+import com.meldeveloping.todowidget.main.MainActivity
 import com.meldeveloping.todowidget.model.MainViewModel
 import kotlinx.android.synthetic.main.fragment_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -17,6 +18,11 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class MainFragment : Fragment() {
 
     private val mainViewModel: MainViewModel by viewModel()
+
+    companion object {
+        @JvmStatic
+        fun newInstance() = MainFragment()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,7 +56,7 @@ class MainFragment : Fragment() {
         }
     }
 
-    private fun goToEditFragment(toDoListId: Int? = null) {
+    private fun goToEditFragment(toDoListId: Int = MainActivity.DEFAULT_TODO_LIST_ID) {
         fragmentManager!!
             .beginTransaction()
             .replace(R.id.mainContainer, EditFragment.newInstance(toDoListId))
@@ -69,16 +75,11 @@ class MainFragment : Fragment() {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                mainViewModel.removeItem(viewHolder)
+                mainViewModel.removeItem(viewHolder.adapterPosition)
                 if(itemsList.adapter!!.itemCount == 0)
                     emptyListTextView.visibility = View.VISIBLE
             }
         })
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() = MainFragment()
     }
 
 }

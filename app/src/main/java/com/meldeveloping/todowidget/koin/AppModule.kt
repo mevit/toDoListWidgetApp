@@ -3,7 +3,7 @@ package com.meldeveloping.todowidget.koin
 import androidx.room.Room
 import com.meldeveloping.todowidget.db.room.ToDoListDao
 import com.meldeveloping.todowidget.db.room.ToDoListDatabase
-import com.meldeveloping.todowidget.model.WidgetConfigViewModel
+import com.meldeveloping.todowidget.widget.WidgetConfigViewModel
 import com.meldeveloping.todowidget.model.EditViewModel
 import com.meldeveloping.todowidget.model.MainViewModel
 import com.meldeveloping.todowidget.repository.Repository

@@ -22,5 +22,4 @@ interface ToDoListDao {
 
     @Delete
     fun delete(toDoList: ToDoList)
-
 }

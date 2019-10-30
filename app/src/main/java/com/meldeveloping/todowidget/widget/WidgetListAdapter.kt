@@ -19,7 +19,7 @@ class WidgetListAdapter(
     private val repository: Repository by inject()
     private lateinit var toDoListItemsList: ArrayList<ToDoListItem>
     private val toDoListId: Int by lazy {
-        intent.getIntExtra(ToDoListWidget.TODO_LIST_ID, DEFAULT_LIST_ID)
+        intent.getIntExtra(WidgetProvider.TODO_LIST_ID, DEFAULT_LIST_ID)
     }
 
     companion object {
@@ -37,7 +37,7 @@ class WidgetListAdapter(
     override fun hasStableIds() = true
 
     override fun getViewAt(position: Int): RemoteViews {
-        val remoteViews = RemoteViews(context.packageName, R.layout.todo_list_widget_item)
+        val remoteViews = RemoteViews(context.packageName, R.layout.widget_list_item)
         val clickIntent = Intent()
 
         initToDoListItemsList()
@@ -55,8 +55,8 @@ class WidgetListAdapter(
             )
         }
 
-        clickIntent.putExtra(ToDoListWidget.TODO_LIST_ITEM_POSITION, position)
-        clickIntent.putExtra(ToDoListWidget.TODO_LIST_ID, toDoListId)
+        clickIntent.putExtra(WidgetProvider.TODO_LIST_ITEM_POSITION, position)
+        clickIntent.putExtra(WidgetProvider.TODO_LIST_ID, toDoListId)
         remoteViews.setOnClickFillInIntent(R.id.widgetItemLayout, clickIntent)
 
         return remoteViews

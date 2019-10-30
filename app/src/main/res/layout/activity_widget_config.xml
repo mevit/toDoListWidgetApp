@@ -10,7 +10,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@android:color/black"
             android:gravity="center"
-            android:text="@string/configTitleText"
+            android:text="@string/config_title_text"
             android:textColor="@android:color/white"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -18,7 +18,7 @@
             android:id="@+id/configWidgetEmptyButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/configButtonText"
+            android:text="@string/config_button_text"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

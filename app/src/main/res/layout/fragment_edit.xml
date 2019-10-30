@@ -11,7 +11,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
-            android:hint="@string/emptyTitleHintText"
+            android:hint="@string/empty_title_hint_text"
             android:maxLength="40"
             android:minHeight="?attr/actionBarSize"
             android:gravity="center"
@@ -31,7 +31,7 @@
             android:layout_height="40dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:text="@string/newItemButtonText"
+            android:text="@string/new_item_button_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

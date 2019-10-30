@@ -9,7 +9,7 @@ fun Int.toBoolean() = this != 0
 fun Boolean.toInt() = if (this) 1 else 0
 
 fun showLog(message: String = "-------------------------") {
-    Log.i("log", message)
+    Log.i("myLog", message)
 }
 
 fun showToast(context: Context, message: String = "message") {

@@ -5,26 +5,23 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.meldeveloping.todowidget.R
 import com.meldeveloping.todowidget.db.ToDoListItem
 import com.meldeveloping.todowidget.extension.toBoolean
 import com.meldeveloping.todowidget.extension.toInt
-import kotlinx.android.synthetic.main.todo_list_item.view.*
+import kotlinx.android.synthetic.main.edit_fragment_list_item.view.*
 
 class EditListAdapter(private var toDoListItems: ArrayList<ToDoListItem>) :
     RecyclerView.Adapter<EditListAdapter.ListViewHolder>() {
 
-    private lateinit var checkBoxListener: View.OnClickListener
     private var localToDoListItems = toDoListItems
-    private var isLast = false
+    private var isFocusable = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         return ListViewHolder(
             LayoutInflater.from(parent.context).inflate(
-                R.layout.todo_list_item,
+                R.layout.edit_fragment_list_item,
                 parent,
                 false
             )
@@ -35,26 +32,9 @@ class EditListAdapter(private var toDoListItems: ArrayList<ToDoListItem>) :
         holder.view.itemCheckBox.isChecked = toDoListItems[position].isChecked.toBoolean()
         holder.view.itemEditText.setText(toDoListItems[position].itemText)
 
-        if (isLast) {
-            holder.view.itemEditText.requestFocus()
-        }
-
-        holder.view.itemEditText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {}
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                localToDoListItems[position] =
-                    ToDoListItem(localToDoListItems[position].isChecked, p0.toString())
-            }
-        })
-
-        holder.view.itemCheckBox.setOnCheckedChangeListener { _, isChecked ->
-            localToDoListItems[position] =
-                ToDoListItem(isChecked.toInt(), localToDoListItems[position].itemText)
-            checkBoxListener.onClick(holder.view.itemCheckBox)
-        }
+        setLastItemFocus(holder)
+        setEditTextChangedListener(holder, position)
+        setCheckBoxCheckedChangeListener(holder, position)
     }
 
     override fun getItemCount() = localToDoListItems.size
@@ -65,14 +45,34 @@ class EditListAdapter(private var toDoListItems: ArrayList<ToDoListItem>) :
 
     fun getLocalList() = localToDoListItems
 
-    fun setLastItemFocusable(isFocus: Boolean){
-        isLast = isFocus
+    fun lastItemFocusable(isFocus: Boolean){
+        isFocusable = isFocus
     }
 
-    fun isShowKeyboard() = isLast
+    private fun setLastItemFocus(holder: ListViewHolder) {
+        if (isFocusable) {
+            holder.view.itemEditText.requestFocus()
+        }
+    }
 
-    fun setClickListener(listener: View.OnClickListener) {
-        checkBoxListener = listener
+    private fun setEditTextChangedListener(holder: ListViewHolder, position: Int) {
+        holder.view.itemEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {}
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                localToDoListItems[position] =
+                    ToDoListItem(localToDoListItems[position].isChecked, p0.toString())
+            }
+        })
+    }
+
+    private fun setCheckBoxCheckedChangeListener(holder: ListViewHolder, position: Int) {
+        holder.view.itemCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            localToDoListItems[position] =
+                ToDoListItem(isChecked.toInt(), localToDoListItems[position].itemText)
+        }
     }
 
     class ListViewHolder(val view: View) : RecyclerView.ViewHolder(view)
