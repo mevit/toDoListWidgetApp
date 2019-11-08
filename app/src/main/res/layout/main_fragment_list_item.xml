@@ -3,16 +3,18 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/itemBackgroundColor"
-        android:layout_marginTop="4dp">
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        style="@style/mainFragmentItemStyle">
 
     <TextView
             android:id="@+id/textViewListItem"
-            style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textSize="40sp" />
+            android:minHeight="?attr/actionBarSize"
+            android:layout_margin="10dp"
+            android:textSize="20sp" />
 
 </FrameLayout>
 

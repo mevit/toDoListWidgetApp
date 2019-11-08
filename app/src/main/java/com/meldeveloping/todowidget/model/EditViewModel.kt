@@ -61,7 +61,7 @@ class EditViewModel(
 
     fun removeItem(position: Int) {
         toDoList.toDoListItems.removeAt(position)
-        refreshAdapter()
+        adapter.notifyItemRemoved(position)
     }
 
     fun getItemTouchHelper(): ItemTouchHelper {
@@ -91,6 +91,7 @@ class EditViewModel(
 
     private fun initEditListAdapter(): EditListAdapter {
         adapter = EditListAdapter(toDoList.toDoListItems)
+//        adapter.setHasStableIds(true)
         return adapter
     }
 

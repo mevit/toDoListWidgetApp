@@ -5,11 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.meldeveloping.todowidget.R
 import com.meldeveloping.todowidget.main.MainActivity
 import com.meldeveloping.todowidget.model.EditViewModel
 import kotlinx.android.synthetic.main.fragment_edit.*
+import kotlinx.android.synthetic.main.fragment_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class EditFragment : Fragment() {
@@ -53,6 +55,7 @@ class EditFragment : Fragment() {
 
     private fun initButtons() {
         initNewItemButton()
+        initBackButton()
     }
 
     private fun saveList() {
@@ -64,6 +67,12 @@ class EditFragment : Fragment() {
         newItemButton.setOnClickListener {
             editViewModel.addEmptyItemToList()
             setFocusOnLastItem()
+        }
+    }
+
+    private fun initBackButton() {
+        backButton.setOnClickListener {
+            activity!!.onBackPressed()
         }
     }
 

@@ -13,7 +13,7 @@ import org.koin.core.inject
 
 class WidgetListAdapter(
     val context: Context,
-    intent: Intent
+    private val intent: Intent
 ) : RemoteViewsService.RemoteViewsFactory, KoinComponent {
 
     private val repository: Repository by inject()
@@ -24,6 +24,7 @@ class WidgetListAdapter(
 
     companion object {
         const val DEFAULT_LIST_ID = 0
+        private const val DEFAULT_ITEM_STYLE = R.layout.widget_list_item_light
     }
 
     override fun onCreate() {}
@@ -37,8 +38,19 @@ class WidgetListAdapter(
     override fun hasStableIds() = true
 
     override fun getViewAt(position: Int): RemoteViews {
-        val remoteViews = RemoteViews(context.packageName, R.layout.widget_list_item)
+        var checkedCheckBox = 0
+        var uncheckedCheckBox = 0
+        val style = intent.getIntExtra(WidgetProvider.TODO_LIST_STYLE, DEFAULT_ITEM_STYLE)
+        val remoteViews = RemoteViews(context.packageName, style)
         val clickIntent = Intent()
+
+        if (style == DEFAULT_ITEM_STYLE) {
+            checkedCheckBox = R.drawable.check_box_light_on
+            uncheckedCheckBox = R.drawable.check_box_light_off
+        } else {
+            checkedCheckBox = R.drawable.check_box_dark_on
+            uncheckedCheckBox = R.drawable.check_box_dark_off
+        }
 
         initToDoListItemsList()
         remoteViews.setTextViewText(R.id.widgetItemText, toDoListItemsList[position].itemText)
@@ -46,12 +58,12 @@ class WidgetListAdapter(
         if (toDoListItemsList[position].isChecked.toBoolean()) {
             remoteViews.setImageViewResource(
                 R.id.widgetCheckBox,
-                android.R.drawable.checkbox_on_background
+                checkedCheckBox
             )
         } else {
             remoteViews.setImageViewResource(
                 R.id.widgetCheckBox,
-                android.R.drawable.checkbox_off_background
+                uncheckedCheckBox
             )
         }
 

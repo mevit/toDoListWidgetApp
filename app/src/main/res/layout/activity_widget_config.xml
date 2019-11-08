@@ -8,10 +8,10 @@
             android:id="@+id/configWidgetTitle"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@android:color/black"
+            android:background="@null"
             android:gravity="center"
             android:text="@string/config_title_text"
-            android:textColor="@android:color/white"
+            android:textSize="30sp"
             app:layout_constraintTop_toTopOf="parent" />
 
     <Button
@@ -29,6 +29,70 @@
             android:id="@+id/configWidgetList"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/configWidgetStyleText"
             app:layout_constraintTop_toBottomOf="@id/configWidgetTitle" />
+
+    <TextView
+            android:id="@+id/configWidgetStyleText"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@null"
+            android:gravity="center"
+            android:text="@string/config_select_text"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toTopOf="@id/configWidgetRadioGroup"
+            app:layout_constraintTop_toBottomOf="@id/configWidgetList" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/configWidgetRadioGroup"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toTopOf="@id/configWidgetPreview"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/configWidgetStyleText">
+
+        <ImageButton
+                android:id="@+id/configWidgetDarkButton"
+                style="@style/darkWidgetButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+                android:id="@+id/configWidgetLightButton"
+                style="@style/lightWidgetButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+            android:id="@+id/configWidgetPreview"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginBottom="30dp"
+            android:elevation="10dp"
+            app:layout_constraintBottom_toTopOf="@id/configWidgetCreateButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/configWidgetRadioGroup" />
+
+
+    <ImageView
+            android:id="@+id/configWidgetCreateButton"
+            style="@style/plusImageStyle"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,15 +1,18 @@
 package com.meldeveloping.todowidget.main.fragments
 
+import android.content.Context
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.view.animation.LayoutAnimationController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.meldeveloping.todowidget.R
 import com.meldeveloping.todowidget.adapter.MainListAdapter
+import com.meldeveloping.todowidget.extension.showLog
 import com.meldeveloping.todowidget.main.MainActivity
 import com.meldeveloping.todowidget.model.MainViewModel
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -20,6 +23,7 @@ class MainFragment : Fragment() {
     private val mainViewModel: MainViewModel by viewModel()
 
     companion object {
+
         @JvmStatic
         fun newInstance() = MainFragment()
     }
@@ -32,6 +36,7 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initChangeThemeButton()
         initNewButton()
         initRecyclerView()
     }
@@ -42,26 +47,56 @@ class MainFragment : Fragment() {
         }
     }
 
+    private fun initChangeThemeButton() {
+        changeThemeButton.setOnClickListener {
+            val preferences = context!!.getSharedPreferences(MainActivity.TODO_PREFERENCES, Context.MODE_PRIVATE)
+            val editor = preferences.edit()
+            if (preferences.getInt(MainActivity.THEME, MainActivity.DARK) == MainActivity.DARK) {
+                editor.putInt(MainActivity.THEME, MainActivity.LIGHT)
+            } else {
+                editor.putInt(MainActivity.THEME, MainActivity.DARK)
+            }
+            editor.apply()
+            activity!!.recreate()
+        }
+    }
+
     private fun initRecyclerView() {
         val mainListAdapter = mainViewModel.getAdapterForMainList()
         if (mainListAdapter.itemCount != 0) {
-            itemsList.layoutManager = LinearLayoutManager(context)
+            val animation = AnimationUtils.loadLayoutAnimation(context, R.anim.item_layout_animation)
+            val layoutManager = LinearLayoutManager(context)
+            layoutManager.reverseLayout = true
+            layoutManager.stackFromEnd = true
+            itemsList.layoutManager = layoutManager
             itemsList.adapter = mainListAdapter
+            itemsList.layoutAnimation = animation
             getItemTouchHelper().attachToRecyclerView(itemsList)
             mainListAdapter.setClickListener(View.OnClickListener {
                 goToEditFragment(MainListAdapter.itemId)
             })
+            itemsList.smoothScrollToPosition(mainListAdapter.itemCount - 1)
         } else {
-            emptyListTextView.visibility = View.VISIBLE
+            emptyListAnimation()
         }
     }
 
     private fun goToEditFragment(toDoListId: Int = MainActivity.DEFAULT_TODO_LIST_ID) {
-        fragmentManager!!
-            .beginTransaction()
-            .replace(R.id.mainContainer, EditFragment.newInstance(toDoListId))
-            .addToBackStack(null)
-            .commit()
+        if (toDoListId == MainActivity.DEFAULT_TODO_LIST_ID) {
+            fragmentManager!!
+                .beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_up, R.anim.enter_from_left, R.anim.exit_to_right)
+                .replace(R.id.mainContainer, EditFragment.newInstance(toDoListId))
+                .addToBackStack(null)
+                .commit()
+        } else {
+            fragmentManager!!
+                .beginTransaction()
+                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+                .replace(R.id.mainContainer, EditFragment.newInstance(toDoListId))
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
     private fun getItemTouchHelper(): ItemTouchHelper {
@@ -77,7 +112,21 @@ class MainFragment : Fragment() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 mainViewModel.removeItem(viewHolder.adapterPosition)
                 if(itemsList.adapter!!.itemCount == 0)
-                    emptyListTextView.visibility = View.VISIBLE
+                    emptyListAnimation()
+            }
+        })
+    }
+
+    private fun emptyListAnimation() {
+        val animation = AnimationUtils.loadAnimation(context, R.anim.fade_main_fragment)
+        emptyMainFragment.startAnimation(animation)
+        animation.setAnimationListener( object : Animation.AnimationListener {
+            override fun onAnimationRepeat(p0: Animation?) {}
+
+            override fun onAnimationEnd(p0: Animation?) {}
+
+            override fun onAnimationStart(p0: Animation?) {
+                emptyMainFragment.visibility = View.VISIBLE
             }
         })
     }

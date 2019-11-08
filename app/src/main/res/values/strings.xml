@@ -13,7 +13,8 @@
     <string name="empty_title_hint_text">title</string>
 
     <!--  config activity values  -->
-    <string name="config_title_text">Your toDoLists</string>
+    <string name="config_title_text">select item</string>
+    <string name="config_select_text">style</string>
     <string name="config_button_text">Create new</string>
 
     <!--  widget values  -->

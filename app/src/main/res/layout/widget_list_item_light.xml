@@ -7,16 +7,19 @@
 
     <ImageView
             android:id="@+id/widgetCheckBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#09C"
-            android:src="@android:drawable/checkbox_off_background"
-            android:layout_margin="10dp"/>
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@null"
+            android:layout_margin="10dp"
+            android:fontFamily="@font/roboto_bold"/>
 
     <TextView
             android:id="@+id/widgetItemText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:fontFamily="@font/roboto_bold"
+            android:textColor="@color/darkText"
+            android:background="@null"/>
 
 </LinearLayout>

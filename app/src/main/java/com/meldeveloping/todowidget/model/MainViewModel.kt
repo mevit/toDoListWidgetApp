@@ -23,7 +23,7 @@ class MainViewModel(
     fun removeItem(position: Int){
         repository.delete(list[position])
         list.removeAt(position)
-        adapter.notifyDataSetChanged()
+        adapter.notifyItemRemoved(position)
         WidgetProvider.updateAppWidgets(context)
     }
 

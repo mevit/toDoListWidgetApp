@@ -27,6 +27,7 @@ class WidgetProvider : AppWidgetProvider(), KoinComponent {
         const val WIDGET_PREFERENCES = "widget_preferences"
         const val ACTION_CHECKBOX_CLICK = "checkbox_click"
         const val TODO_LIST_ID = "todo_list_id_"
+        const val TODO_LIST_STYLE = "todo_list_style_"
         const val TODO_LIST_ITEM_POSITION = "todo_list_item_position"
         const val CHECKED_ITEM = 1
         const val UNCHECKED_ITEM = 0
@@ -54,7 +55,9 @@ class WidgetProvider : AppWidgetProvider(), KoinComponent {
             preferences: SharedPreferences,
             appWidgetId: Int
         ) {
-            val widgetView = RemoteViews(context.packageName, R.layout.widget_view)
+            val style =
+                preferences.getInt(TODO_LIST_STYLE + appWidgetId, R.layout.widget_view_light)
+            val widgetView = RemoteViews(context.packageName, style)
             val toDoListId = preferences.getInt(TODO_LIST_ID + appWidgetId, 1)
             var toDoListTitle = DELETED_TODO_LIST
             val toDoListWidget = WidgetProvider()
@@ -66,7 +69,11 @@ class WidgetProvider : AppWidgetProvider(), KoinComponent {
                     R.id.widgetTitleTextView,
                     toDoListWidget.getPendingIntentMainActivity(context, toDoListId, appWidgetId)
                 )
-                toDoListWidget.setListViewAdapter(context, widgetView, toDoListId)
+                if (style == R.layout.widget_view_light) {
+                    toDoListWidget.setListViewAdapter(context, widgetView, toDoListId, R.layout.widget_list_item_light)
+                } else {
+                    toDoListWidget.setListViewAdapter(context, widgetView, toDoListId, R.layout.widget_list_item_dark)
+                }
                 toDoListWidget.setListItemClickListener(widgetView, context)
                 widgetView.setViewVisibility(R.id.widgetNewListButton, View.GONE)
             } else {
@@ -135,8 +142,10 @@ class WidgetProvider : AppWidgetProvider(), KoinComponent {
         return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
-    private fun setListViewAdapter(context: Context, views: RemoteViews, toDoListId: Int) {
-        val intent = Intent(context, WidgetService::class.java).putExtra(TODO_LIST_ID, toDoListId)
+    private fun setListViewAdapter(context: Context, views: RemoteViews, toDoListId: Int, widgetStyle: Int) {
+        val intent = Intent(context, WidgetService::class.java)
+        intent.putExtra(TODO_LIST_ID, toDoListId)
+        intent.putExtra(TODO_LIST_STYLE, widgetStyle)
         intent.data = Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME))
         views.setRemoteAdapter(R.id.widgetListView, intent)
     }
