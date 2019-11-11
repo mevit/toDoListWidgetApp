@@ -30,16 +30,23 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val extras = intent.extras
-        if (extras != null && extras.getInt(
-                OPEN_EDIT_FRAGMENT,
-                DEFAULT_TODO_LIST_ID
-            ) != DEFAULT_TODO_LIST_ID
-        ) {
-            openEditFragment(extras.getInt(OPEN_EDIT_FRAGMENT))
+        if (savedInstanceState != null) {
+            supportFragmentManager
+                .beginTransaction()
+                .add(R.id.mainContainer, MainFragment.newInstance())
+                .commit()
         } else {
-            openSplashFragment()
-            openMainFragment()
+            val extras = intent.extras
+            if (extras != null && extras.getInt(
+                    OPEN_EDIT_FRAGMENT,
+                    DEFAULT_TODO_LIST_ID
+                ) != DEFAULT_TODO_LIST_ID
+            ) {
+                openEditFragment(extras.getInt(OPEN_EDIT_FRAGMENT))
+            } else {
+                openSplashFragment()
+                openMainFragment()
+            }
         }
     }
 

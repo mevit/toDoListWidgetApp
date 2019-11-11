@@ -62,38 +62,7 @@
     </style>
 
 
-<!--    &lt;!&ndash;  light theme  &ndash;&gt;-->
-<!--    <style name="LightAppTheme" parent="Theme.AppCompat.Light.NoActionBar">-->
-<!--        <item name="colorPrimary">@color/whiteMain</item>-->
-<!--        <item name="colorPrimaryDark">@color/whiteMain</item>-->
-<!--        <item name="colorAccent">@color/grayMain</item>-->
-<!--        <item name="android:fontFamily">@font/roboto_bold</item>-->
-<!--        <item name="android:textColor">@color/darkText</item>-->
-<!--        <item name="android:textColorHint">@color/whiteSecondary</item>-->
-<!--        <item name="editTextStyle">@style/lightEditTextStyle</item>-->
-<!--        <item name="android:textViewStyle">@style/lightTextViewStyle</item>-->
-<!--    </style>-->
 
-<!--    <style name="lightEditTextStyle" parent="Widget.AppCompat.EditText">-->
-<!--        <item name="android:background">@null</item>-->
-<!--        <item name="android:textColor">@color/darkText</item>-->
-<!--        <item name="android:textSize">20sp</item>-->
-<!--    </style>-->
-
-<!--        <style name="lightTextViewStyle" parent="Widget.AppCompat.TextView">-->
-<!--            <item name="android:background">@color/whiteSecondary</item>-->
-<!--        </style>-->
-
-    <!--  other styles  -->
-    <style name="splashScreenTheme" parent="AppTheme">
-        <item name="android:background">@color/splashScreenBackground</item>
-    </style>
-
-    <style name="itemEditTextStyle" parent="Widget.AppCompat.EditText">
-        <item name="android:background">@null</item>
-        <item name="android:textColor">@color/whiteText</item>
-        <item name="android:textSize">20sp</item>
-    </style>
 
     <style name="toolBarSearchViewStyle" parent="AppTheme">
         <item name="android:textCursorDrawable">@color/mainGreen</item>

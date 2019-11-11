@@ -58,6 +58,7 @@ class MainFragment : Fragment() {
             }
             editor.apply()
             activity!!.recreate()
+            activity!!.overridePendingTransition(R.anim.fade_main_fragment_out, R.anim.fade_main_fragment)
         }
     }
 

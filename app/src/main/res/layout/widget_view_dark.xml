@@ -23,7 +23,11 @@
             android:id="@+id/widgetNewListButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:layout_gravity="center"
+            android:textColor="@color/whiteText"
+            android:fontFamily="@font/roboto_bold"
+            android:background="@drawable/img_main_item_bg_dark"
             android:text="@string/widget_new_list_button" />
 
     <ListView
@@ -33,6 +37,10 @@
             android:layout_marginBottom="15dp"
             android:divider="@null"
             android:dividerHeight="0dp"
-            android:layout_marginEnd="10dp"/>
+            android:layout_marginEnd="10dp"
+            android:fadingEdge="horizontal"
+            android:fadingEdgeLength="20dp"
+            android:fillViewport="false"
+            android:requiresFadingEdge="vertical"/>
 
 </LinearLayout>
