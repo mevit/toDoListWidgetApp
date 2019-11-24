@@ -34,6 +34,7 @@ class MainListAdapter(private val toDoLists: ArrayList<ToDoList>) :
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         holder.view.textViewListItem.text = toDoLists[position].toDoListTitle
+        holder.view.textViewListItemDate.text = toDoLists[position].toDoListDate
         setItemClickListener(holder, toDoLists[position].id!!)
     }
 

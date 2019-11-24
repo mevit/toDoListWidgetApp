@@ -4,8 +4,9 @@
     <string name="app_name">ToDo Widget</string>
 
     <!--  main fragment values  -->
-    <string name="go_to_edit_button_text">New</string>
+    <string name="go_to_edit_button_text">add new</string>
     <string name="empty_list_text">No ToDoLists</string>
+    <string name="main_fragment_text">ToDoList</string>
 
     <!--  edit fragment values  -->
     <string name="new_item_button_text">Item</string>

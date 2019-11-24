@@ -36,7 +36,6 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initChangeThemeButton()
         initNewButton()
         initRecyclerView()
     }
@@ -44,21 +43,6 @@ class MainFragment : Fragment() {
     private fun initNewButton() {
         goToEditButton.setOnClickListener {
             goToEditFragment()
-        }
-    }
-
-    private fun initChangeThemeButton() {
-        changeThemeButton.setOnClickListener {
-            val preferences = context!!.getSharedPreferences(MainActivity.TODO_PREFERENCES, Context.MODE_PRIVATE)
-            val editor = preferences.edit()
-            if (preferences.getInt(MainActivity.THEME, MainActivity.DARK) == MainActivity.DARK) {
-                editor.putInt(MainActivity.THEME, MainActivity.LIGHT)
-            } else {
-                editor.putInt(MainActivity.THEME, MainActivity.DARK)
-            }
-            editor.apply()
-            activity!!.recreate()
-            activity!!.overridePendingTransition(R.anim.fade_main_fragment_out, R.anim.fade_main_fragment)
         }
     }
 

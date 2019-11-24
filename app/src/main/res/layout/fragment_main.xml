@@ -18,26 +18,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-            <!--            <androidx.appcompat.widget.SearchView-->
-            <!--                    android:id="@+id/mainToolBarSearchView"-->
-            <!--                    android:layout_width="match_parent"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:layout_marginStart="10dp"-->
-            <!--                    android:layout_marginEnd="10dp"-->
-            <!--                    android:layoutDirection="rtl"-->
-            <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--                    app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                    app:layout_constraintTop_toTopOf="parent" />-->
-
-            <ImageView
-                    android:id="@+id/changeThemeButton"
-                    style="@style/changeThemeImageStyle"
-                    android:layout_width="30dp"
+            <TextView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
+                    android:background="@null"
+                    android:fontFamily="@font/montserrat_alternates_bold"
+                    android:gravity="center"
+                    android:text="@string/main_fragment_text"
+                    android:textColor="@color/whiteText"
+                    android:textSize="25sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -52,7 +44,7 @@
             android:layoutAnimation="@anim/item_layout_animation"
             android:paddingBottom="?attr/actionBarSize"
             android:scrollbarStyle="outsideOverlay"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/goToEditButton"
             app:layout_constraintTop_toBottomOf="@id/mainToolBar" />
 
     <ImageView
@@ -66,14 +58,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
+    <TextView
             android:id="@+id/goToEditButton"
-            style="@style/plusImageStyle"
-            android:layout_width="40dp"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:textColor="@color/whiteText"
+            android:text="@string/go_to_edit_button_text"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:background="#33334d"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

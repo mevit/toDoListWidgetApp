@@ -26,34 +26,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setAppTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if (savedInstanceState != null) {
-            supportFragmentManager
-                .beginTransaction()
-                .add(R.id.mainContainer, MainFragment.newInstance())
-                .commit()
+        val extras = intent.extras
+        if (extras != null && extras.getInt(
+                OPEN_EDIT_FRAGMENT,
+                DEFAULT_TODO_LIST_ID
+            ) != DEFAULT_TODO_LIST_ID
+        ) {
+            openEditFragment(extras.getInt(OPEN_EDIT_FRAGMENT))
         } else {
-            val extras = intent.extras
-            if (extras != null && extras.getInt(
-                    OPEN_EDIT_FRAGMENT,
-                    DEFAULT_TODO_LIST_ID
-                ) != DEFAULT_TODO_LIST_ID
-            ) {
-                openEditFragment(extras.getInt(OPEN_EDIT_FRAGMENT))
-            } else {
-                openSplashFragment()
-                openMainFragment()
-            }
+            openSplashFragment()
+            openMainFragment()
         }
-    }
-
-    private fun setAppTheme() {
-        val theme = applicationContext.getSharedPreferences(TODO_PREFERENCES, Context.MODE_PRIVATE)
-            .getInt(THEME, LIGHT)
-        AppCompatDelegate.setDefaultNightMode(theme)
     }
 
     private fun openSplashFragment() {

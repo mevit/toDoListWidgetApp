@@ -7,9 +7,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.meldeveloping.todowidget.adapter.EditListAdapter
 import com.meldeveloping.todowidget.db.ToDoListItem
 import com.meldeveloping.todowidget.db.room.ToDoList
+import com.meldeveloping.todowidget.extension.showLog
 import com.meldeveloping.todowidget.main.MainActivity
 import com.meldeveloping.todowidget.repository.Repository
 import com.meldeveloping.todowidget.widget.WidgetProvider
+import java.text.SimpleDateFormat
+import java.util.*
 
 class EditViewModel(
     private val repository: Repository,
@@ -46,9 +49,11 @@ class EditViewModel(
     fun saveItem() {
         toDoList.toDoListItems = adapter.getLocalList()
 
-        if (toDoList.toDoListItems.size == 0) {
+        if (toDoList.toDoListItems.size == 0 || toDoList == getEmptyList()) {
             repository.delete(toDoList)
         } else {
+            toDoList.toDoListDate = getDate()
+
             if (toDoList.id == null) {
                 repository.save(toDoList)
             } else {
@@ -83,15 +88,11 @@ class EditViewModel(
     }
 
     private fun initEmptyList() {
-        toDoList = ToDoList(
-            toDoListTitle = EMPTY_ITEM_TEXT,
-            toDoListItems = arrayListOf(ToDoListItem(EMPTY_ITEM_CHECKED, EMPTY_ITEM_TEXT))
-        )
+        toDoList = getEmptyList()
     }
 
     private fun initEditListAdapter(): EditListAdapter {
         adapter = EditListAdapter(toDoList.toDoListItems)
-//        adapter.setHasStableIds(true)
         return adapter
     }
 
@@ -101,6 +102,26 @@ class EditViewModel(
 
     private fun refreshAdapter() {
         adapter.notifyDataSetChanged()
+    }
+
+    private fun getEmptyList(): ToDoList {
+        return ToDoList(
+            toDoListTitle = EMPTY_ITEM_TEXT,
+            toDoListItems = arrayListOf(ToDoListItem(EMPTY_ITEM_CHECKED, EMPTY_ITEM_TEXT)),
+            toDoListDate = getDate()
+        )
+    }
+
+    private fun getDate(): String {
+        val date = Calendar.getInstance()
+        val builder: StringBuilder = StringBuilder()
+        builder
+            .append(date.get(Calendar.DATE).toString())
+            .append(".")
+            .append(date.get(Calendar.MONTH).toString())
+            .append(".")
+            .append(date.get(Calendar.YEAR).toString())
+        return builder.toString()
     }
 
 }

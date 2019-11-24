@@ -1,5 +1,6 @@
 package com.meldeveloping.todowidget.adapter
 
+import android.content.res.Resources
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -31,6 +32,14 @@ class EditListAdapter(private var toDoListItems: ArrayList<ToDoListItem>) :
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         holder.view.itemCheckBox.isChecked = toDoListItems[position].isChecked.toBoolean()
         holder.view.itemEditText.setText(toDoListItems[position].itemText)
+
+        holder.view.itemEditText.setOnFocusChangeListener { view, boolean ->
+            if (boolean) {
+                holder.view.itemEditText.hint = ""
+            } else {
+                holder.view.itemEditText.hint = "do something…"
+            }
+        }
 
         setLastItemFocus(holder)
         setEditTextChangedListener(holder, position)

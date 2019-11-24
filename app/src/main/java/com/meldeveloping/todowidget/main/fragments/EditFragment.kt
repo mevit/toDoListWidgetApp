@@ -1,13 +1,17 @@
 package com.meldeveloping.todowidget.main.fragments
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.view.inputmethod.InputMethodManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.meldeveloping.todowidget.R
+import com.meldeveloping.todowidget.extension.isKeyboardVisible
+import com.meldeveloping.todowidget.extension.showLog
 import com.meldeveloping.todowidget.main.MainActivity
 import com.meldeveloping.todowidget.model.EditViewModel
 import kotlinx.android.synthetic.main.fragment_edit.*
@@ -43,6 +47,8 @@ class EditFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
+
+        hideKeyboard()
         saveList()
     }
 
@@ -51,6 +57,13 @@ class EditFragment : Fragment() {
         toDoListItemsList.adapter = editViewModel.getAdapterForRecycle(toDoListId)
         editViewModel.getItemTouchHelper().attachToRecyclerView(toDoListItemsList)
         titleEditText.setText(editViewModel.getToDoList().toDoListTitle)
+        titleEditText.setOnFocusChangeListener { view, boolean ->
+            if (boolean) {
+                titleEditText.hint = ""
+            } else {
+                titleEditText.hint = getString(R.string.empty_title_hint_text)
+            }
+        }
     }
 
     private fun initButtons() {
@@ -79,5 +92,12 @@ class EditFragment : Fragment() {
     private fun setFocusOnLastItem() {
         toDoListItemsList.smoothScrollToPosition(toDoListItemsList.adapter!!.itemCount - 1)
         editViewModel.getAdapter().lastItemFocusable(true)
+    }
+
+    private fun hideKeyboard() {
+        val keyboard =
+            activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        if (isKeyboardVisible(activity!!))
+            keyboard.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
     }
 }
