@@ -1,12 +1,15 @@
 package com.meldeveloping.todowidget.main.fragments
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.view.animation.LayoutAnimationController
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +20,7 @@ import com.meldeveloping.todowidget.main.MainActivity
 import com.meldeveloping.todowidget.model.MainViewModel
 import kotlinx.android.synthetic.main.fragment_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.text.FieldPosition
 
 class MainFragment : Fragment() {
 
@@ -56,9 +60,12 @@ class MainFragment : Fragment() {
             itemsList.layoutManager = layoutManager
             itemsList.adapter = mainListAdapter
             itemsList.layoutAnimation = animation
-            getItemTouchHelper().attachToRecyclerView(itemsList)
             mainListAdapter.setClickListener(View.OnClickListener {
                 goToEditFragment(MainListAdapter.itemId)
+            })
+            mainListAdapter.setLongClickListener(View.OnLongClickListener {
+                itemLongClick(MainListAdapter.itemId, MainListAdapter.itemPosition)
+                return@OnLongClickListener true
             })
             itemsList.smoothScrollToPosition(mainListAdapter.itemCount - 1)
         } else {
@@ -84,22 +91,26 @@ class MainFragment : Fragment() {
         }
     }
 
-    private fun getItemTouchHelper(): ItemTouchHelper {
-        return ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT){
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                return false
-            }
+    private fun itemLongClick(toDoListId: Int, position: Int) {
+        showLog("id $toDoListId pos $position")
 
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                mainViewModel.removeItem(viewHolder.adapterPosition)
-                if(itemsList.adapter!!.itemCount == 0)
-                    emptyListAnimation()
-            }
-        })
+        val inflater = activity!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view = inflater.inflate(R.layout.alert_dialog, null)
+        val dltBtn = view.findViewById<TextView>(R.id.deleteButton)
+        val pinBtn = view.findViewById<TextView>(R.id.pinButton)
+        val builder = AlertDialog.Builder(context!!).setView(view)
+        val dialog: AlertDialog = builder.create()
+
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
+        dialog.window!!.setLayout(600, 500)
+
+        dltBtn.setOnClickListener {
+            mainViewModel.removeItem(position)
+            if(itemsList.adapter!!.itemCount == 0)
+                emptyListAnimation()
+            dialog.dismiss()
+        }
     }
 
     private fun emptyListAnimation() {

@@ -15,5 +15,9 @@ class WidgetConfigViewModel(
         return adapter
     }
 
+    fun getItemDate(id: Int) = repository.getItem(id).toDoListDate
+
+    fun getItemTitle(id: Int) = repository.getItem(id).toDoListTitle
+
     fun getAdapter() = adapter
 }

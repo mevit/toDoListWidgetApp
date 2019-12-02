@@ -13,6 +13,7 @@ import android.widget.RemoteViews
 import com.meldeveloping.todowidget.R
 import com.meldeveloping.todowidget.db.ToDoListItem
 import com.meldeveloping.todowidget.db.room.ToDoList
+import com.meldeveloping.todowidget.extension.showLog
 import com.meldeveloping.todowidget.extension.toBoolean
 import com.meldeveloping.todowidget.main.MainActivity
 import com.meldeveloping.todowidget.repository.Repository
@@ -56,7 +57,7 @@ class WidgetProvider : AppWidgetProvider(), KoinComponent {
             appWidgetId: Int
         ) {
             val style =
-                preferences.getInt(TODO_LIST_STYLE + appWidgetId, R.layout.widget_view_light)
+                preferences.getInt(TODO_LIST_STYLE + appWidgetId, R.layout.widget_view_dark)
             val widgetView = RemoteViews(context.packageName, style)
             val toDoListId = preferences.getInt(TODO_LIST_ID + appWidgetId, 1)
             var toDoListTitle = DELETED_TODO_LIST
@@ -69,11 +70,21 @@ class WidgetProvider : AppWidgetProvider(), KoinComponent {
                     R.id.widgetTitleTextView,
                     toDoListWidget.getPendingIntentMainActivity(context, toDoListId, appWidgetId)
                 )
-                if (style == R.layout.widget_view_light) {
-                    toDoListWidget.setListViewAdapter(context, widgetView, toDoListId, R.layout.widget_list_item_light)
-                } else {
-                    toDoListWidget.setListViewAdapter(context, widgetView, toDoListId, R.layout.widget_list_item_dark)
+                when (style) {
+                    R.layout.widget_view_light -> {
+                        toDoListWidget.setListViewAdapter(context, widgetView, toDoListId, R.layout.widget_list_item_light)
+                    }
+                    R.layout.widget_view_dark -> {
+                        toDoListWidget.setListViewAdapter(context, widgetView, toDoListId, R.layout.widget_list_item_dark)
+                    }
+                    R.layout.widget_view_purple -> {
+                        toDoListWidget.setListViewAdapter(context, widgetView, toDoListId, R.layout.widget_list_item_purple)
+                    }
                 }
+                widgetView.setOnClickPendingIntent(
+                    R.id.widgetSettingsButton,
+                    toDoListWidget.getPendingIntentConfigActivity(context, appWidgetId)
+                )
                 toDoListWidget.setListItemClickListener(widgetView, context)
                 widgetView.setViewVisibility(R.id.widgetNewListButton, View.GONE)
             } else {
@@ -139,10 +150,15 @@ class WidgetProvider : AppWidgetProvider(), KoinComponent {
     private fun getPendingIntentConfigActivity(context: Context, id: Int): PendingIntent {
         val intent = Intent(context, WidgetConfigurationActivity::class.java)
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, id)
-        return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        return PendingIntent.getActivity(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
-    private fun setListViewAdapter(context: Context, views: RemoteViews, toDoListId: Int, widgetStyle: Int) {
+    private fun setListViewAdapter(
+        context: Context,
+        views: RemoteViews,
+        toDoListId: Int,
+        widgetStyle: Int
+    ) {
         val intent = Intent(context, WidgetService::class.java)
         intent.putExtra(TODO_LIST_ID, toDoListId)
         intent.putExtra(TODO_LIST_STYLE, widgetStyle)

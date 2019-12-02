@@ -14,9 +14,11 @@ class MainListAdapter(private val toDoLists: ArrayList<ToDoList>) :
     companion object {
         private const val DEFAULT_TO_DO_LIST_ID = -1
         var itemId: Int = DEFAULT_TO_DO_LIST_ID
+        var itemPosition = 1
     }
 
-    private lateinit var listListener: View.OnClickListener
+    private lateinit var onClickListListener: View.OnClickListener
+    private lateinit var onClickLongListListener: View.OnLongClickListener
 
     override fun getItemCount(): Int {
         return toDoLists.size
@@ -36,16 +38,29 @@ class MainListAdapter(private val toDoLists: ArrayList<ToDoList>) :
         holder.view.textViewListItem.text = toDoLists[position].toDoListTitle
         holder.view.textViewListItemDate.text = toDoLists[position].toDoListDate
         setItemClickListener(holder, toDoLists[position].id!!)
+        setItemLongClickListener(holder, toDoLists[position].id!!, position)
     }
 
     fun setClickListener(listener: View.OnClickListener) {
-        listListener = listener
+        onClickListListener = listener
+    }
+
+    fun setLongClickListener(listener: View.OnLongClickListener) {
+        onClickLongListListener = listener
     }
 
     private fun setItemClickListener(holder: ListViewHolder, toDoListId: Int) {
         holder.view.setOnClickListener {
             itemId = toDoListId
-            listListener.onClick(it)
+            onClickListListener.onClick(it)
+        }
+    }
+
+    private fun setItemLongClickListener(holder: ListViewHolder, toDoListId: Int, position: Int) {
+        holder.view.setOnLongClickListener {
+            itemId = toDoListId
+            itemPosition = position
+            onClickLongListListener.onLongClick(it)
         }
     }
 

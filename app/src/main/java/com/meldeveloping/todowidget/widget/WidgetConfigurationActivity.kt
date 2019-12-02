@@ -5,15 +5,18 @@ import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.RadioButton
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.meldeveloping.todowidget.R
 import com.meldeveloping.todowidget.adapter.MainListAdapter
 import com.meldeveloping.todowidget.extension.showLog
+import com.meldeveloping.todowidget.extension.showToast
 import com.meldeveloping.todowidget.main.MainActivity
 import kotlinx.android.synthetic.main.activity_widget_config.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -24,7 +27,8 @@ class WidgetConfigurationActivity : AppCompatActivity() {
     private var widgetID = AppWidgetManager.INVALID_APPWIDGET_ID
     private lateinit var resultIntent: Intent
     private var selectedItem = 0
-    private var selectedStyle = 0
+    private var selectedStyle = R.layout.widget_view_dark
+    private var isItemSelected = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +38,8 @@ class WidgetConfigurationActivity : AppCompatActivity() {
         initResultIntent()
         initNewButton()
         initWidgetConfigList()
+        initChangeItemButton()
+        initSelectColorButtons()
         setResult(Activity.RESULT_CANCELED, resultIntent)
     }
 
@@ -67,33 +73,14 @@ class WidgetConfigurationActivity : AppCompatActivity() {
             configWidgetEmptyButton.visibility = View.GONE
             initList(configViewModel.getListAdapter())
             setAdapterListener(configViewModel.getAdapter())
-            selectStyle()
             initCreateButton()
         } else {
+            configItemText.visibility = View.GONE
+            configWidgetStyleText.visibility = View.GONE
+            configRadioGroup.visibility = View.GONE
+            configWidgetCreateButton.visibility = View.GONE
             configWidgetEmptyButton.visibility = View.VISIBLE
         }
-    }
-
-    private fun selectStyle() {
-        configWidgetDarkButton.setOnClickListener{
-            configWidgetPreview.setImageDrawable(
-                ContextCompat.getDrawable(
-                    applicationContext,
-                    R.drawable.img_main_frg_empty_dark
-                )
-            )
-            selectedStyle = R.layout.widget_view_dark
-        }
-        configWidgetLightButton.setOnClickListener {
-            configWidgetPreview.setImageDrawable(
-                ContextCompat.getDrawable(
-                    applicationContext,
-                    R.drawable.img_main_frg_empty_light
-                )
-            )
-            selectedStyle = R.layout.widget_view_light
-        }
-        configWidgetDarkButton.callOnClick()
     }
 
     private fun initList(adapter: MainListAdapter) {
@@ -106,14 +93,55 @@ class WidgetConfigurationActivity : AppCompatActivity() {
 
     private fun initCreateButton() {
         configWidgetCreateButton.setOnClickListener {
-            configWidget()
+            if(isItemSelected) {
+                configWidget()
+            } else {
+                showToast(applicationContext, "Select item!")
+            }
+
         }
+    }
+
+    private fun initChangeItemButton() {
+        configItemChange.setOnClickListener {
+            configWidgetList.visibility = View.VISIBLE
+            configSelectedItemContainer.visibility = View.GONE
+            configItemChange.visibility = View.GONE
+            isItemSelected = false
+        }
+    }
+
+    private fun initSelectColorButtons() {
+        configStyleDark.setOnClickListener {
+            changeBackgroundColor(configStyleDark, configStyleLight, configStylePurple)
+            selectedStyle = R.layout.widget_view_dark
+        }
+
+        configStyleLight.setOnClickListener {
+            changeBackgroundColor(configStyleLight, configStylePurple, configStyleDark)
+            selectedStyle = R.layout.widget_view_light
+        }
+
+        configStylePurple.setOnClickListener {
+            changeBackgroundColor(configStylePurple, configStyleDark, configStyleLight)
+            selectedStyle = R.layout.widget_view_purple
+        }
+    }
+
+    private fun changeBackgroundColor(mainView: TextView, secView: TextView, thrdView: TextView) {
+        mainView.background = ContextCompat.getDrawable(applicationContext, R.drawable.img_main_item_bg_light)
+        mainView.setTextColor(Color.parseColor("#33334d"))
+        secView.background = ContextCompat.getDrawable(applicationContext, R.drawable.img_main_item_bg_dark)
+        secView.setTextColor(Color.parseColor("#DCDCDC"))
+        thrdView.background = ContextCompat.getDrawable(applicationContext, R.drawable.img_main_item_bg_dark)
+        thrdView.setTextColor(Color.parseColor("#DCDCDC"))
     }
 
     private fun setAdapterListener(adapter: MainListAdapter) {
         adapter.setClickListener(View.OnClickListener {
-//            configWidget(MainListAdapter.itemId)
             selectedItem = MainListAdapter.itemId
+            selectItem()
+            isItemSelected = true
         })
     }
 
@@ -122,6 +150,14 @@ class WidgetConfigurationActivity : AppCompatActivity() {
         updateWidget(preferences)
         setResult(Activity.RESULT_OK, resultIntent)
         finish()
+    }
+
+    private fun selectItem() {
+        configWidgetList.visibility = View.GONE
+        configSelectedItemContainer.visibility = View.VISIBLE
+        configItemChange.visibility = View.VISIBLE
+        configSelectedTitle.text = configViewModel.getItemTitle(selectedItem)
+        configSelectedDate.text = configViewModel.getItemDate(selectedItem)
     }
 
     private fun createPreferences(): SharedPreferences {

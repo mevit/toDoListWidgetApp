@@ -19,6 +19,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:textSize="15sp"
+            android:descendantFocusability="beforeDescendants"
+            android:focusableInTouchMode="true"
             android:hint="@string/empty_item_hint_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

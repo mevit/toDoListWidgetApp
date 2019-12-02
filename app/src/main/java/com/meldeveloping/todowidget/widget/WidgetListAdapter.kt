@@ -24,7 +24,7 @@ class WidgetListAdapter(
 
     companion object {
         const val DEFAULT_LIST_ID = 0
-        private const val DEFAULT_ITEM_STYLE = R.layout.widget_list_item_light
+        private const val DEFAULT_ITEM_STYLE = R.layout.widget_list_item_dark
     }
 
     override fun onCreate() {}
@@ -44,12 +44,19 @@ class WidgetListAdapter(
         val remoteViews = RemoteViews(context.packageName, style)
         val clickIntent = Intent()
 
-        if (style == DEFAULT_ITEM_STYLE) {
-            checkedCheckBox = R.drawable.check_box_light_on
-            uncheckedCheckBox = R.drawable.check_box_light_off
-        } else {
-            checkedCheckBox = R.drawable.check_box_dark_on
-            uncheckedCheckBox = R.drawable.check_box_dark_off
+        when (style) {
+            R.layout.widget_list_item_light -> {
+                checkedCheckBox = R.drawable.check_box_light_on
+                uncheckedCheckBox = R.drawable.check_box_light_off
+            }
+            R.layout.widget_list_item_dark -> {
+                checkedCheckBox = R.drawable.check_box_dark_on
+                uncheckedCheckBox = R.drawable.check_box_dark_off
+            }
+            R.layout.widget_list_item_purple -> {
+                checkedCheckBox = R.drawable.check_box_purple_on
+                uncheckedCheckBox = R.drawable.check_box_purple_off
+            }
         }
 
         initToDoListItemsList()

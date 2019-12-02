@@ -1,6 +1,5 @@
 package com.meldeveloping.todowidget.adapter
 
-import android.content.res.Resources
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -16,7 +15,6 @@ import kotlinx.android.synthetic.main.edit_fragment_list_item.view.*
 class EditListAdapter(private var toDoListItems: ArrayList<ToDoListItem>) :
     RecyclerView.Adapter<EditListAdapter.ListViewHolder>() {
 
-    private var localToDoListItems = toDoListItems
     private var isFocusable = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
@@ -46,13 +44,13 @@ class EditListAdapter(private var toDoListItems: ArrayList<ToDoListItem>) :
         setCheckBoxCheckedChangeListener(holder, position)
     }
 
-    override fun getItemCount() = localToDoListItems.size
+    override fun getItemCount() = toDoListItems.size
 
     override fun getItemViewType(position: Int) = position
 
-    override fun getItemId(position: Int) = position.toLong()
+//    override fun getItemId(position: Int) = position.toLong()
 
-    fun getLocalList() = localToDoListItems
+    fun getAdapterList() = toDoListItems
 
     fun lastItemFocusable(isFocus: Boolean){
         isFocusable = isFocus
@@ -71,16 +69,16 @@ class EditListAdapter(private var toDoListItems: ArrayList<ToDoListItem>) :
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                localToDoListItems[position] =
-                    ToDoListItem(localToDoListItems[position].isChecked, p0.toString())
+                toDoListItems[position] =
+                    ToDoListItem(toDoListItems[position].isChecked, p0.toString().trim())
             }
         })
     }
 
     private fun setCheckBoxCheckedChangeListener(holder: ListViewHolder, position: Int) {
         holder.view.itemCheckBox.setOnCheckedChangeListener { _, isChecked ->
-            localToDoListItems[position] =
-                ToDoListItem(isChecked.toInt(), localToDoListItems[position].itemText)
+            toDoListItems[position] =
+                ToDoListItem(isChecked.toInt(), toDoListItems[position].itemText)
         }
     }
 

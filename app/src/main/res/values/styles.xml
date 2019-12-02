@@ -53,14 +53,4 @@
         <item name="android:src">@drawable/icon_back</item>
     </style>
 
-    <style name="lightWidgetButton">
-        <item name="android:src">@drawable/icon_light_mode_dark</item>
-        <item name="android:background">@null</item>
-    </style>
-
-    <style name="darkWidgetButton">
-        <item name="android:src">@drawable/icon_dark_mode</item>
-        <item name="android:background">@null</item>
-    </style>
-
 </resources>

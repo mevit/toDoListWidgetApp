@@ -7,6 +7,9 @@
     <string name="go_to_edit_button_text">add new</string>
     <string name="empty_list_text">No ToDoLists</string>
     <string name="main_fragment_text">ToDoList</string>
+    <string name="main_fragment_delete">delete</string>
+    <string name="main_fragment_pin">pin to top</string>
+    <string name="main_fragment_alert_dialog_title">options</string>
 
     <!--  edit fragment values  -->
     <string name="new_item_button_text">Item</string>
@@ -14,9 +17,12 @@
     <string name="empty_title_hint_text">title</string>
 
     <!--  config activity values  -->
-    <string name="config_title_text">item</string>
-    <string name="config_select_text">style</string>
-    <string name="config_button_text">Create new</string>
+    <string name="config_create_button">save widget</string>
+    <string name="config_item_text">item</string>
+    <string name="config_item_change_text">change</string>
+    <string name="config_title_text">config your widget</string>
+    <string name="config_select_text">color</string>
+    <string name="config_button_text">Create new item</string>
 
     <!--  widget values  -->
     <string name="appwidget_text">ToDo List</string>

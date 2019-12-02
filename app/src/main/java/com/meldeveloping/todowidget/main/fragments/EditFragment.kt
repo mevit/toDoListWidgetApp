@@ -72,7 +72,7 @@ class EditFragment : Fragment() {
     }
 
     private fun saveList() {
-        editViewModel.getToDoList().toDoListTitle = titleEditText.text.toString()
+        editViewModel.getToDoList().toDoListTitle = titleEditText.text.toString().trim()
         editViewModel.saveItem()
     }
 

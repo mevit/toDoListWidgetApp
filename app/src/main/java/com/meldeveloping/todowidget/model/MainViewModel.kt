@@ -21,9 +21,10 @@ class MainViewModel(
     }
 
     fun removeItem(position: Int){
+        adapter.notifyItemRemoved(position)
+        adapter.notifyItemRangeChanged(position, list.size-1)
         repository.delete(list[position])
         list.removeAt(position)
-        adapter.notifyItemRemoved(position)
         WidgetProvider.updateAppWidgets(context)
     }
 

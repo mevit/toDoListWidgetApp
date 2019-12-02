@@ -7,11 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.meldeveloping.todowidget.adapter.EditListAdapter
 import com.meldeveloping.todowidget.db.ToDoListItem
 import com.meldeveloping.todowidget.db.room.ToDoList
-import com.meldeveloping.todowidget.extension.showLog
 import com.meldeveloping.todowidget.main.MainActivity
 import com.meldeveloping.todowidget.repository.Repository
 import com.meldeveloping.todowidget.widget.WidgetProvider
-import java.text.SimpleDateFormat
 import java.util.*
 
 class EditViewModel(
@@ -47,26 +45,25 @@ class EditViewModel(
     }
 
     fun saveItem() {
-        toDoList.toDoListItems = adapter.getLocalList()
+        toDoList.toDoListItems = adapter.getAdapterList()
 
         if (toDoList.toDoListItems.size == 0 || toDoList == getEmptyList()) {
             repository.delete(toDoList)
         } else {
-            toDoList.toDoListDate = getDate()
-
             if (toDoList.id == null) {
+                toDoList.toDoListDate = getDate()
                 repository.save(toDoList)
             } else {
                 repository.update(toDoList)
             }
         }
-
         WidgetProvider.updateAppWidgets(context)
     }
 
     fun removeItem(position: Int) {
         toDoList.toDoListItems.removeAt(position)
         adapter.notifyItemRemoved(position)
+        adapter.notifyItemRangeChanged(position, adapter.getAdapterList().size)
     }
 
     fun getItemTouchHelper(): ItemTouchHelper {
