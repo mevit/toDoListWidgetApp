@@ -7,9 +7,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.meldeveloping.todowidget.adapter.EditListAdapter
 import com.meldeveloping.todowidget.db.ToDoListItem
 import com.meldeveloping.todowidget.db.room.ToDoList
+import com.meldeveloping.todowidget.extension.showLog
 import com.meldeveloping.todowidget.main.MainActivity
 import com.meldeveloping.todowidget.repository.Repository
 import com.meldeveloping.todowidget.widget.WidgetProvider
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class EditViewModel(
@@ -52,6 +56,7 @@ class EditViewModel(
         } else {
             if (toDoList.id == null) {
                 toDoList.toDoListDate = getDate()
+                updateListPositionsInsert(getPositionForInsert())
                 repository.save(toDoList)
             } else {
                 repository.update(toDoList)
@@ -97,16 +102,28 @@ class EditViewModel(
         toDoList = repository.getItem(id)
     }
 
-    private fun refreshAdapter() {
-        adapter.notifyDataSetChanged()
-    }
-
     private fun getEmptyList(): ToDoList {
         return ToDoList(
             toDoListTitle = EMPTY_ITEM_TEXT,
             toDoListItems = arrayListOf(ToDoListItem(EMPTY_ITEM_CHECKED, EMPTY_ITEM_TEXT)),
-            toDoListDate = getDate()
+            toDoListDate = getDate(),
+            toDoListPosition = getPositionForInsert(),
+            isToDoListPinned = false
         )
+    }
+
+    private fun getPositionForInsert(): Int {
+        var result = 0
+        for (item in repository.getAll()) {
+            if (!item.isToDoListPinned) {
+                result++
+            }
+        }
+        return repository.getAll().size - result
+    }
+
+    private fun updateListPositionsInsert(position: Int) {
+        repository.updatePositionInsert(position)
     }
 
     private fun getDate(): String {
@@ -118,7 +135,12 @@ class EditViewModel(
             .append(date.get(Calendar.MONTH).toString())
             .append(".")
             .append(date.get(Calendar.YEAR).toString())
+            .append(" ")
+            .append(date.get(Calendar.HOUR_OF_DAY).toString())
+            .append(":")
+            .append(date.get(Calendar.MINUTE).toString())
+            .append(":")
+            .append(date.get(Calendar.SECOND).toString())
         return builder.toString()
     }
-
 }

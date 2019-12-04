@@ -25,7 +25,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="40dp"
             android:gravity="center"
-            android:text="@string/main_fragment_pin"
             android:textColor="@color/whiteText"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"

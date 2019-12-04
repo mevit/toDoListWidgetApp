@@ -9,6 +9,7 @@
     <string name="main_fragment_text">ToDoList</string>
     <string name="main_fragment_delete">delete</string>
     <string name="main_fragment_pin">pin to top</string>
+    <string name="main_fragment_unpin">unpin</string>
     <string name="main_fragment_alert_dialog_title">options</string>
 
     <!--  edit fragment values  -->
@@ -18,10 +19,10 @@
 
     <!--  config activity values  -->
     <string name="config_create_button">save widget</string>
-    <string name="config_item_text">item</string>
-    <string name="config_item_change_text">change</string>
+    <string name="config_item_text">select item</string>
+    <string name="config_item_change_text">edit</string>
     <string name="config_title_text">config your widget</string>
-    <string name="config_select_text">color</string>
+    <string name="config_select_text">select color</string>
     <string name="config_button_text">Create new item</string>
 
     <!--  widget values  -->

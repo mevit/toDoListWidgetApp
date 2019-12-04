@@ -18,5 +18,11 @@ data class ToDoList(
     var toDoListItems: ArrayList<ToDoListItem>,
 
     @ColumnInfo(name = "toDoListDate")
-    var toDoListDate: String
+    var toDoListDate: String,
+
+    @ColumnInfo(name = "toDoListPosition")
+    var toDoListPosition: Int,
+
+    @ColumnInfo(name = "isToDoListPinned")
+    var isToDoListPinned: Boolean
 )

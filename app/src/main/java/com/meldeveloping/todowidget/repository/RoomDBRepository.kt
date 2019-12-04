@@ -8,6 +8,22 @@ import kotlinx.coroutines.runBlocking
 
 class RoomDBRepository(override val toDoListDao: ToDoListDao) : Repository {
 
+    override fun updatePositionDelete(position: Int) {
+        runBlocking {
+            launch(Dispatchers.Default) {
+                toDoListDao.updatePositionDelete(position)
+            }
+        }
+    }
+
+    override fun updatePositionInsert(position: Int) {
+        runBlocking {
+            launch(Dispatchers.Default) {
+                toDoListDao.updatePositionInsert(position)
+            }
+        }
+    }
+
     override fun checkItem(id: Int): Boolean {
         var isExist = false
         runBlocking {

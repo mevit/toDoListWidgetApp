@@ -45,8 +45,8 @@ class EditFragment : Fragment() {
         initButtons()
     }
 
-    override fun onStop() {
-        super.onStop()
+    override fun onDestroyView() {
+        super.onDestroyView()
 
         hideKeyboard()
         saveList()

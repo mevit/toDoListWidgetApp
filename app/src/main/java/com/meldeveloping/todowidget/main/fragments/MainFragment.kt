@@ -51,22 +51,13 @@ class MainFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        val mainListAdapter = mainViewModel.getAdapterForMainList()
+        val mainListAdapter = initMainListAdapter()
         if (mainListAdapter.itemCount != 0) {
             val animation = AnimationUtils.loadLayoutAnimation(context, R.anim.item_layout_animation)
             val layoutManager = LinearLayoutManager(context)
-            layoutManager.reverseLayout = true
-            layoutManager.stackFromEnd = true
             itemsList.layoutManager = layoutManager
             itemsList.adapter = mainListAdapter
             itemsList.layoutAnimation = animation
-            mainListAdapter.setClickListener(View.OnClickListener {
-                goToEditFragment(MainListAdapter.itemId)
-            })
-            mainListAdapter.setLongClickListener(View.OnLongClickListener {
-                itemLongClick(MainListAdapter.itemId, MainListAdapter.itemPosition)
-                return@OnLongClickListener true
-            })
             itemsList.smoothScrollToPosition(mainListAdapter.itemCount - 1)
         } else {
             emptyListAnimation()
@@ -92,8 +83,6 @@ class MainFragment : Fragment() {
     }
 
     private fun itemLongClick(toDoListId: Int, position: Int) {
-        showLog("id $toDoListId pos $position")
-
         val inflater = activity!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view = inflater.inflate(R.layout.alert_dialog, null)
         val dltBtn = view.findViewById<TextView>(R.id.deleteButton)
@@ -111,6 +100,36 @@ class MainFragment : Fragment() {
                 emptyListAnimation()
             dialog.dismiss()
         }
+
+        if (mainViewModel.isToDoListPinned(position)) {
+            pinBtn.text = getString(R.string.main_fragment_unpin)
+        } else {
+            pinBtn.text = getString(R.string.main_fragment_pin)
+        }
+
+        pinBtn.setOnClickListener {
+            if (mainViewModel.isToDoListPinned(position)) {
+                mainViewModel.unpinItem(position)
+            } else {
+                mainViewModel.pinItem(position)
+            }
+            itemsList.adapter = initMainListAdapter()
+            dialog.dismiss()
+        }
+    }
+
+    private fun initMainListAdapter(): MainListAdapter {
+        val mainListAdapter = mainViewModel.getAdapterForMainList()
+
+        mainListAdapter.setClickListener(View.OnClickListener {
+            goToEditFragment(MainListAdapter.itemId)
+        })
+        mainListAdapter.setLongClickListener(View.OnLongClickListener {
+            itemLongClick(MainListAdapter.itemId, MainListAdapter.itemPosition)
+            return@OnLongClickListener true
+        })
+
+        return mainListAdapter
     }
 
     private fun emptyListAnimation() {
