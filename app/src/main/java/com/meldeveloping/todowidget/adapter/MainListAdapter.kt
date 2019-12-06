@@ -43,7 +43,7 @@ class MainListAdapter(private var toDoLists: ArrayList<ToDoList>) :
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         holder.view.textViewListItem.text = toDoLists[position].toDoListTitle
-        holder.view.textViewListItemDate.text = toDoLists[position].toDoListDate
+        holder.view.textViewListItemDate.text = toDoLists[position].toDoListDate.dropLast(3)
         if (toDoLists[position].isToDoListPinned)
             holder.view.pinItemImage.visibility = View.VISIBLE
         setItemClickListener(holder, toDoLists[position].id!!)
@@ -73,10 +73,10 @@ class MainListAdapter(private var toDoLists: ArrayList<ToDoList>) :
         }
     }
 
-    private fun getDateFromString(date: String): Date {
-        val formatter = SimpleDateFormat("dd.mm.yyyy hh:mm", Locale.GERMAN)
-        return formatter.parse(date)
-    }
+//    private fun getDateFromString(date: String): Date {
+//        val formatter = SimpleDateFormat("dd.mm.yyyy hh:mm", Locale.GERMAN)
+//        return formatter.parse(date)
+//    }
 
     class ListViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 

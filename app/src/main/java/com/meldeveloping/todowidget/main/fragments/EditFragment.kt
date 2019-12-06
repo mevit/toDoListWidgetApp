@@ -79,6 +79,7 @@ class EditFragment : Fragment() {
     private fun initNewItemButton() {
         newItemButton.setOnClickListener {
             editViewModel.addEmptyItemToList()
+            titleEditText.clearFocus()
             setFocusOnLastItem()
         }
     }

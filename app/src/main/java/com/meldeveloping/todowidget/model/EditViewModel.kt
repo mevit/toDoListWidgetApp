@@ -7,13 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.meldeveloping.todowidget.adapter.EditListAdapter
 import com.meldeveloping.todowidget.db.ToDoListItem
 import com.meldeveloping.todowidget.db.room.ToDoList
-import com.meldeveloping.todowidget.extension.showLog
 import com.meldeveloping.todowidget.main.MainActivity
 import com.meldeveloping.todowidget.repository.Repository
 import com.meldeveloping.todowidget.widget.WidgetProvider
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 class EditViewModel(
@@ -106,7 +103,7 @@ class EditViewModel(
         return ToDoList(
             toDoListTitle = EMPTY_ITEM_TEXT,
             toDoListItems = arrayListOf(ToDoListItem(EMPTY_ITEM_CHECKED, EMPTY_ITEM_TEXT)),
-            toDoListDate = getDate(),
+            toDoListDate = "",
             toDoListPosition = getPositionForInsert(),
             isToDoListPinned = false
         )
@@ -127,20 +124,8 @@ class EditViewModel(
     }
 
     private fun getDate(): String {
-        val date = Calendar.getInstance()
-        val builder: StringBuilder = StringBuilder()
-        builder
-            .append(date.get(Calendar.DATE).toString())
-            .append(".")
-            .append(date.get(Calendar.MONTH).toString())
-            .append(".")
-            .append(date.get(Calendar.YEAR).toString())
-            .append(" ")
-            .append(date.get(Calendar.HOUR_OF_DAY).toString())
-            .append(":")
-            .append(date.get(Calendar.MINUTE).toString())
-            .append(":")
-            .append(date.get(Calendar.SECOND).toString())
-        return builder.toString()
+        val date = Date()
+        val simpleDateFormat = SimpleDateFormat("dd.mm.yyyy HH:mm:ss", Locale.getDefault())
+        return simpleDateFormat.format(date)
     }
 }

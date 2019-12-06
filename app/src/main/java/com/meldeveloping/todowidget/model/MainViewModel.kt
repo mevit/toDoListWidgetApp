@@ -25,6 +25,7 @@ class MainViewModel(
     }
 
     fun removeItem(position: Int) {
+        adapter.notifyItemChanged(position)
         adapter.notifyItemRemoved(position)
         adapter.notifyItemRangeChanged(position, list.size - 1)
         updateListPositionsDelete(position)
@@ -80,7 +81,7 @@ class MainViewModel(
     }
 
     private fun getDateFromString(date: String): Date {
-        val formatter = SimpleDateFormat("dd.mm.yyyy hh:mm:ss", Locale.GERMAN)
+        val formatter = SimpleDateFormat("dd.mm.yyyy hh:mm:ss", Locale.getDefault())
         return formatter.parse(date)
     }
 }

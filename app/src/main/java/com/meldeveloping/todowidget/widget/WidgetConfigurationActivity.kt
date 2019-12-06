@@ -85,8 +85,6 @@ class WidgetConfigurationActivity : AppCompatActivity() {
 
     private fun initList(adapter: MainListAdapter) {
         val layoutManager = LinearLayoutManager(applicationContext)
-        layoutManager.reverseLayout = true
-        layoutManager.stackFromEnd = true
         configWidgetList.layoutManager = layoutManager
         configWidgetList.adapter = adapter
     }
