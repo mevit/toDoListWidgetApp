@@ -39,6 +39,11 @@ class EditListAdapter(private var toDoListItems: ArrayList<ToDoListItem>) :
             }
         }
 
+        holder.view.itemEditText.setOnClickListener {
+            it.isFocusableInTouchMode = true
+            it.requestFocus()
+        }
+
         setLastItemFocus(holder)
         setEditTextChangedListener(holder, position)
         setCheckBoxCheckedChangeListener(holder, position)
@@ -48,7 +53,12 @@ class EditListAdapter(private var toDoListItems: ArrayList<ToDoListItem>) :
 
     override fun getItemViewType(position: Int) = position
 
-//    override fun getItemId(position: Int) = position.toLong()
+    override fun onViewDetachedFromWindow(holder: ListViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+
+        if (holder.view.itemEditText.isFocused)
+            holder.view.itemEditText.isFocusable = false
+    }
 
     fun getAdapterList() = toDoListItems
 

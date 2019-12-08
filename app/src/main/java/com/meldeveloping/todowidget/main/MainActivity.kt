@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
         const val THEME = "theme"
         const val LIGHT = AppCompatDelegate.MODE_NIGHT_NO
         const val DARK = AppCompatDelegate.MODE_NIGHT_YES
+        var editFromList = false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +36,7 @@ class MainActivity : AppCompatActivity() {
                 DEFAULT_TODO_LIST_ID
             ) != DEFAULT_TODO_LIST_ID
         ) {
+            editFromList = true
             openEditFragment(extras.getInt(OPEN_EDIT_FRAGMENT))
         } else {
             openSplashFragment()

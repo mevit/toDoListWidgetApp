@@ -17,7 +17,7 @@
 
     <Button
             android:id="@+id/configWidgetEmptyButton"
-            android:layout_width="140dp"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:text="@string/config_button_text"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -116,44 +116,47 @@
 
         <TextView
                 android:id="@+id/configStyleDark"
-                android:layout_width="90dp"
+                android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="dark"
+                android:text="@string/config_dark_text"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:textSize="12sp"
                 android:background="@drawable/img_main_item_bg_light"/>
 
         <TextView
                 android:id="@+id/configStyleLight"
-                android:layout_width="90dp"
+                android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="light"
+                android:text="@string/config_light_text"
                 android:textColor="@color/whiteText"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
+                android:paddingStart="19dp"
+                android:paddingEnd="19dp"
+                android:textSize="12sp"
                 android:background="@drawable/img_main_item_bg_dark"/>
 
         <TextView
                 android:id="@+id/configStylePurple"
-                android:layout_width="90dp"
+                android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="purple"
+                android:text="@string/config_purple_text"
                 android:textColor="@color/whiteText"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
+                android:paddingStart="11dp"
+                android:paddingEnd="12dp"
+                android:textSize="12sp"
                 android:background="@drawable/img_main_item_bg_dark"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

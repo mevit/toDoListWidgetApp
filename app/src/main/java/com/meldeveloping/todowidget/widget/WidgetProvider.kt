@@ -143,13 +143,14 @@ class WidgetProvider : AppWidgetProvider(), KoinComponent {
     ): PendingIntent {
         val intent = Intent(context, MainActivity::class.java)
         intent.putExtra(MainActivity.OPEN_EDIT_FRAGMENT, toDoListId)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         return PendingIntent.getActivity(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
     private fun getPendingIntentConfigActivity(context: Context, id: Int): PendingIntent {
         val intent = Intent(context, WidgetConfigurationActivity::class.java)
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, id)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         return PendingIntent.getActivity(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 

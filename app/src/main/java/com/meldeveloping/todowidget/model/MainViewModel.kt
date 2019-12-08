@@ -81,7 +81,7 @@ class MainViewModel(
     }
 
     private fun getDateFromString(date: String): Date {
-        val formatter = SimpleDateFormat("dd.mm.yyyy hh:mm:ss", Locale.getDefault())
+        val formatter = SimpleDateFormat("dd.MM.yyyy hh:mm:ss", Locale.getDefault())
         return formatter.parse(date)
     }
 }

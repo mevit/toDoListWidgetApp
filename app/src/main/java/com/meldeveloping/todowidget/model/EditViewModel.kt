@@ -125,7 +125,7 @@ class EditViewModel(
 
     private fun getDate(): String {
         val date = Date()
-        val simpleDateFormat = SimpleDateFormat("dd.mm.yyyy HH:mm:ss", Locale.getDefault())
+        val simpleDateFormat = SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault())
         return simpleDateFormat.format(date)
     }
 }

@@ -52,16 +52,40 @@ class EditFragment : Fragment() {
         saveList()
     }
 
+    override fun onStop() {
+        super.onStop()
+
+        if (MainActivity.editFromList) {
+            hideKeyboard()
+            saveList()
+            MainActivity.editFromList = false
+        }
+    }
+
     private fun initEditFragment() {
+        initEditListView()
+        initTitleEditText()
+    }
+
+    private fun initEditListView() {
         toDoListItemsList.layoutManager = LinearLayoutManager(context)
         toDoListItemsList.adapter = editViewModel.getAdapterForRecycle(toDoListId)
         editViewModel.getItemTouchHelper().attachToRecyclerView(toDoListItemsList)
+    }
+
+    private fun initTitleEditText() {
         titleEditText.setText(editViewModel.getToDoList().toDoListTitle)
+        titleEditText.setOnClickListener {
+            titleEditText.isFocusable = true
+            titleEditText.isFocusableInTouchMode = true
+            titleEditText.requestFocus()
+        }
         titleEditText.setOnFocusChangeListener { view, boolean ->
             if (boolean) {
                 titleEditText.hint = ""
             } else {
                 titleEditText.hint = getString(R.string.empty_title_hint_text)
+                view.isFocusable = false
             }
         }
     }
@@ -78,8 +102,8 @@ class EditFragment : Fragment() {
 
     private fun initNewItemButton() {
         newItemButton.setOnClickListener {
+            toDoListItemsList.smoothScrollToPosition(toDoListItemsList.adapter!!.itemCount)
             editViewModel.addEmptyItemToList()
-            titleEditText.clearFocus()
             setFocusOnLastItem()
         }
     }
@@ -91,7 +115,6 @@ class EditFragment : Fragment() {
     }
 
     private fun setFocusOnLastItem() {
-        toDoListItemsList.smoothScrollToPosition(toDoListItemsList.adapter!!.itemCount - 1)
         editViewModel.getAdapter().lastItemFocusable(true)
     }
 

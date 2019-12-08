@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--  global values  -->
+    <string name="app_name">Список Справ Віджет</string>
+
+    <!--  main fragment values  -->
+    <string name="go_to_edit_button_text">створити</string>
+    <string name="empty_list_text">No ToDoLists</string>
+    <string name="main_fragment_text">ToDoList</string>
+    <string name="main_fragment_delete">видалити</string>
+    <string name="main_fragment_pin">закріпити</string>
+    <string name="main_fragment_unpin">відкріпити</string>
+
+    <!--  edit fragment values  -->
+    <string name="empty_item_hint_text">зробити…</string>
+    <string name="empty_title_hint_text">назва</string>
+
+    <!--  config activity values  -->
+    <string name="config_create_button">зберегти віджет</string>
+    <string name="config_item_text">список віджета</string>
+    <string name="config_item_change_text">змінити</string>
+    <string name="config_title_text">налаштування</string>
+    <string name="config_select_text">колір віджета</string>
+    <string name="config_button_text">Створити новий список</string>
+    <string name="config_dark_text">темний</string>
+    <string name="config_light_text">світлий</string>
+    <string name="config_purple_text">пурпурний</string>
+
+    <!--  widget values  -->
+    <string name="appwidget_text">ToDo List</string>
+    <string name="add_widget">Add widget</string>
+    <string name="widget_new_list_button">додати новий</string>
+
+</resources>
