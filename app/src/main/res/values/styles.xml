@@ -52,5 +52,10 @@
     <style name="backButtonStyle">
         <item name="android:src">@drawable/icon_back</item>
     </style>
+    
+    <style name="deleteAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@drawable/img_main_item_bg_dark</item>
+        <item name="android:textColor">@color/whiteText</item>
+    </style>
 
 </resources>

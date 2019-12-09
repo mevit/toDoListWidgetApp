@@ -33,6 +33,7 @@
             android:gravity="center"
             android:hint="@string/empty_title_hint_text"
             android:maxLength="40"
+            android:focusable="false"
             android:minHeight="?attr/actionBarSize"
             android:textSize="30sp"
             app:layout_constraintTop_toBottomOf="@id/editToolBar" />

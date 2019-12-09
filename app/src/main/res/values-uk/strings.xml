@@ -11,6 +11,7 @@
     <string name="main_fragment_delete">видалити</string>
     <string name="main_fragment_pin">закріпити</string>
     <string name="main_fragment_unpin">відкріпити</string>
+    <string name="main_fragment_dialog_cancel">скасувати</string>
 
     <!--  edit fragment values  -->
     <string name="empty_item_hint_text">зробити…</string>

@@ -1,13 +1,16 @@
 package com.meldeveloping.todowidget.adapter
 
+import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.meldeveloping.todowidget.R
 import com.meldeveloping.todowidget.db.ToDoListItem
+import com.meldeveloping.todowidget.extension.showLog
 import com.meldeveloping.todowidget.extension.toBoolean
 import com.meldeveloping.todowidget.extension.toInt
 import kotlinx.android.synthetic.main.edit_fragment_list_item.view.*
@@ -15,9 +18,10 @@ import kotlinx.android.synthetic.main.edit_fragment_list_item.view.*
 class EditListAdapter(private var toDoListItems: ArrayList<ToDoListItem>) :
     RecyclerView.Adapter<EditListAdapter.ListViewHolder>() {
 
-    private var isFocusable = false
+    private lateinit var context: Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
+        context = parent.context
         return ListViewHolder(
             LayoutInflater.from(parent.context).inflate(
                 R.layout.edit_fragment_list_item,
@@ -33,9 +37,9 @@ class EditListAdapter(private var toDoListItems: ArrayList<ToDoListItem>) :
 
         holder.view.itemEditText.setOnFocusChangeListener { view, boolean ->
             if (boolean) {
-                holder.view.itemEditText.hint = ""
+                holder.view.itemEditText.setHintTextColor(ContextCompat.getColor(context, android.R.color.transparent))
             } else {
-                holder.view.itemEditText.hint = "do something…"
+                holder.view.itemEditText.setHintTextColor(ContextCompat.getColor(context, R.color.hintColor))
             }
         }
 
@@ -44,7 +48,9 @@ class EditListAdapter(private var toDoListItems: ArrayList<ToDoListItem>) :
             it.requestFocus()
         }
 
-        setLastItemFocus(holder)
+        if (position == toDoListItems.size-1) {
+            holder.view.itemEditText.callOnClick()
+        }
         setEditTextChangedListener(holder, position)
         setCheckBoxCheckedChangeListener(holder, position)
     }
@@ -61,16 +67,6 @@ class EditListAdapter(private var toDoListItems: ArrayList<ToDoListItem>) :
     }
 
     fun getAdapterList() = toDoListItems
-
-    fun lastItemFocusable(isFocus: Boolean){
-        isFocusable = isFocus
-    }
-
-    private fun setLastItemFocus(holder: ListViewHolder) {
-        if (isFocusable) {
-            holder.view.itemEditText.requestFocus()
-        }
-    }
 
     private fun setEditTextChangedListener(holder: ListViewHolder, position: Int) {
         holder.view.itemEditText.addTextChangedListener(object : TextWatcher {

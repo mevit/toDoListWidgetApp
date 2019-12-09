@@ -10,6 +10,7 @@
     <string name="main_fragment_delete">delete</string>
     <string name="main_fragment_pin">pin to top</string>
     <string name="main_fragment_unpin">unpin</string>
+    <string name="main_fragment_dialog_cancel">cancel</string>
 
     <!--  edit fragment values  -->
     <string name="empty_item_hint_text">do something…</string>

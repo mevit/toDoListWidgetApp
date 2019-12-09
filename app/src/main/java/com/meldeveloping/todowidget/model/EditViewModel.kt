@@ -80,9 +80,7 @@ class EditViewModel(
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 removeItem(viewHolder.adapterPosition)
-                adapter.lastItemFocusable(false)
             }
-
         })
     }
 

@@ -95,9 +95,7 @@ class MainFragment : Fragment() {
         dialog.window!!.setLayout(600, 500)
 
         dltBtn.setOnClickListener {
-            mainViewModel.removeItem(position)
-            if(itemsList.adapter!!.itemCount == 0)
-                emptyListAnimation()
+            askPermissionToDelete(position)
             dialog.dismiss()
         }
 
@@ -116,6 +114,24 @@ class MainFragment : Fragment() {
             itemsList.adapter = initMainListAdapter()
             dialog.dismiss()
         }
+    }
+
+    private fun askPermissionToDelete(position: Int) {
+        var deleteDialogTitleText = getString(R.string.main_fragment_delete)
+        val builder = AlertDialog.Builder(context!!, R.style.deleteAlertDialogStyle)
+            .setTitle(deleteDialogTitleText + " '" + mainViewModel.getItemTitle(position) + "'?")
+            .setPositiveButton(R.string.main_fragment_delete) { dialog, _ ->
+                mainViewModel.removeItem(position)
+                if(itemsList.adapter!!.itemCount == 0)
+                    emptyListAnimation()
+                dialog.dismiss()
+            }
+            .setNegativeButton(R.string.main_fragment_dialog_cancel) { dialog, _ ->
+                dialog.dismiss()
+            }
+        val dialog: AlertDialog = builder.create()
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
     }
 
     private fun initMainListAdapter(): MainListAdapter {

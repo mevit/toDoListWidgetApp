@@ -41,7 +41,7 @@
             android:divider="@null"
             android:dividerHeight="0dp"
             android:fadingEdge="horizontal"
-            android:fadingEdgeLength="20dp"
+            android:fadingEdgeLength="15dp"
             android:fillViewport="false"
             android:requiresFadingEdge="vertical" />
 

@@ -52,6 +52,8 @@ class MainViewModel(
         return repository.getItem(list[position].id!!).isToDoListPinned
     }
 
+    fun getItemTitle(position: Int) = list[position].toDoListTitle
+
     private fun initMainListAdapter() {
         list = repository.getAll()
         adapter = MainListAdapter(list)

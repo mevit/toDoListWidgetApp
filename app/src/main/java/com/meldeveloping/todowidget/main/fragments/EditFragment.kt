@@ -76,8 +76,8 @@ class EditFragment : Fragment() {
     private fun initTitleEditText() {
         titleEditText.setText(editViewModel.getToDoList().toDoListTitle)
         titleEditText.setOnClickListener {
-            titleEditText.isFocusable = true
             titleEditText.isFocusableInTouchMode = true
+            titleEditText.isFocusable = true
             titleEditText.requestFocus()
         }
         titleEditText.setOnFocusChangeListener { view, boolean ->
@@ -104,7 +104,6 @@ class EditFragment : Fragment() {
         newItemButton.setOnClickListener {
             toDoListItemsList.smoothScrollToPosition(toDoListItemsList.adapter!!.itemCount)
             editViewModel.addEmptyItemToList()
-            setFocusOnLastItem()
         }
     }
 
@@ -112,10 +111,6 @@ class EditFragment : Fragment() {
         backButton.setOnClickListener {
             activity!!.onBackPressed()
         }
-    }
-
-    private fun setFocusOnLastItem() {
-        editViewModel.getAdapter().lastItemFocusable(true)
     }
 
     private fun hideKeyboard() {
