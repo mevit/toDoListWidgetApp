@@ -31,5 +31,10 @@
     <string name="appwidget_text">ToDo List</string>
     <string name="add_widget">Add widget</string>
     <string name="widget_new_list_button">Add new</string>
+    <string name="widget_deleted_list">Your list deleted</string>
+
+    <!--  help fragments  -->
+    <string name="help_next_button_text">Next</string>
+    <string name="help_ok_button_text">Ok</string>
 
 </resources>

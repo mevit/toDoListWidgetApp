@@ -10,6 +10,7 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.view.View
 import android.widget.RemoteViews
+import androidx.core.content.ContextCompat
 import com.meldeveloping.todowidget.R
 import com.meldeveloping.todowidget.db.ToDoListItem
 import com.meldeveloping.todowidget.db.room.ToDoList
@@ -32,7 +33,6 @@ class WidgetProvider : AppWidgetProvider(), KoinComponent {
         const val TODO_LIST_ITEM_POSITION = "todo_list_item_position"
         const val CHECKED_ITEM = 1
         const val UNCHECKED_ITEM = 0
-        private const val DELETED_TODO_LIST = "Your list deleted"
 
         fun updateAppWidgets(context: Context) {
             val widgetManager = AppWidgetManager.getInstance(context)
@@ -60,7 +60,7 @@ class WidgetProvider : AppWidgetProvider(), KoinComponent {
                 preferences.getInt(TODO_LIST_STYLE + appWidgetId, R.layout.widget_view_dark)
             val widgetView = RemoteViews(context.packageName, style)
             val toDoListId = preferences.getInt(TODO_LIST_ID + appWidgetId, 1)
-            var toDoListTitle = DELETED_TODO_LIST
+            var toDoListTitle = context.resources.getString(R.string.widget_deleted_list)
             val toDoListWidget = WidgetProvider()
 
             if (toDoListWidget.repository.checkItem(toDoListId)) {

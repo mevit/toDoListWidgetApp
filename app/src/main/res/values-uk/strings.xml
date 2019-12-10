@@ -32,5 +32,10 @@
     <string name="appwidget_text">ToDo List</string>
     <string name="add_widget">Add widget</string>
     <string name="widget_new_list_button">додати новий</string>
+    <string name="widget_deleted_list">Список видалений</string>
+
+    <!--  help fragments  -->
+    <string name="help_next_button_text">Далі</string>
+    <string name="help_ok_button_text">Ok</string>
 
 </resources>
