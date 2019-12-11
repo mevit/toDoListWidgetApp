@@ -6,7 +6,7 @@
         <item name="colorPrimary">@color/whiteMain</item>
         <item name="colorPrimaryDark">#33334d</item>
         <item name="colorAccent">@color/whiteText</item>
-        <item name="android:fontFamily">@font/montserrat_alternates_bold</item>
+        <item name="android:fontFamily">@font/comforta</item>
         <item name="android:textColor">#33334d</item>
         <item name="android:textColorHint">#D8D8D8</item>
         <item name="editTextStyle">@style/darkEditTextStyle</item>

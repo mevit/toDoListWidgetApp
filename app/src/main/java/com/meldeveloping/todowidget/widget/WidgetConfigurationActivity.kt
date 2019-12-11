@@ -94,7 +94,7 @@ class WidgetConfigurationActivity : AppCompatActivity() {
             if(isItemSelected) {
                 configWidget()
             } else {
-                showToast(applicationContext, "Select item!")
+                showToast(applicationContext, getString(R.string.config_toast_text))
             }
 
         }
@@ -155,7 +155,7 @@ class WidgetConfigurationActivity : AppCompatActivity() {
         configSelectedItemContainer.visibility = View.VISIBLE
         configItemChange.visibility = View.VISIBLE
         configSelectedTitle.text = configViewModel.getItemTitle(selectedItem)
-        configSelectedDate.text = configViewModel.getItemDate(selectedItem)
+        configSelectedDate.text = configViewModel.getItemDate(selectedItem).dropLast(3)
     }
 
     private fun createPreferences(): SharedPreferences {

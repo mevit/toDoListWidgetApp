@@ -27,6 +27,7 @@
     <string name="config_dark_text">темний</string>
     <string name="config_light_text">світлий</string>
     <string name="config_purple_text">пурпурний</string>
+    <string name="config_toast_text">Вибери список!</string>
 
     <!--  widget values  -->
     <string name="appwidget_text">ToDo List</string>
@@ -37,5 +38,9 @@
     <!--  help fragments  -->
     <string name="help_next_button_text">Далі</string>
     <string name="help_ok_button_text">Ok</string>
+    <string name="help_main_text">використовуй довге натискання для видалення і закріплення списків</string>
+    <string name="help_edit_text">свайп вправо для видалення елементу списку</string>
+    <string name="help_widget_text">створюй віджет з списком на головному екрані</string>
+    <string name="help_config_text">налаштовуй віджет</string>
 
 </resources>

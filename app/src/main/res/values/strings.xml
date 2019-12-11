@@ -26,6 +26,7 @@
     <string name="config_dark_text">dark</string>
     <string name="config_light_text">light</string>
     <string name="config_purple_text">purple</string>
+    <string name="config_toast_text">Select list!</string>
 
     <!--  widget values  -->
     <string name="appwidget_text">ToDo List</string>
@@ -36,5 +37,9 @@
     <!--  help fragments  -->
     <string name="help_next_button_text">Next</string>
     <string name="help_ok_button_text">Ok</string>
+    <string name="help_main_text">use long click to delete and pin list</string>
+    <string name="help_edit_text">swipe right to remove a list item</string>
+    <string name="help_widget_text">create widget with a list on the main screen</string>
+    <string name="help_config_text">customize your widget</string>
 
 </resources>

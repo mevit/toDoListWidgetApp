@@ -22,7 +22,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:fontFamily="@font/montserrat_alternates_bold"
+                    android:fontFamily="@font/comforta"
                     android:gravity="center"
                     android:text="@string/main_fragment_text"
                     android:textColor="@color/whiteText"
