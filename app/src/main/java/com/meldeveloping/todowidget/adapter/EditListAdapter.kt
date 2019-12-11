@@ -19,6 +19,7 @@ class EditListAdapter(private var toDoListItems: ArrayList<ToDoListItem>) :
     RecyclerView.Adapter<EditListAdapter.ListViewHolder>() {
 
     private lateinit var context: Context
+    private var lastItemFocus = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         context = parent.context
@@ -44,11 +45,12 @@ class EditListAdapter(private var toDoListItems: ArrayList<ToDoListItem>) :
         }
 
         holder.view.itemEditText.setOnClickListener {
+            setLastItemFocus(true)
             it.isFocusableInTouchMode = true
             it.requestFocus()
         }
 
-        if (position == toDoListItems.size-1) {
+        if (position == toDoListItems.size-1 && lastItemFocus) {
             holder.view.itemEditText.callOnClick()
         }
         setEditTextChangedListener(holder, position)
@@ -62,8 +64,13 @@ class EditListAdapter(private var toDoListItems: ArrayList<ToDoListItem>) :
     override fun onViewDetachedFromWindow(holder: ListViewHolder) {
         super.onViewDetachedFromWindow(holder)
 
-        if (holder.view.itemEditText.isFocused)
+        if (holder.view.itemEditText.isFocused) {
             holder.view.itemEditText.isFocusable = false
+        }
+    }
+
+    fun setLastItemFocus(focus: Boolean) {
+        lastItemFocus = focus
     }
 
     fun getAdapterList() = toDoListItems

@@ -6,16 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.meldeveloping.todowidget.R
 import com.meldeveloping.todowidget.extension.isKeyboardVisible
-import com.meldeveloping.todowidget.extension.showLog
 import com.meldeveloping.todowidget.main.MainActivity
 import com.meldeveloping.todowidget.model.EditViewModel
 import kotlinx.android.synthetic.main.fragment_edit.*
-import kotlinx.android.synthetic.main.fragment_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class EditFragment : Fragment() {
@@ -48,7 +45,7 @@ class EditFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
 
-        hideKeyboard()
+        showKeyboard(false)
         saveList()
     }
 
@@ -56,7 +53,7 @@ class EditFragment : Fragment() {
         super.onStop()
 
         if (MainActivity.editFromList) {
-            hideKeyboard()
+            showKeyboard(false)
             saveList()
             MainActivity.editFromList = false
         }
@@ -77,8 +74,7 @@ class EditFragment : Fragment() {
         titleEditText.setText(editViewModel.getToDoList().toDoListTitle)
         titleEditText.setOnClickListener {
             titleEditText.isFocusableInTouchMode = true
-            titleEditText.isFocusable = true
-            titleEditText.requestFocus()
+            showKeyboard(true)
         }
         titleEditText.setOnFocusChangeListener { view, boolean ->
             if (boolean) {
@@ -104,6 +100,7 @@ class EditFragment : Fragment() {
         newItemButton.setOnClickListener {
             toDoListItemsList.smoothScrollToPosition(toDoListItemsList.adapter!!.itemCount)
             editViewModel.addEmptyItemToList()
+            showKeyboard(true)
         }
     }
 
@@ -113,10 +110,15 @@ class EditFragment : Fragment() {
         }
     }
 
-    private fun hideKeyboard() {
+    private fun showKeyboard(show: Boolean) {
         val keyboard =
             activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        if (isKeyboardVisible(activity!!))
-            keyboard.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+        if(show) {
+            if (!isKeyboardVisible(activity!!))
+                keyboard.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+        } else {
+            if (isKeyboardVisible(activity!!))
+                keyboard.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+        }
     }
 }

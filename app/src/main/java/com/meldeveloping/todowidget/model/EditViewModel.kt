@@ -41,6 +41,7 @@ class EditViewModel(
     fun getToDoList() = toDoList
 
     fun addEmptyItemToList() {
+        adapter.setLastItemFocus(true)
         toDoList.toDoListItems.add(ToDoListItem(EMPTY_ITEM_CHECKED, EMPTY_ITEM_TEXT))
         adapter.notifyItemInserted(toDoList.toDoListItems.size)
     }
@@ -63,6 +64,7 @@ class EditViewModel(
     }
 
     fun removeItem(position: Int) {
+        adapter.setLastItemFocus(false)
         toDoList.toDoListItems.removeAt(position)
         adapter.notifyItemRemoved(position)
         adapter.notifyItemRangeChanged(position, adapter.getAdapterList().size)
