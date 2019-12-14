@@ -6,16 +6,19 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.meldeveloping.todowidget.R
 import com.meldeveloping.todowidget.db.room.ToDoList
+import com.meldeveloping.todowidget.extension.toBoolean
 import kotlinx.android.synthetic.main.main_fragment_list_item.view.*
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
 
-class MainListAdapter(private var toDoLists: ArrayList<ToDoList>) :
+class MainListAdapter(
+    private var toDoLists: ArrayList<ToDoList>,
+    private var clickable: Boolean = true,
+    private var longClickable: Boolean = true
+) :
     RecyclerView.Adapter<MainListAdapter.ListViewHolder>() {
 
     init {
-        toDoLists.sortWith(compareBy {it.toDoListPosition})
+        toDoLists.sortWith(compareBy { it.toDoListPosition })
     }
 
     companion object {
@@ -27,9 +30,7 @@ class MainListAdapter(private var toDoLists: ArrayList<ToDoList>) :
     private lateinit var onClickListListener: View.OnClickListener
     private lateinit var onClickLongListListener: View.OnLongClickListener
 
-    override fun getItemCount(): Int {
-        return toDoLists.size
-    }
+    override fun getItemCount() = toDoLists.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         return ListViewHolder(
@@ -42,12 +43,10 @@ class MainListAdapter(private var toDoLists: ArrayList<ToDoList>) :
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        holder.view.textViewListItem.text = toDoLists[position].toDoListTitle
-        holder.view.textViewListItemDate.text = toDoLists[position].toDoListDate.dropLast(3)
-        if (toDoLists[position].isToDoListPinned)
-            holder.view.pinItemImage.visibility = View.VISIBLE
-        setItemClickListener(holder, toDoLists[position].id!!)
-        setItemLongClickListener(holder, toDoLists[position].id!!, position)
+        setItemTitleText(holder, position)
+        setItemDate(holder, position)
+        setItemPinnedImageVisible(holder, position)
+        setItemListeners(holder, position)
     }
 
     fun setClickListener(listener: View.OnClickListener) {
@@ -56,6 +55,33 @@ class MainListAdapter(private var toDoLists: ArrayList<ToDoList>) :
 
     fun setLongClickListener(listener: View.OnLongClickListener) {
         onClickLongListListener = listener
+    }
+
+    private fun setItemTitleText(holder: ListViewHolder, position: Int) {
+        if (toDoLists[position].toDoListTitle == "") {
+            holder.view.mainItemCheckBox.visibility = View.VISIBLE
+            holder.view.mainItemCheckBox.isChecked =
+                toDoLists[position].toDoListItems[0].isChecked.toBoolean()
+            holder.view.textViewListItem.text = toDoLists[position].toDoListItems[0].itemText
+        } else {
+            holder.view.textViewListItem.text = toDoLists[position].toDoListTitle
+        }
+    }
+
+    private fun setItemDate(holder: ListViewHolder, position: Int) {
+        holder.view.textViewListItemDate.text = toDoLists[position].toDoListDate.dropLast(3)
+    }
+
+    private fun setItemPinnedImageVisible(holder: ListViewHolder, position: Int) {
+        if (toDoLists[position].isToDoListPinned)
+            holder.view.pinItemImage.visibility = View.VISIBLE
+    }
+
+    private fun setItemListeners(holder: ListViewHolder, position: Int) {
+        if (clickable)
+            setItemClickListener(holder, toDoLists[position].id!!)
+        if (longClickable)
+            setItemLongClickListener(holder, toDoLists[position].id!!, position)
     }
 
     private fun setItemClickListener(holder: ListViewHolder, toDoListId: Int) {
@@ -73,11 +99,5 @@ class MainListAdapter(private var toDoLists: ArrayList<ToDoList>) :
         }
     }
 
-//    private fun getDateFromString(date: String): Date {
-//        val formatter = SimpleDateFormat("dd.mm.yyyy hh:mm", Locale.GERMAN)
-//        return formatter.parse(date)
-//    }
-
     class ListViewHolder(val view: View) : RecyclerView.ViewHolder(view)
-
 }

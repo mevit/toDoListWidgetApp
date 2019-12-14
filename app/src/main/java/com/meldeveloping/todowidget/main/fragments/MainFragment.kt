@@ -117,9 +117,13 @@ class MainFragment : Fragment() {
     }
 
     private fun askPermissionToDelete(position: Int) {
-        var deleteDialogTitleText = getString(R.string.main_fragment_delete)
+        val deleteDialogTitleText = if (mainViewModel.getItemTitle(position) == "") {
+            getString(R.string.main_fragment_delete) + " " + getString(R.string.main_fragment_dialog_empty_title) + "?"
+        } else {
+            getString(R.string.main_fragment_delete) + " '" + mainViewModel.getItemTitle(position) + "'?"
+        }
         val builder = AlertDialog.Builder(context!!, R.style.deleteAlertDialogStyle)
-            .setTitle(deleteDialogTitleText + " '" + mainViewModel.getItemTitle(position) + "'?")
+            .setTitle(deleteDialogTitleText)
             .setPositiveButton(R.string.main_fragment_delete) { dialog, _ ->
                 mainViewModel.removeItem(position)
                 if(itemsList.adapter!!.itemCount == 0)

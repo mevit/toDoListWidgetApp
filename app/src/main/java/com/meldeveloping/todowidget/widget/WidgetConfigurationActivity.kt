@@ -8,14 +8,12 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import android.widget.RadioButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.meldeveloping.todowidget.R
 import com.meldeveloping.todowidget.adapter.MainListAdapter
-import com.meldeveloping.todowidget.extension.showLog
 import com.meldeveloping.todowidget.extension.showToast
 import com.meldeveloping.todowidget.main.MainActivity
 import kotlinx.android.synthetic.main.activity_widget_config.*
@@ -23,12 +21,16 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WidgetConfigurationActivity : AppCompatActivity() {
 
+    companion object {
+        private const val DEFAULT_WIDGET_PREFERNCES = -1
+    }
+
     private val configViewModel: WidgetConfigViewModel by viewModel()
     private var widgetID = AppWidgetManager.INVALID_APPWIDGET_ID
-    private lateinit var resultIntent: Intent
     private var selectedItem = 0
     private var selectedStyle = R.layout.widget_view_dark
     private var isItemSelected = false
+    private lateinit var resultIntent: Intent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,10 +38,9 @@ class WidgetConfigurationActivity : AppCompatActivity() {
 
         initWidgetID()
         initResultIntent()
-        initNewButton()
         initWidgetConfigList()
-        initChangeItemButton()
-        initSelectColorButtons()
+        initButtons()
+        checkWidgetPreferences()
         setResult(Activity.RESULT_CANCELED, resultIntent)
     }
 
@@ -60,33 +61,19 @@ class WidgetConfigurationActivity : AppCompatActivity() {
         resultIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetID)
     }
 
-    private fun initNewButton() {
+    private fun initButtons() {
+        initOpenAppButton()
+        initCreateButton()
+        initChangeItemButton()
+        initSelectColorButtons()
+    }
+
+    private fun initOpenAppButton() {
         configWidgetEmptyButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
         }
-    }
-
-    private fun initWidgetConfigList() {
-        if (configViewModel.getListAdapter().itemCount != 0) {
-            configWidgetEmptyButton.visibility = View.GONE
-            initList(configViewModel.getListAdapter())
-            setAdapterListener(configViewModel.getAdapter())
-            initCreateButton()
-        } else {
-            configItemText.visibility = View.GONE
-            configWidgetStyleText.visibility = View.GONE
-            configRadioGroup.visibility = View.GONE
-            configWidgetCreateButton.visibility = View.GONE
-            configWidgetEmptyButton.visibility = View.VISIBLE
-        }
-    }
-
-    private fun initList(adapter: MainListAdapter) {
-        val layoutManager = LinearLayoutManager(applicationContext)
-        configWidgetList.layoutManager = layoutManager
-        configWidgetList.adapter = adapter
     }
 
     private fun initCreateButton() {
@@ -96,15 +83,14 @@ class WidgetConfigurationActivity : AppCompatActivity() {
             } else {
                 showToast(applicationContext, getString(R.string.config_toast_text))
             }
-
         }
     }
 
     private fun initChangeItemButton() {
         configItemChange.setOnClickListener {
-            configWidgetList.visibility = View.VISIBLE
-            configSelectedItemContainer.visibility = View.GONE
             configItemChange.visibility = View.GONE
+            initRecyclerView(configViewModel.initListAdapter())
+            setAdapterListener(configViewModel.getAdapter())
             isItemSelected = false
         }
     }
@@ -135,12 +121,61 @@ class WidgetConfigurationActivity : AppCompatActivity() {
         thrdView.setTextColor(Color.parseColor("#DCDCDC"))
     }
 
+    private fun initWidgetConfigList() {
+        if (configViewModel.initListAdapter().itemCount != 0) {
+            configWidgetEmptyButton.visibility = View.GONE
+            configWidgetEmptyText.visibility = View.GONE
+            initRecyclerView(configViewModel.getAdapter())
+            setAdapterListener(configViewModel.getAdapter())
+            initCreateButton()
+        } else {
+            configItemText.visibility = View.GONE
+            configWidgetStyleText.visibility = View.GONE
+            configRadioGroup.visibility = View.GONE
+            configWidgetCreateButton.visibility = View.GONE
+            configWidgetEmptyButton.visibility = View.VISIBLE
+            configWidgetEmptyText.visibility = View.VISIBLE
+        }
+    }
+
     private fun setAdapterListener(adapter: MainListAdapter) {
         adapter.setClickListener(View.OnClickListener {
             selectedItem = MainListAdapter.itemId
             selectItem()
-            isItemSelected = true
         })
+    }
+
+    private fun checkWidgetPreferences() {
+        val preferences =
+            getSharedPreferences(WidgetProvider.WIDGET_PREFERENCES, Context.MODE_PRIVATE)
+        val widgetListId = preferences.getInt(WidgetProvider.TODO_LIST_ID + widgetID, DEFAULT_WIDGET_PREFERNCES)
+        val widgetStyle = preferences.getInt(WidgetProvider.TODO_LIST_STYLE + widgetID, DEFAULT_WIDGET_PREFERNCES)
+        if (widgetListId != DEFAULT_WIDGET_PREFERNCES && configViewModel.checkItem(widgetListId)) {
+            selectedItem = widgetListId
+            selectItem()
+            selectWidgetStyle(widgetStyle)
+        }
+
+    }
+
+    private fun selectWidgetStyle(style: Int) {
+        when (style) {
+            R.layout.widget_view_dark -> configStyleDark.callOnClick()
+            R.layout.widget_view_light -> configStyleLight.callOnClick()
+            R.layout.widget_view_purple -> configStylePurple.callOnClick()
+        }
+    }
+
+    private fun selectItem() {
+        initRecyclerView(configViewModel.initListAdapter(selectedItem))
+        configItemChange.visibility = View.VISIBLE
+        isItemSelected = true
+    }
+
+    private fun initRecyclerView(adapter: MainListAdapter) {
+        val layoutManager = LinearLayoutManager(applicationContext)
+        configWidgetList.layoutManager = layoutManager
+        configWidgetList.adapter = adapter
     }
 
     private fun configWidget() {
@@ -148,14 +183,6 @@ class WidgetConfigurationActivity : AppCompatActivity() {
         updateWidget(preferences)
         setResult(Activity.RESULT_OK, resultIntent)
         finish()
-    }
-
-    private fun selectItem() {
-        configWidgetList.visibility = View.GONE
-        configSelectedItemContainer.visibility = View.VISIBLE
-        configItemChange.visibility = View.VISIBLE
-        configSelectedTitle.text = configViewModel.getItemTitle(selectedItem)
-        configSelectedDate.text = configViewModel.getItemDate(selectedItem).dropLast(3)
     }
 
     private fun createPreferences(): SharedPreferences {

@@ -12,6 +12,7 @@
     <string name="main_fragment_pin">закрепить</string>
     <string name="main_fragment_unpin">открепить</string>
     <string name="main_fragment_dialog_cancel">отменить</string>
+    <string name="main_fragment_dialog_empty_title">список</string>
 
     <!--  edit fragment values  -->
     <string name="empty_item_hint_text">сделать…</string>
@@ -23,7 +24,8 @@
     <string name="config_item_change_text">изменить</string>
     <string name="config_title_text">настройки</string>
     <string name="config_select_text">цвет виджета</string>
-    <string name="config_button_text">Создать новый список</string>
+    <string name="config_button_text">перейти к созданию</string>
+    <string name="config_empty_list_text">ещё нет созданных списков</string>
     <string name="config_dark_text">темный</string>
     <string name="config_light_text">светлый</string>
     <string name="config_purple_text">пурпурный</string>

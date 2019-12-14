@@ -74,6 +74,7 @@ class EditFragment : Fragment() {
         titleEditText.setText(editViewModel.getToDoList().toDoListTitle)
         titleEditText.setOnClickListener {
             titleEditText.isFocusableInTouchMode = true
+            titleEditText.requestFocus()
             showKeyboard(true)
         }
         titleEditText.setOnFocusChangeListener { view, boolean ->

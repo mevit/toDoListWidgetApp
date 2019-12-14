@@ -25,6 +25,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginTop="30dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
             android:background="@drawable/img_main_item_bg_light"
             android:fontFamily="@font/roboto_bold"
             android:text="@string/widget_new_list_button"
