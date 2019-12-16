@@ -11,18 +11,12 @@ class WidgetConfigViewModel(
 
     private lateinit var adapter: MainListAdapter
 
-    fun initListAdapter(id: Int? = null): MainListAdapter {
-        adapter = if (id != null) {
-            MainListAdapter(
-                arrayListOf(repository.getItem(id)),
-                clickable = false,
-                longClickable = false
-            )
-        } else {
-            MainListAdapter(repository.getAll(), longClickable = false)
-        }
+    fun initListAdapter(): MainListAdapter {
+        adapter = MainListAdapter(repository.getAll(), longClickable = false)
         return adapter
     }
+
+    fun getSelectedItemPosition(id: Int) = repository.getItem(id).toDoListPosition
 
     fun checkItem(id: Int) = repository.checkItem(id)
 

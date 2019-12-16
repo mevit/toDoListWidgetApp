@@ -65,21 +65,30 @@ class MainViewModel(
 
     private fun getUnpinnedItemPosition(position: Int): Int {
         val result: Int
-        var sortedPosition = 1
-        val unpinnedItemsList = ArrayList<ToDoList>()
+        val unpinnedItemsList = getUnpinnedItemsList()
+        val sortedPosition = getItemSortedPosition(position, unpinnedItemsList)
+        result = list.size - unpinnedItemsList.size
+        return result + sortedPosition
+    }
 
+    private fun getUnpinnedItemsList(): ArrayList<ToDoList> {
+        val unpinnedItemsList = ArrayList<ToDoList>()
         for (item in list) {
             if (!item.isToDoListPinned) {
                 unpinnedItemsList.add(item)
             }
         }
         unpinnedItemsList.sortWith(compareByDescending { getDateFromString(it.toDoListDate) })
-        for ((a, item) in unpinnedItemsList.withIndex()) {
+        return unpinnedItemsList
+    }
+
+    private fun getItemSortedPosition(position: Int, sortedList: ArrayList<ToDoList>): Int {
+        var sortedPosition = 0
+        for ((a, item) in sortedList.withIndex()) {
             if (item.id == list[position].id)
                 sortedPosition = a
         }
-        result = list.size - unpinnedItemsList.size
-        return result + sortedPosition
+        return sortedPosition
     }
 
     private fun getDateFromString(date: String): Date {

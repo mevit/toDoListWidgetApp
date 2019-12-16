@@ -120,19 +120,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/configRadioGroup" />
 
-    <TextView
-            android:id="@+id/configItemChange"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:text="@string/config_item_change_text"
-            android:textColor="@color/whiteText"
-            android:textSize="15sp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/configItemText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/configItemText" />
-
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/configWidgetList"
             android:layout_width="match_parent"

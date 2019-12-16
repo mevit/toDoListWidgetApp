@@ -33,26 +33,10 @@ class EditListAdapter(private var toDoListItems: ArrayList<ToDoListItem>) :
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        holder.view.itemCheckBox.isChecked = toDoListItems[position].isChecked.toBoolean()
-        holder.view.itemEditText.setText(toDoListItems[position].itemText)
-
-        holder.view.itemEditText.setOnFocusChangeListener { view, boolean ->
-            if (boolean) {
-                holder.view.itemEditText.setHintTextColor(ContextCompat.getColor(context, android.R.color.transparent))
-            } else {
-                holder.view.itemEditText.setHintTextColor(ContextCompat.getColor(context, R.color.hintColor))
-            }
-        }
-
-        holder.view.itemEditText.setOnClickListener {
-            setLastItemFocus(true)
-            it.isFocusableInTouchMode = true
-            it.requestFocus()
-        }
-
-        if (position == toDoListItems.size-1 && lastItemFocus) {
-            holder.view.itemEditText.callOnClick()
-        }
+        setItemData(holder, position)
+        setItemEditTextFocusChangeListener(holder)
+        setItemEditTextClickListener(holder)
+        checkLastItemFocus(holder, position)
         setEditTextChangedListener(holder, position)
         setCheckBoxCheckedChangeListener(holder, position)
     }
@@ -74,6 +58,35 @@ class EditListAdapter(private var toDoListItems: ArrayList<ToDoListItem>) :
     }
 
     fun getAdapterList() = toDoListItems
+
+    private fun setItemData(holder: ListViewHolder, position: Int) {
+        holder.view.itemCheckBox.isChecked = toDoListItems[position].isChecked.toBoolean()
+        holder.view.itemEditText.setText(toDoListItems[position].itemText)
+    }
+
+    private fun setItemEditTextFocusChangeListener(holder: ListViewHolder) {
+        holder.view.itemEditText.setOnFocusChangeListener { view, boolean ->
+            if (boolean) {
+                holder.view.itemEditText.setHintTextColor(ContextCompat.getColor(context, android.R.color.transparent))
+            } else {
+                holder.view.itemEditText.setHintTextColor(ContextCompat.getColor(context, R.color.hintColor))
+            }
+        }
+    }
+
+    private fun setItemEditTextClickListener(holder: ListViewHolder) {
+        holder.view.itemEditText.setOnClickListener {
+            setLastItemFocus(true)
+            it.isFocusableInTouchMode = true
+            it.requestFocus()
+        }
+    }
+
+    private fun checkLastItemFocus(holder: ListViewHolder, position: Int) {
+        if (position == toDoListItems.size-1 && lastItemFocus) {
+            holder.view.itemEditText.callOnClick()
+        }
+    }
 
     private fun setEditTextChangedListener(holder: ListViewHolder, position: Int) {
         holder.view.itemEditText.addTextChangedListener(object : TextWatcher {

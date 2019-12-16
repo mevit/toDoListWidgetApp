@@ -24,7 +24,7 @@
     <string name="config_title_text">config your widget</string>
     <string name="config_select_text">select color</string>
     <string name="config_button_text">go to creation</string>
-    <string name="config_empty_list_text">lists not created</string>
+    <string name="config_empty_list_text">there are no lists</string>
     <string name="config_dark_text">dark</string>
     <string name="config_light_text">light</string>
     <string name="config_purple_text">purple</string>

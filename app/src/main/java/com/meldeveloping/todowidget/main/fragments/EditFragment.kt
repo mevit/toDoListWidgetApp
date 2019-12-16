@@ -67,6 +67,7 @@ class EditFragment : Fragment() {
     private fun initEditListView() {
         toDoListItemsList.layoutManager = LinearLayoutManager(context)
         toDoListItemsList.adapter = editViewModel.getAdapterForRecycle(toDoListId)
+        toDoListItemsList.recycledViewPool.setMaxRecycledViews(0, 0)
         editViewModel.getItemTouchHelper().attachToRecyclerView(toDoListItemsList)
     }
 

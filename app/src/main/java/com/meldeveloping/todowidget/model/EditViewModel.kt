@@ -36,8 +36,6 @@ class EditViewModel(
         }
     }
 
-    fun getAdapter() = adapter
-
     fun getToDoList() = toDoList
 
     fun addEmptyItemToList() {
