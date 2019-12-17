@@ -1,15 +1,17 @@
 package com.meldeveloping.todowidget.model
 
 import android.content.Context
-import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.meldeveloping.todowidget.adapter.EditListAdapter
 import com.meldeveloping.todowidget.db.ToDoListItem
 import com.meldeveloping.todowidget.db.room.ToDoList
+import com.meldeveloping.todowidget.main.MainActivity
 import com.meldeveloping.todowidget.repository.Repository
-import com.meldeveloping.todowidget.widget.ToDoListWidget
+import com.meldeveloping.todowidget.widget.WidgetProvider
+import java.text.SimpleDateFormat
+import java.util.*
 
 class EditViewModel(
     private val repository: Repository,
@@ -24,8 +26,8 @@ class EditViewModel(
     private lateinit var adapter: EditListAdapter
     private lateinit var toDoList: ToDoList
 
-    fun getAdapterForRecycle(id: Int?): EditListAdapter {
-        return if (id == null) {
+    fun getAdapterForRecycle(id: Int): EditListAdapter {
+        return if (id == MainActivity.DEFAULT_TODO_LIST_ID) {
             initEmptyList()
             initEditListAdapter()
         } else {
@@ -36,33 +38,38 @@ class EditViewModel(
 
     fun getToDoList() = toDoList
 
-    fun refreshAdapter() {
-        adapter.notifyDataSetChanged()
-    }
-
     fun addEmptyItemToList() {
+        adapter.setLastItemFocus(true)
         toDoList.toDoListItems.add(ToDoListItem(EMPTY_ITEM_CHECKED, EMPTY_ITEM_TEXT))
         adapter.notifyItemInserted(toDoList.toDoListItems.size)
     }
 
     fun saveItem() {
-        toDoList.toDoListItems = adapter.getLocalList()
-        if (toDoList.id == null) {
-            repository.save(toDoList)
+        toDoList.toDoListItems = adapter.getAdapterList()
+
+        if (toDoList.toDoListItems.size == 0 || toDoList == getEmptyList()) {
+            repository.delete(toDoList)
         } else {
-            repository.update(toDoList)
+            if (toDoList.id == null) {
+                toDoList.toDoListDate = getDate()
+                updateListPositionsInsert(getPositionForInsert())
+                repository.save(toDoList)
+            } else {
+                repository.update(toDoList)
+            }
         }
-        ToDoListWidget.refreshWidgetListView(context)
+        WidgetProvider.updateAppWidgets(context)
     }
 
-    fun removeItem(position: Int){
+    fun removeItem(position: Int) {
+        adapter.setLastItemFocus(false)
         toDoList.toDoListItems.removeAt(position)
-        refreshAdapter()
-        saveItem()
+        adapter.notifyItemRemoved(position)
+        adapter.notifyItemRangeChanged(position, adapter.getAdapterList().size)
     }
 
     fun getItemTouchHelper(): ItemTouchHelper {
-        return ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT){
+        return ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
@@ -77,27 +84,46 @@ class EditViewModel(
         })
     }
 
-    private fun initEditListAdapter(): EditListAdapter {
-        adapter = EditListAdapter(toDoList.toDoListItems)
-
-        adapter.setClickListener(View.OnClickListener {
-            if(!EditListAdapter.ListViewHolder.isEditTextEnabled) {
-                saveItem()
-            }
-        })
-
-        return adapter
+    private fun initEmptyList() {
+        toDoList = getEmptyList()
     }
 
-    private fun initEmptyList() {
-        toDoList = ToDoList(
-            toDoListTitle = EMPTY_ITEM_TEXT,
-            toDoListItems = arrayListOf(ToDoListItem(EMPTY_ITEM_CHECKED, EMPTY_ITEM_TEXT))
-        )
+    private fun initEditListAdapter(): EditListAdapter {
+        adapter = EditListAdapter(toDoList.toDoListItems)
+        return adapter
     }
 
     private fun initItemById(id: Int) {
         toDoList = repository.getItem(id)
     }
 
+    private fun getEmptyList(): ToDoList {
+        return ToDoList(
+            toDoListTitle = EMPTY_ITEM_TEXT,
+            toDoListItems = arrayListOf(ToDoListItem(EMPTY_ITEM_CHECKED, EMPTY_ITEM_TEXT)),
+            toDoListDate = "",
+            toDoListPosition = getPositionForInsert(),
+            isToDoListPinned = false
+        )
+    }
+
+    private fun getPositionForInsert(): Int {
+        var result = 0
+        for (item in repository.getAll()) {
+            if (!item.isToDoListPinned) {
+                result++
+            }
+        }
+        return repository.getAll().size - result
+    }
+
+    private fun updateListPositionsInsert(position: Int) {
+        repository.updatePositionInsert(position)
+    }
+
+    private fun getDate(): String {
+        val date = Date()
+        val simpleDateFormat = SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault())
+        return simpleDateFormat.format(date)
+    }
 }

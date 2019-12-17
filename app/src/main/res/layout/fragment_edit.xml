@@ -6,56 +6,36 @@
         android:layout_height="match_parent"
         tools:context=".main.fragments.EditFragment">
 
-    <TextView
+    <androidx.appcompat.widget.Toolbar
             android:id="@+id/editToolBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            android:gravity="center"
-            android:textSize="40sp"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:contentInsetStart="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:theme="@style/Base.Theme.AppCompat.CompactMenu" />
 
-    <Button
-            android:id="@+id/saveButton"
-            android:layout_width="60dp"
-            android:layout_height="40dp"
+    <ImageView
+            android:id="@+id/backButton"
+            style="@style/backButtonStyle"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:text="@string/saveButtonText"
-            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/editToolBar"
-            app:layout_constraintEnd_toEndOf="@id/editToolBar"
-            app:layout_constraintTop_toTopOf="@id/editToolBar" />
-
-    <Button
-            android:id="@+id/editButton"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:text="@string/editButtonText"
-            app:layout_constraintBottom_toBottomOf="@id/editToolBar"
-            app:layout_constraintEnd_toStartOf="@id/saveButton"
-            app:layout_constraintTop_toTopOf="@id/editToolBar" />
-
-    <Button
-            android:id="@+id/newItemButton"
-            android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:text="@string/newItemButtonText"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/editToolBar"
-            app:layout_constraintEnd_toStartOf="@id/editButton"
+            app:layout_constraintStart_toStartOf="@id/editToolBar"
             app:layout_constraintTop_toTopOf="@id/editToolBar" />
 
     <EditText
             android:id="@+id/titleEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/emptyTitleHintText"
-            android:visibility="gone"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:gravity="center"
+            android:hint="@string/empty_title_hint_text"
+            android:maxLength="40"
+            android:focusable="false"
+            android:minHeight="?attr/actionBarSize"
+            android:textSize="30sp"
             app:layout_constraintTop_toBottomOf="@id/editToolBar" />
 
 
@@ -63,7 +43,25 @@
             android:id="@+id/toDoListItemsList"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:clipToPadding="false"
+            android:overScrollMode="never"
             android:paddingBottom="?attr/actionBarSize"
+            android:scrollbarStyle="outsideOverlay"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/titleEditText" />
+
+
+    <ImageView
+            android:id="@+id/newItemButton"
+            style="@style/plusImageStyle"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

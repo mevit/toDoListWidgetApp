@@ -6,40 +6,67 @@
         android:layout_height="match_parent"
         tools:context=".main.fragments.MainFragment">
 
-    <TextView
-            android:id="@+id/toolBar"
+    <androidx.appcompat.widget.Toolbar
+            android:id="@+id/mainToolBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:contentInsetStart="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:theme="@style/Base.Theme.AppCompat.CompactMenu">
 
-    <Button
-            android:id="@+id/goToEditButton"
-            android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="10dp"
-            android:text="@string/goToEditButtonText"
-            app:layout_constraintBottom_toBottomOf="@id/toolBar"
-            app:layout_constraintEnd_toEndOf="@id/toolBar"
-            app:layout_constraintTop_toTopOf="@id/toolBar" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:fontFamily="@font/comforta"
+                    android:gravity="center"
+                    android:text="@string/main_fragment_text"
+                    android:textColor="@color/whiteText"
+                    android:textSize="25sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/itemsList"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/toolBar"
-            android:paddingBottom="?attr/actionBarSize"/>
+            android:layout_height="0dp"
+            android:clipToPadding="false"
+            android:fadingEdge="vertical"
+            android:layoutAnimation="@anim/item_layout_animation"
+            android:overScrollMode="never"
+            android:paddingBottom="?attr/actionBarSize"
+            android:scrollbarStyle="outsideOverlay"
+            app:layout_constraintBottom_toTopOf="@id/goToEditButton"
+            app:layout_constraintTop_toBottomOf="@id/mainToolBar" />
 
-    <TextView
-            android:id="@+id/emptyListTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+    <ImageView
+            android:id="@+id/emptyMainFragment"
+            style="@style/emptyMainFragmentStyle"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="@string/emptyListText"
-            android:visibility="gone"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+            android:id="@+id/goToEditButton"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="#33334d"
+            android:gravity="center"
+            android:text="@string/go_to_edit_button_text"
+            android:textColor="@color/whiteText"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

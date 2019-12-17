@@ -1,9 +1,12 @@
 package com.meldeveloping.todowidget.main
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import androidx.appcompat.app.AppCompatDelegate
 import com.meldeveloping.todowidget.R
+import com.meldeveloping.todowidget.help.HelpMainFragment
 import com.meldeveloping.todowidget.main.fragments.EditFragment
 import com.meldeveloping.todowidget.main.fragments.MainFragment
 import com.meldeveloping.todowidget.splash.SplashFragment
@@ -13,8 +16,9 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private const val FRAGMENT_CHANGE_DELAY_MS = 2000L
         const val OPEN_EDIT_FRAGMENT = "open_edit_fragment"
-        const val CREATE_NEW_ITEM = -2
         const val DEFAULT_TODO_LIST_ID = -1
+        const val TODO_PREFERENCES = "preferences"
+        const val SHOW_HELP = "show_help"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,13 +26,35 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val extras = intent.extras
-
-        if (extras != null && extras.getInt(OPEN_EDIT_FRAGMENT, DEFAULT_TODO_LIST_ID) != DEFAULT_TODO_LIST_ID) {
+        if (extras != null && extras.getInt(
+                OPEN_EDIT_FRAGMENT,
+                DEFAULT_TODO_LIST_ID
+            ) != DEFAULT_TODO_LIST_ID
+        ) {
             openEditFragment(extras.getInt(OPEN_EDIT_FRAGMENT))
         } else {
             openSplashFragment()
-            openMainFragment()
+            if (checkShowHelp()) {
+                openHelpMainFragment()
+            } else {
+                openMainFragment()
+            }
         }
+    }
+
+    private fun checkShowHelp(): Boolean {
+        val preferences = applicationContext.getSharedPreferences(TODO_PREFERENCES, Context.MODE_PRIVATE)
+        return preferences.getBoolean(SHOW_HELP, true)
+    }
+
+    private fun openHelpMainFragment() {
+        Handler().postDelayed({
+            supportFragmentManager
+                .beginTransaction()
+                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left)
+                .replace(R.id.mainContainer, HelpMainFragment.newInstance())
+                .commit()
+        }, FRAGMENT_CHANGE_DELAY_MS)
     }
 
     private fun openSplashFragment() {
@@ -42,23 +68,16 @@ class MainActivity : AppCompatActivity() {
         Handler().postDelayed({
             supportFragmentManager
                 .beginTransaction()
+                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left)
                 .replace(R.id.mainContainer, MainFragment.newInstance())
                 .commit()
         }, FRAGMENT_CHANGE_DELAY_MS)
     }
 
     private fun openEditFragment(toDoListId: Int) {
-        if (toDoListId == CREATE_NEW_ITEM) {
-            supportFragmentManager
-                .beginTransaction()
-                .add(R.id.mainContainer, EditFragment.newInstance(createWidget = true))
-                .commit()
-        }else {
-            supportFragmentManager
-                .beginTransaction()
-                .add(R.id.mainContainer, EditFragment.newInstance(toDoListId))
-                .commit()
-        }
+        supportFragmentManager
+            .beginTransaction()
+            .add(R.id.mainContainer, EditFragment.newInstance(toDoListId))
+            .commit()
     }
-
 }

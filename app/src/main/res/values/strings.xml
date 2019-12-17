@@ -1,17 +1,47 @@
 <resources>
 
-    <string name="app_name">ToDo Widget</string>
-    <string name="goToEditButtonText">New</string>
-    <string name="saveButtonText">Save</string>
-    <string name="createWidgetButtonText">Create widget</string>
-    <string name="editButtonText">Edit</string>
-    <string name="newItemButtonText">Item</string>
-    <string name="emptyListText">No ToDoLists</string>
-    <string name="emptyItemHintText">do something…</string>
-    <string name="emptyTitleHintText">title</string>
+    <!--  global values  -->
+    <string name="app_name">ToDo List Widget</string>
+
+    <!--  main fragment values  -->
+    <string name="go_to_edit_button_text">add new</string>
+    <string name="empty_list_text">No ToDoLists</string>
+    <string name="main_fragment_text">ToDoList</string>
+    <string name="main_fragment_delete">delete</string>
+    <string name="main_fragment_pin">pin to top</string>
+    <string name="main_fragment_unpin">unpin</string>
+    <string name="main_fragment_dialog_cancel">cancel</string>
+    <string name="main_fragment_dialog_empty_title">list</string>
+
+    <!--  edit fragment values  -->
+    <string name="empty_item_hint_text">do something…</string>
+    <string name="empty_title_hint_text">title</string>
+
+    <!--  config activity values  -->
+    <string name="config_create_button">save widget</string>
+    <string name="config_item_text">select list</string>
+    <string name="config_item_change_text">edit</string>
+    <string name="config_title_text">config your widget</string>
+    <string name="config_select_text">select color</string>
+    <string name="config_button_text">go to creation</string>
+    <string name="config_empty_list_text">there are no lists</string>
+    <string name="config_dark_text">dark</string>
+    <string name="config_light_text">light</string>
+    <string name="config_purple_text">purple</string>
+    <string name="config_toast_text">Select list!</string>
+
+    <!--  widget values  -->
     <string name="appwidget_text">ToDo List</string>
     <string name="add_widget">Add widget</string>
-    <string name="configButtonText">Create new</string>
-    <string name="configTitleText">Your toDoLists</string>
+    <string name="widget_new_list_button">Add new</string>
+    <string name="widget_deleted_list">Your list deleted</string>
+
+    <!--  help fragments  -->
+    <string name="help_next_button_text">Next</string>
+    <string name="help_ok_button_text">Ok</string>
+    <string name="help_main_text">use long click to delete and pin list</string>
+    <string name="help_edit_text">swipe right to remove a list item</string>
+    <string name="help_widget_text">create widget with a list on the main screen</string>
+    <string name="help_config_text">customize your widget</string>
 
 </resources>

@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+
+    <color name="colorPrimary">@color/grayMain</color>
+    <color name="colorPrimaryDark">@color/graySecondary</color>
+    <color name="colorAccent">@color/whiteMain</color>
 
 
-    <color name="splashScreenBackground">#1DE9B6</color>
+    <color name="splashScreenBackground">@color/grayMain</color>
     <color name="itemBackgroundColor">#E0E0E0</color>
+
+    <!--  dark colors  -->
+    <color name="mainGreen">#8BC34A</color>
+    <color name="grayMain">#393939</color>
+    <color name="graySecondary">#424242</color>
+    <color name="whiteMain">#DCDCDC</color>
+    <color name="whiteSecondary">#FFFFFF</color>
+    <color name="whiteText">@color/whiteMain</color>
+    <color name="darkText">@color/grayMain</color>
+    <color name="hintColor">#7575a3</color>
+    <color name="purpleMain">#33334d</color>
 </resources>

@@ -13,13 +13,18 @@ import org.koin.core.inject
 
 class WidgetListAdapter(
     val context: Context,
-    intent: Intent
+    private val intent: Intent
 ) : RemoteViewsService.RemoteViewsFactory, KoinComponent {
 
     private val repository: Repository by inject()
     private lateinit var toDoListItemsList: ArrayList<ToDoListItem>
     private val toDoListId: Int by lazy {
-        intent.getIntExtra(ToDoListWidget.TODO_LIST_ID, 0)
+        intent.getIntExtra(WidgetProvider.TODO_LIST_ID, DEFAULT_LIST_ID)
+    }
+
+    companion object {
+        const val DEFAULT_LIST_ID = 0
+        private const val DEFAULT_ITEM_STYLE = R.layout.widget_list_item_dark
     }
 
     override fun onCreate() {}
@@ -33,8 +38,26 @@ class WidgetListAdapter(
     override fun hasStableIds() = true
 
     override fun getViewAt(position: Int): RemoteViews {
-        val remoteViews = RemoteViews(context.packageName, R.layout.todo_list_widget_item)
+        var checkedCheckBox = 0
+        var uncheckedCheckBox = 0
+        val style = intent.getIntExtra(WidgetProvider.TODO_LIST_STYLE, DEFAULT_ITEM_STYLE)
+        val remoteViews = RemoteViews(context.packageName, style)
         val clickIntent = Intent()
+
+        when (style) {
+            R.layout.widget_list_item_light -> {
+                checkedCheckBox = R.drawable.check_box_light_on
+                uncheckedCheckBox = R.drawable.check_box_light_off
+            }
+            R.layout.widget_list_item_dark -> {
+                checkedCheckBox = R.drawable.check_box_dark_on
+                uncheckedCheckBox = R.drawable.check_box_dark_off
+            }
+            R.layout.widget_list_item_purple -> {
+                checkedCheckBox = R.drawable.check_box_purple_on
+                uncheckedCheckBox = R.drawable.check_box_purple_off
+            }
+        }
 
         initToDoListItemsList()
         remoteViews.setTextViewText(R.id.widgetItemText, toDoListItemsList[position].itemText)
@@ -42,17 +65,17 @@ class WidgetListAdapter(
         if (toDoListItemsList[position].isChecked.toBoolean()) {
             remoteViews.setImageViewResource(
                 R.id.widgetCheckBox,
-                android.R.drawable.checkbox_on_background
+                checkedCheckBox
             )
         } else {
             remoteViews.setImageViewResource(
                 R.id.widgetCheckBox,
-                android.R.drawable.checkbox_off_background
+                uncheckedCheckBox
             )
         }
 
-        clickIntent.putExtra(ToDoListWidget.TODO_LIST_ITEM_POSITION, position)
-        clickIntent.putExtra(ToDoListWidget.TODO_LIST_ID, toDoListId)
+        clickIntent.putExtra(WidgetProvider.TODO_LIST_ITEM_POSITION, position)
+        clickIntent.putExtra(WidgetProvider.TODO_LIST_ID, toDoListId)
         remoteViews.setOnClickFillInIntent(R.id.widgetItemLayout, clickIntent)
 
         return remoteViews
@@ -65,6 +88,10 @@ class WidgetListAdapter(
     override fun onDestroy() {}
 
     private fun initToDoListItemsList() {
-        toDoListItemsList = repository.getItem(toDoListId).toDoListItems
+        if (repository.checkItem(toDoListId)) {
+            toDoListItemsList = repository.getItem(toDoListId).toDoListItems
+        } else {
+            toDoListItemsList.clear()
+        }
     }
 }

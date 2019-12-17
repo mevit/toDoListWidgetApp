@@ -1,22 +1,36 @@
 package com.meldeveloping.todowidget.main.fragments
 
+import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.meldeveloping.todowidget.R
 import com.meldeveloping.todowidget.adapter.MainListAdapter
+import com.meldeveloping.todowidget.extension.showLog
+import com.meldeveloping.todowidget.main.MainActivity
 import com.meldeveloping.todowidget.model.MainViewModel
 import kotlinx.android.synthetic.main.fragment_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.text.FieldPosition
 
 class MainFragment : Fragment() {
 
     private val mainViewModel: MainViewModel by viewModel()
+
+    companion object {
+
+        @JvmStatic
+        fun newInstance() = MainFragment()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,48 +51,119 @@ class MainFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        val mainListAdapter = mainViewModel.getAdapterForMainList()
+        val mainListAdapter = initMainListAdapter()
         if (mainListAdapter.itemCount != 0) {
-            itemsList.layoutManager = LinearLayoutManager(context)
+            val animation = AnimationUtils.loadLayoutAnimation(context, R.anim.item_layout_animation)
+            val layoutManager = LinearLayoutManager(context)
+            itemsList.layoutManager = layoutManager
             itemsList.adapter = mainListAdapter
-            getItemTouchHelper().attachToRecyclerView(itemsList)
-            mainListAdapter.setClickListener(View.OnClickListener {
-                goToEditFragment(MainListAdapter.itemId)
-            })
+            itemsList.layoutAnimation = animation
+            itemsList.smoothScrollToPosition(mainListAdapter.itemCount - 1)
         } else {
-            emptyListTextView.visibility = View.VISIBLE
+            emptyListAnimation()
         }
     }
 
-    private fun goToEditFragment(toDoListId: Int? = null) {
-        fragmentManager!!
-            .beginTransaction()
-            .replace(R.id.mainContainer, EditFragment.newInstance(toDoListId))
-            .addToBackStack(null)
-            .commit()
+    private fun goToEditFragment(toDoListId: Int = MainActivity.DEFAULT_TODO_LIST_ID) {
+        if (toDoListId == MainActivity.DEFAULT_TODO_LIST_ID) {
+            fragmentManager!!
+                .beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_up, R.anim.enter_from_left, R.anim.exit_to_right)
+                .replace(R.id.mainContainer, EditFragment.newInstance(toDoListId))
+                .addToBackStack(null)
+                .commit()
+        } else {
+            fragmentManager!!
+                .beginTransaction()
+                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+                .replace(R.id.mainContainer, EditFragment.newInstance(toDoListId))
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
-    private fun getItemTouchHelper(): ItemTouchHelper {
-        return ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT){
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                return false
-            }
+    private fun itemLongClick(toDoListId: Int, position: Int) {
+        val inflater = activity!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view = inflater.inflate(R.layout.alert_dialog, null)
+        val dltBtn = view.findViewById<TextView>(R.id.deleteButton)
+        val pinBtn = view.findViewById<TextView>(R.id.pinButton)
+        val builder = AlertDialog.Builder(context!!).setView(view)
+        val dialog: AlertDialog = builder.create()
 
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                mainViewModel.removeItem(viewHolder)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
+        dialog.window!!.setLayout(600, 500)
+
+        dltBtn.setOnClickListener {
+            askPermissionToDelete(position)
+            dialog.dismiss()
+        }
+
+        if (mainViewModel.isToDoListPinned(position)) {
+            pinBtn.text = getString(R.string.main_fragment_unpin)
+        } else {
+            pinBtn.text = getString(R.string.main_fragment_pin)
+        }
+
+        pinBtn.setOnClickListener {
+            if (mainViewModel.isToDoListPinned(position)) {
+                mainViewModel.unpinItem(position)
+            } else {
+                mainViewModel.pinItem(position)
+            }
+            itemsList.adapter = initMainListAdapter()
+            dialog.dismiss()
+        }
+    }
+
+    private fun askPermissionToDelete(position: Int) {
+        val deleteDialogTitleText = if (mainViewModel.getItemTitle(position) == "") {
+            getString(R.string.main_fragment_delete) + " " + getString(R.string.main_fragment_dialog_empty_title) + "?"
+        } else {
+            getString(R.string.main_fragment_delete) + " '" + mainViewModel.getItemTitle(position) + "'?"
+        }
+        val builder = AlertDialog.Builder(context!!, R.style.deleteAlertDialogStyle)
+            .setTitle(deleteDialogTitleText)
+            .setPositiveButton(R.string.main_fragment_delete) { dialog, _ ->
+                mainViewModel.removeItem(position)
                 if(itemsList.adapter!!.itemCount == 0)
-                    emptyListTextView.visibility = View.VISIBLE
+                    emptyListAnimation()
+                dialog.dismiss()
+            }
+            .setNegativeButton(R.string.main_fragment_dialog_cancel) { dialog, _ ->
+                dialog.dismiss()
+            }
+        val dialog: AlertDialog = builder.create()
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
+    }
+
+    private fun initMainListAdapter(): MainListAdapter {
+        val mainListAdapter = mainViewModel.getAdapterForMainList()
+
+        mainListAdapter.setClickListener(View.OnClickListener {
+            goToEditFragment(MainListAdapter.itemId)
+        })
+        mainListAdapter.setLongClickListener(View.OnLongClickListener {
+            itemLongClick(MainListAdapter.itemId, MainListAdapter.itemPosition)
+            return@OnLongClickListener true
+        })
+
+        return mainListAdapter
+    }
+
+    private fun emptyListAnimation() {
+        val animation = AnimationUtils.loadAnimation(context, R.anim.fade_main_fragment)
+        emptyMainFragment.startAnimation(animation)
+        animation.setAnimationListener( object : Animation.AnimationListener {
+            override fun onAnimationRepeat(p0: Animation?) {}
+
+            override fun onAnimationEnd(p0: Animation?) {}
+
+            override fun onAnimationStart(p0: Animation?) {
+                emptyMainFragment.visibility = View.VISIBLE
             }
         })
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() = MainFragment()
     }
 
 }

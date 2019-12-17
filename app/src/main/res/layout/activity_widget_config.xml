@@ -8,27 +8,135 @@
             android:id="@+id/configWidgetTitle"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@android:color/black"
+            android:background="@null"
             android:gravity="center"
-            android:text="@string/configTitleText"
-            android:textColor="@android:color/white"
+            android:text="@string/config_title_text"
+            android:textColor="@color/whiteText"
+            android:textSize="30sp"
             app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+            android:id="@+id/configWidgetStyleText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            android:background="@null"
+            android:text="@string/config_select_text"
+            android:textColor="@color/whiteText"
+            android:textSize="15sp"
+            app:layout_constraintTop_toBottomOf="@id/configWidgetTitle" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/configRadioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/img_main_item_bg_dark"
+            app:layout_constraintTop_toBottomOf="@id/configWidgetStyleText">
+
+        <TextView
+                android:id="@+id/configStyleDark"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/img_main_item_bg_light"
+                android:gravity="center"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:text="@string/config_dark_text"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+                android:id="@+id/configStyleLight"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/img_main_item_bg_dark"
+                android:gravity="center"
+                android:paddingStart="19dp"
+                android:paddingEnd="19dp"
+                android:text="@string/config_light_text"
+                android:textColor="@color/whiteText"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+                android:id="@+id/configStylePurple"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/img_main_item_bg_dark"
+                android:gravity="center"
+                android:paddingStart="11dp"
+                android:paddingEnd="12dp"
+                android:text="@string/config_purple_text"
+                android:textColor="@color/whiteText"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+            android:id="@+id/configWidgetEmptyText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:gravity="center"
+            android:text="@string/config_empty_list_text"
+            android:textColor="@color/whiteText"
+            android:textSize="20sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/configWidgetEmptyButton" />
 
     <Button
             android:id="@+id/configWidgetEmptyButton"
-            android:layout_width="wrap_content"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
-            android:text="@string/configButtonText"
+            android:background="@drawable/img_main_item_bg_light"
+            android:text="@string/config_button_text"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/configWidgetTitle" />
+
+    <TextView
+            android:id="@+id/configItemText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/config_item_text"
+            android:textColor="@color/whiteText"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/configRadioGroup" />
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/configWidgetList"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/configWidgetTitle" />
+            android:layout_marginTop="10dp"
+            android:overScrollMode="never"
+            app:layout_constraintBottom_toTopOf="@+id/configWidgetCreateButton"
+            app:layout_constraintTop_toBottomOf="@id/configItemText" />
+
+    <TextView
+            android:id="@+id/configWidgetCreateButton"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="#33334d"
+            android:gravity="center"
+            android:text="@string/config_create_button"
+            android:textColor="@color/whiteText"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,5 +13,4 @@ abstract class ToDoListDatabase : RoomDatabase() {
     companion object {
         const val DB_NAME: String = "toDoList.db"
     }
-
 }

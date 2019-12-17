@@ -6,8 +6,8 @@ import com.meldeveloping.todowidget.db.ToDoListItem
 class ItemConverter {
 
     companion object {
-        private const val SPLIT_OBJECTS_CHAR = ','
-        private const val SPLIT_PARAMETERS_CHAR = ' '
+        private const val SPLIT_OBJECTS_CHAR = '|'
+        private const val SPLIT_PARAMETERS_CHAR = '/'
         private const val CHECKED_PARAMETER_LIST_POSITION = 0
         private const val TEXT_PARAMETER_LIST_POSITION = 1
     }
