@@ -8,7 +8,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.meldeveloping.todowidget.R
 import com.meldeveloping.todowidget.db.room.ToDoList
-import com.meldeveloping.todowidget.extension.showLog
 import com.meldeveloping.todowidget.extension.toBoolean
 import kotlinx.android.synthetic.main.main_fragment_list_item.view.*
 import kotlin.collections.ArrayList
@@ -54,10 +53,11 @@ class MainListAdapter(
         setItemPinnedImageVisible(holder, position)
         setItemListeners(holder, position)
         if (clickedPosition == position) {
-                holder.view.background = ContextCompat.getDrawable(context, R.drawable.img_main_item_bg_selected)
-            showLog(position.toString())
+            holder.view.background =
+                ContextCompat.getDrawable(context, R.drawable.img_main_item_bg_selected)
         } else {
-            holder.view.background = ContextCompat.getDrawable(context, R.drawable.img_main_item_bg_light)
+            holder.view.background =
+                ContextCompat.getDrawable(context, R.drawable.img_main_item_bg_light)
         }
     }
 
@@ -76,9 +76,6 @@ class MainListAdapter(
 
     private fun setItemTitleText(holder: ListViewHolder, position: Int) {
         if (toDoLists[position].toDoListTitle == "") {
-            holder.view.mainItemCheckBox.visibility = View.VISIBLE
-            holder.view.mainItemCheckBox.isChecked =
-                toDoLists[position].toDoListItems[0].isChecked.toBoolean()
             holder.view.textViewListItem.text = toDoLists[position].toDoListItems[0].itemText
         } else {
             holder.view.textViewListItem.text = toDoLists[position].toDoListTitle

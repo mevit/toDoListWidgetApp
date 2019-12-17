@@ -45,17 +45,18 @@ class EditFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
 
-        showKeyboard(false)
-        saveList()
+        if (editViewModel.getToDoList().id == null) {
+            showKeyboard(false)
+            saveList()
+        }
     }
 
     override fun onStop() {
         super.onStop()
 
-        if (MainActivity.editFromList) {
+        if (editViewModel.getToDoList().id != null) {
             showKeyboard(false)
             saveList()
-            MainActivity.editFromList = false
         }
     }
 

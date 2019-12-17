@@ -19,7 +19,6 @@ class MainActivity : AppCompatActivity() {
         const val DEFAULT_TODO_LIST_ID = -1
         const val TODO_PREFERENCES = "preferences"
         const val SHOW_HELP = "show_help"
-        var editFromList = false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +31,6 @@ class MainActivity : AppCompatActivity() {
                 DEFAULT_TODO_LIST_ID
             ) != DEFAULT_TODO_LIST_ID
         ) {
-            editFromList = true
             openEditFragment(extras.getInt(OPEN_EDIT_FRAGMENT))
         } else {
             openSplashFragment()

@@ -24,19 +24,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        <CheckBox
-                android:id="@+id/mainItemCheckBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="10dp"
-                android:buttonTint="@color/purpleMain"
-                android:clickable="false"
-                android:paddingEnd="-5dp"
-                android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
                 android:id="@+id/textViewListItem"
                 android:layout_width="0dp"
@@ -47,7 +34,7 @@
                 android:layout_marginBottom="10dp"
                 android:textSize="17sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/mainItemCheckBox"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
