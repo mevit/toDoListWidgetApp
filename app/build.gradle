@@ -5,6 +5,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 29
@@ -48,5 +49,6 @@ dependencies {
     implementation deps.kotlin.coroutinesAndroid
     implementation deps.db.room
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.firebase:firebase-ads:18.3.0'
     kapt deps.db.roomAnnotation
 }

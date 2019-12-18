@@ -4,7 +4,9 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import androidx.appcompat.app.AppCompatDelegate
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.InterstitialAd
+import com.google.android.gms.ads.MobileAds
 import com.meldeveloping.todowidget.R
 import com.meldeveloping.todowidget.help.HelpMainFragment
 import com.meldeveloping.todowidget.main.fragments.EditFragment
@@ -15,15 +17,23 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val FRAGMENT_CHANGE_DELAY_MS = 2000L
+        private const val AD_UNIT_ID = "[ADMOB_UNIT_ID]"
         const val OPEN_EDIT_FRAGMENT = "open_edit_fragment"
         const val DEFAULT_TODO_LIST_ID = -1
         const val TODO_PREFERENCES = "preferences"
         const val SHOW_HELP = "show_help"
+        var showAdFlag = false
+        lateinit var mInterstitialAd: InterstitialAd
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        MobileAds.initialize(this)
+        mInterstitialAd = InterstitialAd(this)
+        mInterstitialAd.adUnitId = AD_UNIT_ID
+        mInterstitialAd.loadAd(AdRequest.Builder().build())
 
         val extras = intent.extras
         if (extras != null && extras.getInt(
