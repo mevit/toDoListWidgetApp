@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--  global values  -->
+    <string name="app_name">Список Дел Виджет</string>
+
+    <!--  main fragment values  -->
+    <string name="go_to_edit_button_text">создать</string>
+    <string name="empty_list_text">No ToDoLists</string>
+    <string name="main_fragment_text">ToDoList</string>
+    <string name="main_fragment_delete">удалить</string>
+    <string name="main_fragment_pin">закрепить</string>
+    <string name="main_fragment_unpin">открепить</string>
+    <string name="main_fragment_dialog_cancel">отменить</string>
+    <string name="main_fragment_dialog_empty_title">список</string>
+
+    <!--  edit fragment values  -->
+    <string name="empty_item_hint_text">сделать…</string>
+    <string name="empty_title_hint_text">название</string>
+
+    <!--  config activity values  -->
+    <string name="config_create_button">сохранить виджет</string>
+    <string name="config_item_text">выбери список</string>
+    <string name="config_item_change_text">изменить</string>
+    <string name="config_title_text">настройки</string>
+    <string name="config_select_text">цвет виджета</string>
+    <string name="config_button_text">перейти к созданию</string>
+    <string name="config_empty_list_text">ещё нет созданных списков</string>
+    <string name="config_dark_text">темный</string>
+    <string name="config_light_text">светлый</string>
+    <string name="config_purple_text">пурпурный</string>
+    <string name="config_toast_text">Выбери список!</string>
+
+    <!--  widget values  -->
+    <string name="appwidget_text">ToDo List</string>
+    <string name="add_widget">Add widget</string>
+    <string name="widget_new_list_button">добавить новый</string>
+    <string name="widget_deleted_list">Список удален</string>
+
+    <!--  help fragments  -->
+    <string name="help_next_button_text">Дальше</string>
+    <string name="help_ok_button_text">Ok</string>
+    <string name="help_main_text">используй длинное нажатие для удаления и закрепления списков</string>
+    <string name="help_edit_text">свайп вправо для удаления елемента списка</string>
+    <string name="help_widget_text">создавай виджет со списком на главном экране</string>
+    <string name="help_config_text">настраивай виджет</string>
+
+</resources>

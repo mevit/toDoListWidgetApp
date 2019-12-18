@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".main.fragments.MainFragment">
+
+    <androidx.appcompat.widget.Toolbar
+            android:id="@+id/mainToolBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:contentInsetStart="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:theme="@style/Base.Theme.AppCompat.CompactMenu">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:fontFamily="@font/comforta"
+                    android:gravity="center"
+                    android:text="@string/main_fragment_text"
+                    android:textColor="@color/whiteText"
+                    android:textSize="25sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/itemsList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:clipToPadding="false"
+            android:fadingEdge="vertical"
+            android:layoutAnimation="@anim/item_layout_animation"
+            android:overScrollMode="never"
+            android:paddingBottom="?attr/actionBarSize"
+            android:scrollbarStyle="outsideOverlay"
+            app:layout_constraintBottom_toTopOf="@id/goToEditButton"
+            app:layout_constraintTop_toBottomOf="@id/mainToolBar" />
+
+    <ImageView
+            android:id="@+id/emptyMainFragment"
+            style="@style/emptyMainFragmentStyle"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+            android:id="@+id/goToEditButton"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="#33334d"
+            android:gravity="center"
+            android:text="@string/go_to_edit_button_text"
+            android:textColor="@color/whiteText"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
