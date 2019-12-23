@@ -4,10 +4,13 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.os.PersistableBundle
+import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
 import com.google.android.gms.ads.MobileAds
 import com.meldeveloping.todowidget.R
+import com.meldeveloping.todowidget.extension.showLog
 import com.meldeveloping.todowidget.help.HelpMainFragment
 import com.meldeveloping.todowidget.main.fragments.EditFragment
 import com.meldeveloping.todowidget.main.fragments.MainFragment
@@ -22,18 +25,18 @@ class MainActivity : AppCompatActivity() {
         const val DEFAULT_TODO_LIST_ID = -1
         const val TODO_PREFERENCES = "preferences"
         const val SHOW_HELP = "show_help"
-        var showAdFlag = false
-        lateinit var mInterstitialAd: InterstitialAd
+        private var showAdFlag = true
     }
+
+    private var mInterstitialAd: InterstitialAd? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        MobileAds.initialize(this)
-        mInterstitialAd = InterstitialAd(this)
-        mInterstitialAd.adUnitId = AD_UNIT_ID
-        mInterstitialAd.loadAd(AdRequest.Builder().build())
+        if (showAdFlag)
+            initInterstitialAd()
 
         val extras = intent.extras
         if (extras != null && extras.getInt(
@@ -52,8 +55,37 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun initInterstitialAd() {
+        MobileAds.initialize(this) {}
+        mInterstitialAd = InterstitialAd(this).apply {
+            adUnitId = AD_UNIT_ID
+        }
+        if (!mInterstitialAd!!.isLoading && !mInterstitialAd!!.isLoaded) {
+            val adRequest = AdRequest.Builder().build()
+            mInterstitialAd!!.loadAd(adRequest)
+        }
+    }
+
+    fun showInterstitial() {
+        if (showAdFlag) {
+            if (mInterstitialAd!!.isLoaded) {
+                mInterstitialAd!!.show()
+                showAdFlag = false
+            } else {
+                showLog("Ad wasn't loaded.")
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        mInterstitialAd = null
+    }
+
     private fun checkShowHelp(): Boolean {
-        val preferences = applicationContext.getSharedPreferences(TODO_PREFERENCES, Context.MODE_PRIVATE)
+        val preferences =
+            applicationContext.getSharedPreferences(TODO_PREFERENCES, Context.MODE_PRIVATE)
         return preferences.getBoolean(SHOW_HELP, true)
     }
 

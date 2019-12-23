@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.ads.AdRequest
 import com.meldeveloping.todowidget.R
 import com.meldeveloping.todowidget.extension.isKeyboardVisible
 import com.meldeveloping.todowidget.main.MainActivity
@@ -38,13 +39,15 @@ class EditFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        MainActivity.showAdFlag = true
         initEditFragment()
         initButtons()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+
+        val mainActivity = activity as MainActivity
+        mainActivity.showInterstitial()
 
         if (editViewModel.getToDoList().id == null) {
             showKeyboard(false)
@@ -117,7 +120,7 @@ class EditFragment : Fragment() {
     private fun showKeyboard(show: Boolean) {
         val keyboard =
             activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        if(show) {
+        if (show) {
             if (!isKeyboardVisible(activity!!))
                 keyboard.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
         } else {
