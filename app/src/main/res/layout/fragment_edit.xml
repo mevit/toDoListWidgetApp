@@ -17,9 +17,11 @@
     <ImageView
             android:id="@+id/backButton"
             style="@style/backButtonStyle"
-            android:layout_width="40dp"
+            android:layout_width="48dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             app:layout_constraintBottom_toBottomOf="@id/editToolBar"
             app:layout_constraintStart_toStartOf="@id/editToolBar"
             app:layout_constraintTop_toTopOf="@id/editToolBar" />

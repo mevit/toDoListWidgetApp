@@ -13,7 +13,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.meldeveloping.todowidget.R
 import com.meldeveloping.todowidget.adapter.MainListAdapter
-import com.meldeveloping.todowidget.extension.showLog
 import com.meldeveloping.todowidget.main.MainActivity
 import com.meldeveloping.todowidget.model.MainViewModel
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -24,7 +23,6 @@ class MainFragment : Fragment() {
     private val mainViewModel: MainViewModel by viewModel()
 
     companion object {
-
 
         @JvmStatic
         fun newInstance() = MainFragment()
@@ -40,17 +38,6 @@ class MainFragment : Fragment() {
 
         initNewButton()
         initRecyclerView()
-        initAd()
-    }
-
-    private fun initAd() {
-        if (MainActivity.showAdFlag) {
-            if (MainActivity.mInterstitialAd.isLoaded) {
-                MainActivity.mInterstitialAd.show()
-            } else {
-                showLog("The interstitial wasn't loaded yet.")
-            }
-        }
     }
 
     private fun initNewButton() {
@@ -96,12 +83,12 @@ class MainFragment : Fragment() {
         val view = inflater.inflate(R.layout.alert_dialog, null)
         val dltBtn = view.findViewById<TextView>(R.id.deleteButton)
         val pinBtn = view.findViewById<TextView>(R.id.pinButton)
-        val builder = AlertDialog.Builder(context!!).setView(view)
+        val builder = AlertDialog.Builder(context!!, R.style.my_dialog).setView(view)
         val dialog: AlertDialog = builder.create()
 
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
-        dialog.window!!.setLayout(600, 500)
+        dialog.window!!.setLayout(450, WindowManager.LayoutParams.WRAP_CONTENT)
 
         dltBtn.setOnClickListener {
             askPermissionToDelete(position)
