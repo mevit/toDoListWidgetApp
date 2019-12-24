@@ -83,12 +83,12 @@ class MainFragment : Fragment() {
         val view = inflater.inflate(R.layout.alert_dialog, null)
         val dltBtn = view.findViewById<TextView>(R.id.deleteButton)
         val pinBtn = view.findViewById<TextView>(R.id.pinButton)
-        val builder = AlertDialog.Builder(context!!).setView(view)
+        val builder = AlertDialog.Builder(context!!, R.style.my_dialog).setView(view)
         val dialog: AlertDialog = builder.create()
 
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
-        dialog.window!!.setLayout(600, 500)
+        dialog.window!!.setLayout(450, WindowManager.LayoutParams.WRAP_CONTENT)
 
         dltBtn.setOnClickListener {
             askPermissionToDelete(position)

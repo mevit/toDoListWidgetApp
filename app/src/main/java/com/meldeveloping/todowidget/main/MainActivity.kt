@@ -80,6 +80,7 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
 
+        showAdFlag = true
         mInterstitialAd = null
     }
 
