@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity() {
                 .beginTransaction()
                 .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left)
                 .replace(R.id.mainContainer, HelpMainFragment.newInstance())
-                .commit()
+                .commitAllowingStateLoss()
         }, FRAGMENT_CHANGE_DELAY_MS)
     }
 
@@ -104,7 +104,7 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager
             .beginTransaction()
             .add(R.id.mainContainer, SplashFragment.newInstance())
-            .commit()
+            .commitAllowingStateLoss()
     }
 
     private fun openMainFragment() {
@@ -113,7 +113,7 @@ class MainActivity : AppCompatActivity() {
                 .beginTransaction()
                 .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left)
                 .replace(R.id.mainContainer, MainFragment.newInstance())
-                .commit()
+                .commitAllowingStateLoss()
         }, FRAGMENT_CHANGE_DELAY_MS)
     }
 
@@ -121,6 +121,6 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager
             .beginTransaction()
             .add(R.id.mainContainer, EditFragment.newInstance(toDoListId))
-            .commit()
+            .commitAllowingStateLoss()
     }
 }

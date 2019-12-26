@@ -67,14 +67,14 @@ class MainFragment : Fragment() {
                 .setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_up, R.anim.enter_from_left, R.anim.exit_to_right)
                 .replace(R.id.mainContainer, EditFragment.newInstance(toDoListId))
                 .addToBackStack(null)
-                .commit()
+                .commitAllowingStateLoss()
         } else {
             fragmentManager!!
                 .beginTransaction()
                 .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
                 .replace(R.id.mainContainer, EditFragment.newInstance(toDoListId))
                 .addToBackStack(null)
-                .commit()
+                .commitAllowingStateLoss()
         }
     }
 
