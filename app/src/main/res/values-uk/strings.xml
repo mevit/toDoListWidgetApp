@@ -2,12 +2,12 @@
 <resources>
 
     <!--  global values  -->
-    <string name="app_name">Список Справ Віджет</string>
+    <string name="app_name">Checkdo</string>
 
     <!--  main fragment values  -->
     <string name="go_to_edit_button_text">створити</string>
     <string name="empty_list_text">No ToDoLists</string>
-    <string name="main_fragment_text">ToDoList</string>
+    <string name="main_fragment_text">checkdo</string>
     <string name="main_fragment_delete">видалити</string>
     <string name="main_fragment_pin">закріпити</string>
     <string name="main_fragment_unpin">відкріпити</string>
