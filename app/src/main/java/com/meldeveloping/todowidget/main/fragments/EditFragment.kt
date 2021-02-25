@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.ads.AdRequest
 import com.meldeveloping.todowidget.R
 import com.meldeveloping.todowidget.extension.isKeyboardVisible
+import com.meldeveloping.todowidget.extension.showLog
 import com.meldeveloping.todowidget.main.MainActivity
 import com.meldeveloping.todowidget.model.EditViewModel
 import kotlinx.android.synthetic.main.fragment_edit.*

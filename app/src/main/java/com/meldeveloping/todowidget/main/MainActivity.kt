@@ -35,8 +35,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if (showAdFlag)
-            initInterstitialAd()
 
         val extras = intent.extras
         if (extras != null && extras.getInt(
@@ -45,6 +43,7 @@ class MainActivity : AppCompatActivity() {
             ) != DEFAULT_TODO_LIST_ID
         ) {
             openEditFragment(extras.getInt(OPEN_EDIT_FRAGMENT))
+            showAdFlag = false
         } else {
             openSplashFragment()
             if (checkShowHelp()) {
@@ -53,6 +52,9 @@ class MainActivity : AppCompatActivity() {
                 openMainFragment()
             }
         }
+
+        if (showAdFlag)
+            initInterstitialAd()
     }
 
     private fun initInterstitialAd() {
